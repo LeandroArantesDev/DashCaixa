@@ -4,11 +4,10 @@ $css = "formulario";
 include("includes/inicio.php")
 ?>
 <div class="flex items-center justify-center w-full h-dvh bg-sky-100">
-    <form class="flex items-center justify-center gap-3 flex-col rounded-xl p-5 bg-white shadow-xl min-w-lg"
+    <form class="flex items-center justify-center gap-4 flex-col rounded-xl p-7 bg-white shadow-xl min-w-lg"
         action="backend/auth/login.php" method="POST">
         <img src="assets/img/logo.png" alt="Logo DashCaixa" class="h-25">
-        <h1 class="text-4xl font-bold">Login</h1>
-        <p class="text-center">Sistema de Gestão de Vendas</p>
+        <h1 class="text-4xl font-bold">Dash Caixa</h1>
         <div class="input-group">
             <label for="email">Email</label>
             <div class="input-icon">
@@ -23,7 +22,7 @@ include("includes/inicio.php")
                 <input type="password" name="senha" id="senha" placeholder="Sua senha" required>
             </div>
         </div>
-        <button type="submit" class="bg-sky-500 text-white w-full p-2 rounded-lg">Entrar</button>
+        <button type="submit" class="bg-sky-500 text-white w-full p-2 rounded-lg mt-2">Entrar</button>
         <a class="text-sky-500" href="#">Esqueceu sua senha?</a>
     </form>
 </div>
