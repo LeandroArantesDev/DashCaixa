@@ -1,5 +1,5 @@
 <?php
-include('../backend/conexao.php');
+include(__DIR__ . '/../conexao.php');
 
 function formatarPreco($numero)
 {
@@ -16,7 +16,7 @@ function buscar_vendas_diarias()
     $stmt->fetch();
     $stmt = null;
 
-    return ($vendas);
+    return (formatarPreco($vendas));
 }
 
 function buscar_faturamento_diario()
@@ -29,7 +29,13 @@ function buscar_faturamento_diario()
     $stmt->fetch();
     $stmt = null;
 
-    return (formatarPreco($vendas));
+    if ($vendas == null) {
+        $vendas = "N/a";
+    } else {
+        formatarPreco($vendas);
+    }
+
+    return ($vendas);
 }
 
 function buscar_faturamento_semanal()

@@ -2,14 +2,13 @@
 include("../../backend/dashboard/funcoes.php");
 $titulo = "Dashboard";
 $css = "index";
-include("../../includes/inicio.php")
+include("../../includes/inicio.php");
 ?>
 <div class="conteudo">
     <h1 class="iz">Dashboard</h1>
     <h2>Visão geral do sistema</h2>
     <div class="bg-red-500">
         <article>
-
         </article>
         <p>Vendas do dia: <?= htmlspecialchars(buscar_vendas_diarias()) ?></p>
     </div>
@@ -36,5 +35,13 @@ include("../../includes/inicio.php")
             <?= htmlspecialchars(formatarPreco($item['faturamento'])) ?></p>
     <?php endforeach; ?>
     <hr>
+
+    <?php
+    $_SESSION["resposta"] = "Olá";
+    ?>
+
+    <script>
+        window.alert(<?= $_SESSION["resposta"] ?>);
+    </script>
 </div>
 <?php include("../../includes/fim.php") ?>
