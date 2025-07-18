@@ -1,7 +1,8 @@
 <?php
 $titulo = "Usuarios";
 $css = "index";
-include("../../includes/inicio.php")
+include("../../includes/inicio.php");
+include("../../includes/valida_adm.php");
 ?>
 <div class="conteudo">
     <h1>Usuários</h1>

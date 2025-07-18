@@ -1,0 +1,82 @@
+<?php
+session_start();
+include("funcoes.php");
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $email = trim(strip_tags($_POST['email']));
+    $senha = trim(strip_tags($_POST["senha"]));
+
+    // Verificar o email
+    if (validarEmail($email) == false) {
+        $_SESSION['resposta'] = "Email inválido!";
+        header("Location: " . BASE_URL);
+        exit;
+    }
+
+    //Verificar token CSRF
+    $csrf = trim(strip_tags($_POST["csrf"]));
+    if (validarCSRF($csrf) == false) {
+        $_SESSION['resposta'] = "Metódo invalido!";
+        header("Location: " . BASE_URL);
+        exit;
+    }
+
+    //Validadar senha
+    if (validarSenha($senha) == false) {
+        $_SESSION['resposta'] = "Senha incorreta ou inválida";
+        header("Location: " . BASE_URL);
+        exit;
+    }
+
+    if (!empty($email) && !empty($senha)) {
+        try {
+            // Faz a verificação no banco de dados
+            $stmt = $conexao->prepare("SELECT id, nome, email, senha, tipo FROM usuarios WHERE email = ?");
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $stmt->bind_result($id, $nome, $email, $senha_db, $tipo);
+            $stmt->fetch();
+            $stmt->close();
+
+            // Se verificar que email e senha existe e batem no banco de dados ele loga o usuário;
+            if (!empty($nome) && !empty($senha) && password_verify($senha, $senha_db)) {
+                $_SESSION["id"] = $id;
+                $_SESSION["nome"] = $nome;
+                $_SESSION["email"] = $email;
+                $_SESSION["tipo"] = $tipo;
+
+                if ($tipo == 1) {
+                    header("Location: " . BASE_URL . "pages/dashboard");
+                    exit;
+                } else {
+                    header("Location: " . BASE_URL . "pages/vendas");
+                    exit;
+                }
+            } else {
+                $_SESSION['resposta'] = "E-mail ou senha inválidos!";
+                header("Location: " . BASE_URL);
+                exit;
+            }
+        } catch (Exception $erro) {
+            registrarErro(null, pegarRotaUsuario(), "Erro na hora do login", $erro->getCode(), pegarIpUsuario(), pegarNavegadorUsuario());
+            // Caso houver erro ele retorna
+            switch ($erro->getCode()) {
+                // erro de quantidade de paramêtros erro
+                case 1136:
+                    $_SESSION['resposta'] = "Quantidade de dados inseridos inválida!";
+                    header("Location: " . BASE_URL);
+                    exit;
+                default:
+                    $_SESSION['resposta'] = "error" . $erro->getCode();
+                    header("Location: " . BASE_URL);
+                    exit;
+            }
+        }
+    } else {
+        $_SESSION['resposta'] = "Preencha todas as informações!";
+    }
+} else {
+    $_SESSION['resposta'] = "Variável POST ínvalida!";
+}
+header("Location: " . BASE_URL);
+exit;

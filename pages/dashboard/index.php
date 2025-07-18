@@ -3,6 +3,7 @@ include("../../backend/dashboard/funcoes.php");
 $titulo = "Dashboard";
 $css = "index";
 include("../../includes/inicio.php");
+include("../../includes/valida_adm.php");
 ?>
 <div class="conteudo">
     <h1 class="iz">Dashboard</h1>
@@ -35,13 +36,5 @@ include("../../includes/inicio.php");
             <?= htmlspecialchars(formatarPreco($item['faturamento'])) ?></p>
     <?php endforeach; ?>
     <hr>
-
-    <?php
-    $_SESSION["resposta"] = "Olá";
-    ?>
-
-    <script>
-        window.alert(<?= $_SESSION["resposta"] ?>);
-    </script>
 </div>
 <?php include("../../includes/fim.php") ?>

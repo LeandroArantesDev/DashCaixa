@@ -1,11 +1,15 @@
 <?php
+session_start();
 $titulo = "Login";
 $css = "formulario";
-include("includes/inicio.php")
+$n_valida = true;
+include("backend/auth/funcoes.php");
+include("includes/inicio.php");
 ?>
 <div class="flex items-center justify-center w-full h-dvh bg-sky-100">
     <form class="flex items-center justify-center gap-4 flex-col rounded-xl p-7 bg-white shadow-xl min-w-lg"
         action="backend/auth/login.php" method="POST">
+        <input type="hidden" name="csrf" id="csrf" value="<?= gerarCSRF() ?>">
         <img src="assets/img/logo.png" alt="Logo DashCaixa" class="h-25">
         <h1 class="text-4xl font-bold">Dash Caixa</h1>
         <div class="input-group">

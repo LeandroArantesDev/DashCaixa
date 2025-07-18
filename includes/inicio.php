@@ -7,6 +7,10 @@ if (!defined('BASE_URL')) {
     }
 }
 date_default_timezone_set('America/Sao_Paulo');
+
+if (!isset($n_valida) || $n_valida == false) {
+    include("valida.php");
+}
 ?>
 
 <!DOCTYPE html>
