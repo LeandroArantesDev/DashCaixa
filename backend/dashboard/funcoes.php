@@ -1,5 +1,5 @@
 <?php
-require_once("conexao.php");
+include('../backend/conexao.php');
 
 function formatarPreco($numero)
 {

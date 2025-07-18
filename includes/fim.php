@@ -1,4 +1,5 @@
-    <script src="<?= $js ?>.js"></script>
-    </body>
+ </main>
+ </body>
+ <script src="<?= $js ?>.js"></script>
 
-    </html>
+ </html>
