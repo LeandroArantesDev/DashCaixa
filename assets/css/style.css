@@ -1,3 +1,9 @@
 * {
-    outline: 1px solid red;
+    /* outline: 1px solid red; */
+}
+
+/* Variaveis */
+:root {
+    --cinza-borda: #d3d3d3;
+    --cinza-texto: #a0a0a0;
 }
