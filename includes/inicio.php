@@ -24,3 +24,4 @@ date_default_timezone_set('America/Sao_Paulo');
 
 <body>
     <?php include("menu.php") ?>
+    <main>
