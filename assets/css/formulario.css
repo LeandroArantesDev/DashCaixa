@@ -1,5 +1,30 @@
 .input-group {
     display: flex;
     flex-direction: column;
+    gap: .5rem;
     width: 100%;
+
+    & .input-icon {
+        display: flex;
+        width: 100%;
+        position: relative;
+
+        & i {
+            font-size: 1.2rem;
+            position: absolute;
+            top: 50%;
+            left: 1rem;
+            transform: translate(-50%, -50%);
+            color: var(--cinza-texto);
+        }
+
+        & input {
+            width: 100%;
+            padding: .5rem 1rem;
+            padding-left: 2rem;
+            border-radius: .5rem;
+            border: 1px solid var(--cinza-borda);
+            color: var(--cinza-texto);
+        }
+    }
 }
