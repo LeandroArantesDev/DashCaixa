@@ -30,7 +30,7 @@ function buscar_faturamento_diario()
     $stmt = null;
 
     if ($vendas == null) {
-        $vendas = "N/a";
+        $vendas = 0;
     }
 
     return ($vendas);

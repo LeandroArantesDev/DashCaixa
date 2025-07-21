@@ -4,11 +4,12 @@ $titulo = "Login";
 $css = "formulario";
 $n_valida = true;
 include("backend/auth/funcoes.php");
-include("includes/inicio.php");
-
-if (isset($_SESSION['id'])) {
+if (isset($_SESSION['id']) && $_SESSION["id"] == 1) {
     header("Location: pages/dashboard");
+} else {
+    header("Location: pages/vendas");
 }
+include("includes/inicio.php");
 ?>
 <div class="flex items-center justify-center w-full h-full bg-sky-100">
     <form class="flex items-center justify-center gap-4 flex-col rounded-xl p-7 bg-white shadow-xl min-w-lg"
