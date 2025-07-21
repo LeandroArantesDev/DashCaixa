@@ -1,7 +1,7 @@
 <?php
 $titulo = "Dashboard";
 $css = "dashboard";
-include("../../backend/dashboard/funcoes.php");
+include("../../backend/funcoes/dashboard-historico.php");
 include("../../includes/inicio.php");
 include("../../includes/valida_adm.php");
 ?>
@@ -38,7 +38,7 @@ include("../../includes/valida_adm.php");
         </div>
     </div>
 
-    <div class="flex justify-between items-center gap-3">
+    <div class="flex justify-between gap-3">
         <div class="flex flex-col gap-5 border border-yellow-300 bg-yellow-200/20 p-5 rounded-xl min-w-1/3">
             <div class="flex gap-2 text-xl text-amber-700">
                 <i
@@ -49,10 +49,10 @@ include("../../includes/valida_adm.php");
             $alertas = buscar_alerta_estoque_baixo();
             foreach ($alertas as $produto):
             ?>
-            <p class="flex items-center justify-between w-full bg-white p-3 rounded-xl font-bold">
-                <?= htmlspecialchars($produto['nome']) ?> <span
-                    class="text-red-500"><?= htmlentities($produto['estoque']) ?> Unidades</span>
-            </p>
+                <p class="flex items-center justify-between w-full bg-white p-3 rounded-xl font-bold">
+                    <?= htmlspecialchars($produto['nome']) ?> <span
+                        class="text-red-500"><?= htmlentities($produto['estoque']) ?> Unidades</span>
+                </p>
             <?php endforeach; ?>
         </div>
         <div class="flex flex-col gap-4 border border-gray-300/80 bg-white p-5 rounded-xl w-full h-full">
@@ -87,17 +87,17 @@ include("../../includes/valida_adm.php");
                     $largura_percentual = ($max_faturamento > 0) ? ($item['faturamento'] / $max_faturamento) * 100 : 0;
                 ?>
 
-                <div class="flex items-center gap-4 text-sm">
-                    <span class="w-8 font-medium text-gray-500"><?= htmlspecialchars($dia_abreviado) ?></span>
-                    <div class="relative w-full h-5 bg-gray-200/80 rounded-full">
-                        <div class="absolute top-0 left-0 h-full bg-blue-600 rounded-full flex items-center justify-end pr-3"
-                            style="width: <?= $largura_percentual ?>%;">
-                            <span class="font-bold text-white">
-                                <?= htmlspecialchars(formatarPreco($item['faturamento'])) ?>
-                            </span>
+                    <div class="flex items-center gap-4 text-sm">
+                        <span class="w-8 font-medium text-gray-500"><?= htmlspecialchars($dia_abreviado) ?></span>
+                        <div class="relative w-full h-5 bg-gray-200/80 rounded-full">
+                            <div class="absolute top-0 left-0 h-full bg-blue-600 rounded-full flex items-center justify-end pr-3"
+                                style="width: <?= $largura_percentual ?>%;">
+                                <span class="font-bold text-white">
+                                    <?= htmlspecialchars(formatarPreco($item['faturamento'])) ?>
+                                </span>
+                            </div>
                         </div>
                     </div>
-                </div>
                 <?php endforeach; ?>
             </div>
         </div>

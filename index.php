@@ -1,14 +1,17 @@
 <?php
 session_start();
+
+// redireciona o usuario caso ele esteja logado
+if (isset($_SESSION['id']) && $_SESSION['id'] == 1) {
+    header("Location: pages/dashboard");
+} else if (isset($_SESSION['id']) && $_SESSION['id'] != 1) {
+    header("Location: pages/vendas");
+}
+
 $titulo = "Login";
 $css = "formulario";
 $n_valida = true;
 include("backend/auth/funcoes.php");
-if (isset($_SESSION['id']) && $_SESSION["id"] == 1) {
-    header("Location: pages/dashboard");
-} else {
-    header("Location: pages/vendas");
-}
 include("includes/inicio.php");
 ?>
 <div class="flex items-center justify-center w-full h-full bg-sky-100">

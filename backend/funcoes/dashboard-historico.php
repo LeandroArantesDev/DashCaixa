@@ -40,7 +40,7 @@ function buscar_faturamento_semanal()
 {
     global $conexao;
 
-    $sql = "SELECT DATE(data_venda) AS dia, SUM(total) AS faturamento FROM vendas WHERE data_venda >= CURDATE() - INTERVAL 6 DAY GROUP BY DATE(data_venda) ORDER BY dia ASC";
+    $sql = "SELECT DATE(data_venda) AS dia, SUM(total) AS faturamento FROM vendas WHERE data_venda >= CURDATE() - INTERVAL 6 DAY GROUP BY DATE(data_venda) ORDER BY dia DESC";
     $stmt = $conexao->prepare($sql);
     $stmt->execute();
 
@@ -84,8 +84,7 @@ function buscar_alerta_estoque_baixo()
 {
     global $conexao;
 
-    $sql = "SELECT nome, estoque FROM produtos WHERE estoque < 5";
-    $stmt = $conexao->prepare($sql);
+    $stmt = $conexao->prepare("SELECT nome, estoque FROM produtos WHERE estoque < 5");
     $stmt->execute();
 
     $resultado = $stmt->get_result();
@@ -96,4 +95,22 @@ function buscar_alerta_estoque_baixo()
     }
 
     return ($produtos);
+}
+
+function media_preco_vendas()
+{
+    global $conexao;
+
+    $stmt = $conexao->prepare("SELECT AVG(total) as media FROM vendas WHERE data_venda = CURDATE()");
+    $stmt->execute();
+
+    $resultado = $stmt->get_result();
+
+    if ($resultado->num_rows > 0) {
+        $linha = $resultado->fetch_assoc();
+
+        return $linha['media'] ?? 0.0;
+    }
+
+    return 0.0;
 }
