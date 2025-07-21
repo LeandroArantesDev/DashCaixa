@@ -1,3 +1,9 @@
+/* geral */
+main {
+    height: 100dvh;
+}
+
+/* formulario */
 .input-group {
     display: flex;
     flex-direction: column;

@@ -9,14 +9,14 @@ function formatarPreco($numero)
 function buscar_vendas_diarias()
 {
     global $conexao;
-    $stmt = $conexao->prepare("SELECT COUNT(id) AS total FROM `vendas`");
+    $stmt = $conexao->prepare("SELECT COUNT(id) AS total FROM `vendas` WHERE DATE(data_venda) = CURRENT_DATE");
     $stmt->execute();
     $vendas = 0;
     $stmt->bind_result($vendas);
     $stmt->fetch();
     $stmt = null;
 
-    return (formatarPreco($vendas));
+    return $vendas;
 }
 
 function buscar_faturamento_diario()
@@ -31,8 +31,6 @@ function buscar_faturamento_diario()
 
     if ($vendas == null) {
         $vendas = "N/a";
-    } else {
-        formatarPreco($vendas);
     }
 
     return ($vendas);
@@ -54,19 +52,6 @@ function buscar_faturamento_semanal()
     }
 
     return ($vendas);
-}
-
-function buscar_faturamento_total()
-{
-    global $conexao;
-    $stmt = $conexao->prepare("SELECT SUM(total) AS vendas FROM `vendas`");
-    $stmt->execute();
-    $vendas = 0;
-    $stmt->bind_result($vendas);
-    $stmt->fetch();
-    $stmt = null;
-
-    return (formatarPreco($vendas));
 }
 
 function buscar_produto_total()

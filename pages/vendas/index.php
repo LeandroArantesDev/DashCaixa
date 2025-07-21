@@ -1,9 +1,11 @@
 <?php
 $titulo = "Vendas";
-$css = "index";
 include("../../includes/inicio.php")
 ?>
 <div class="conteudo">
-    <h1>Vendas</h1>
+    <div class="titulo">
+        <h1>Vendas</h1>
+        <p>Realize vendas e gere fichas</p>
+    </div>
 </div>
 <?php include("../../includes/fim.php") ?>

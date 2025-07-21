@@ -1,9 +1,85 @@
 * {
     /* outline: 1px solid red; */
+    transition: .3s ease all;
 }
 
-/* Variaveis */
+/* variaveis */
 :root {
-    --cinza-borda: #d3d3d3;
+    --preto-opaco: #00000092;
+    --azul: #38B6FF;
+    --azul-opaco: #38b6ff1a;
+    --cinza-borda: #d3d3d39e;
     --cinza-texto: #a0a0a0;
+}
+
+/* geral */
+
+main,
+.conteudo {
+    background-color: #F9FAFB;
+    height: calc(100dvh - 60px);
+    width: 100%;
+    overflow: auto;
+}
+
+.conteudo {
+    padding: 1rem;
+}
+
+main {
+    display: flex;
+}
+
+.titulo {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: .5rem;
+
+    & h1 {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    & p {
+        font-size: 1.1rem;
+        margin-top: -.5rem;
+        color: var(--preto-opaco);
+    }
+}
+
+/* header */
+.link-user {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .8rem;
+    width: 10rem;
+}
+
+/* menu */
+.link-menu {
+    display: flex;
+    align-items: center;
+    padding: .5rem;
+    gap: 1rem;
+    border-radius: .5rem;
+
+    & i {
+        font-size: 1.3rem;
+    }
+
+    &:hover {
+        background-color: var(--azul-opaco);
+
+        & i {
+            color: var(--azul);
+        }
+    }
+}
+
+.atual {
+    background-color: var(--azul-opaco);
+    border-right: .15rem solid var(--azul);
+    color: var(--azul);
+    font-weight: bold;
 }

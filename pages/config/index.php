@@ -1,11 +1,11 @@
 <?php
-$titulo = "Produtos";
+$titulo = "Configurações";
 include("../../includes/inicio.php")
 ?>
 <div class="conteudo">
     <div class="titulo">
-        <h1>Gestão de Produtos</h1>
-        <p>Gerencie seu catálogo de produtos</p>
+        <h1>Configurações</h1>
+        <p>Veja e edite suas informações</p>
     </div>
 </div>
 <?php include("../../includes/fim.php") ?>

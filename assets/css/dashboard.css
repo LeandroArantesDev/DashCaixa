@@ -1,0 +1,73 @@
+.card-topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.3rem 1.5rem;
+    border-radius: 1rem;
+    background-color: #fff;
+    border: 1px solid var(--cinza-borda);
+    gap: 1rem;
+
+    & span {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    & i {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        border-radius: .5rem;
+        width: 3rem;
+        height: 3rem;
+    }
+}
+
+& #vendas {
+
+    & span,
+    i {
+        color: #16A34A;
+    }
+
+    & i {
+        background-color: #16a34a29;
+    }
+}
+
+& #faturamento {
+
+    & span,
+    i {
+        color: #2563EB;
+    }
+
+    & i {
+        background-color: #2564eb22;
+    }
+}
+
+& #produtos {
+
+    & span,
+    i {
+        color: #EA580C;
+    }
+
+    & i {
+        background-color: #ea5a0c24;
+    }
+}
+
+& #categorias {
+
+    & span,
+    i {
+        color: #9333EA;
+    }
+
+    & i {
+        background-color: #9233ea25;
+    }
+}

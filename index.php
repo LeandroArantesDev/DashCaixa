@@ -5,8 +5,12 @@ $css = "formulario";
 $n_valida = true;
 include("backend/auth/funcoes.php");
 include("includes/inicio.php");
+
+if (isset($_SESSION['id'])) {
+    header("Location: pages/dashboard");
+}
 ?>
-<div class="flex items-center justify-center w-full h-dvh bg-sky-100">
+<div class="flex items-center justify-center w-full h-full bg-sky-100">
     <form class="flex items-center justify-center gap-4 flex-col rounded-xl p-7 bg-white shadow-xl min-w-lg"
         action="backend/auth/login.php" method="POST">
         <input type="hidden" name="csrf" id="csrf" value="<?= gerarCSRF() ?>">
