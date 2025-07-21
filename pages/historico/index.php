@@ -35,47 +35,101 @@ include("../../backend/funcoes/dashboard-historico.php");
             <i class="bi bi-calculator-fill"></i>
         </div>
     </div>
-    <div class="w-full border border-gray-300/80 rounded-lg">
+    <div class="w-full border border-gray-300/80 rounded-lg overflow-hidden">
         <form class="grid grid-cols-3 gap-4 p-5">
-            <input class="input-filtro" type="text" name="atendente" id="atendente" placeholder="Buscar por atendente">
-            <input class="input-filtro" type="date" name="data" id="data" value="<?= date('Y-m-d') ?>">
-            <button type="submit"><i class="bi bi-funnel"></i> Aplicar Filtros</button>
+            <select class="input-filtro" name="atendente" id="atendente">
+                <option value="0" disabled <?= ((isset($_GET['atendente'])) ? '' : 'selected') ?>>Buscar por atendente
+                </option>
+                <?php
+                $stmt = $conexao->prepare("SELECT id, nome FROM usuarios");
+                $stmt->execute();
+                $resultado = $stmt->get_result();
+
+                while ($row = $resultado->fetch_assoc()):
+                ?>
+                    <option value="<?= htmlspecialchars($row['id']) ?>"
+                        <?= ((isset($_GET['atendente']) && $_GET['atendente'] == $row['id']) ? 'selected' : '') ?>>
+                        <?= htmlspecialchars($row['nome']) ?>
+                    </option>
+                <?php endwhile ?>
+            </select>
+            <input class="input-filtro" type="date" name="data" id="data"
+                value="<?= ((isset($_GET['data']) ? $_GET['data'] : date('Y-m-d'))) ?>">
+            <div class="flex items-center justify-center gap-3">
+                <a class="flex items-center justify-center gap-2 w-1/2 border border-gray-300/80 h-full rounded-lg"
+                    href="<?= BASE_URL . "pages/historico" ?>">
+                    <i class="bi bi-trash3"></i> Limpar Filtros
+                </a>
+                <button class="w-1/2" type="submit"><i class="bi bi-funnel"></i> Aplicar Filtros</button>
+            </div>
         </form>
-        <div class="w-full overflow-auto p-5">
-            <table class="w-full">
+        <div class="table-container">
+            <table>
                 <thead>
                     <tr>
-                        <th>Id</th>
+                        <th>ID</th>
                         <th>Atendente</th>
                         <th>Total</th>
-                        <th>Data</th>
+                        <th>Data e Hora</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    // buscando todas as vendas ja feitas
-                    $stmt = $conexao->prepare("SELECT id, usuario_id, total, data_venda FROM vendas ORDER BY data_venda ASC");
+                    $atendente = $_GET['atendente'] ?? '';
+                    $data = $_GET['data'] ?? '';
+
+                    // buscando vendas ja feitas
+                    if (!empty($atendente) && !empty($data)) {
+                        $sql = "SELECT id, usuario_id, total, data_venda FROM vendas WHERE usuario_id = ? AND data_venda = ? ORDER BY data_venda ASC";
+                        $stmt = $conexao->prepare($sql);
+                        $stmt->bind_param("ss", $atendente, $data);
+                    } elseif (!empty($atendente) || !empty($data)) {
+                        $sql = "SELECT id, usuario_id, total, data_venda FROM vendas WHERE usuario_id = ? OR data_venda = ? ORDER BY data_venda ASC";
+                        $stmt = $conexao->prepare($sql);
+                        $stmt->bind_param("ss", $atendente, $data);
+                    } else {
+                        $sql = "SELECT id, usuario_id, total, data_venda FROM vendas ORDER BY data_venda ASC";
+                        $stmt = $conexao->prepare($sql);
+                    }
                     $stmt->execute();
 
                     $resultado = $stmt->get_result();
 
                     while ($row = $resultado->fetch_assoc()):
                     ?>
-                    <tr class="text-center">
-                        <td><?= htmlspecialchars($row['id']) ?></td>
-                        <td><?= htmlspecialchars($row['usuario_id']) ?></td>
-                        <td><?= htmlspecialchars($row['total']) ?></td>
-                        <td><?= htmlspecialchars($row['data_venda']) ?></td>
-                        <td class="flex gap-2 items-center justify-center" colspan="2">
-                            <form action="#">
-                                <button><i class="bi bi-pencil-square"></i></button>
-                            </form>
-                            <form action="#">
-                                <button><i class="bi bi-trash3"></i></button>
-                            </form>
-                        </td>
-                    </tr>
+                        <tr class="text-center">
+                            <td class="celula-tabela"><?= htmlspecialchars($row['id']) ?></td>
+                            <td class="celula-tabela">
+                                <?php
+                                $stmt = $conexao->prepare("SELECT nome FROM usuarios WHERE id = ?");
+                                $stmt->bind_param("s", $row['usuario_id']);
+                                $stmt->execute();
+                                $stmt->bind_result($atendente);
+                                $stmt->fetch();
+                                $stmt->close();
+                                ?>
+                                <?= htmlspecialchars($atendente) ?>
+                            </td>
+                            <td class="celula-tabela"><?= formatarPreco(htmlspecialchars($row['total'])) ?></td>
+                            <td class="celula-tabela">
+                                <?php
+                                $dataDoBanco = $row['data_venda'];
+
+                                $dataObj = new DateTime($dataDoBanco);
+
+                                echo htmlspecialchars($dataObj->format('d/m/Y H:i'));
+                                ?>
+                            </td>
+                            <td id="td-acoes" class="celula-tabela" colspan="2">
+                                <form id="btn-edita" action="#">
+                                    <button><i class="bi bi-pencil-square"></i></button>
+                                </form>
+                                <form id="btn-deleta" action="#">
+                                    <button><i class="bi bi-trash3"></i></button>
+                                </form>
+                            </td>
+                        </tr>
                     <?php endwhile ?>
                 </tbody>
             </table>

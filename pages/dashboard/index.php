@@ -7,8 +7,10 @@ include("../../includes/valida_adm.php");
 ?>
 <div class="conteudo">
     <div class="titulo">
-        <h1>Dashboard</h1>
-        <p>Visão geral do sistema</p>
+        <div class="txt-titulo">
+            <h1>Dashboard</h1>
+            <p>Visão geral do sistema</p>
+        </div>
     </div>
 
     <div class="grid grid-cols-4 gap-4 mb-5">

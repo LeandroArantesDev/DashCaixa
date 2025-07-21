@@ -85,3 +85,54 @@ main {
     color: var(--azul);
     font-weight: bold;
 }
+
+/* tabelas */
+.table-container {
+    width: 100%;
+    overflow: auto;
+
+    & table {
+        width: 100%;
+        background-color: #fff;
+
+        & thead {
+            background-color: #F9FAFB;
+
+            & th {
+                padding: .5rem;
+                font-weight: 500;
+            }
+        }
+
+        & .celula-tabela {
+            padding: 1rem;
+            border-top: 1px solid var(--cinza-borda);
+        }
+    }
+
+    #td-acoes {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: .8rem;
+        padding: 1rem;
+
+        & #btn-edita,
+        #btn-deleta {
+            border: none;
+            font-size: 1.5rem;
+
+            & button {
+                cursor: pointer;
+            }
+        }
+
+        & #btn-edita {
+            color: var(--azul);
+        }
+
+        & #btn-deleta {
+            color: #c1121f;
+        }
+    }
+}

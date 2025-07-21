@@ -4,8 +4,10 @@ include("../../includes/inicio.php")
 ?>
 <div class="conteudo">
     <div class="titulo">
-        <h1>Gestão de Produtos</h1>
-        <p>Gerencie seu catálogo de produtos</p>
+        <div class="txt-titulo">
+            <h1>Gestão de Produtos</h1>
+            <p>Gerencie seu catálogo de produtos</p>
+        </div>
     </div>
 </div>
 <?php include("../../includes/fim.php") ?>
