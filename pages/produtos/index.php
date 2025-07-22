@@ -53,9 +53,8 @@ include("../../includes/inicio.php");
                                     $stmt->bind_result($categoria);
                                     $stmt->fetch();
                                     $stmt->close();
-
-                                    echo $categoria ?? 'N/A';
                                     ?>
+                                    <?= htmlspecialchars($categoria ?? 'N/A') ?>
                                 </td>
                                 <td class="celula-tabela"><?= htmlspecialchars(formatarPreco($row['preco'])) ?></td>
                                 <td class="celula-tabela <?= ($row['estoque'] < 5 ? 'text-red-500 font-bold' : '') ?>">
