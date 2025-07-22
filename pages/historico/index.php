@@ -47,10 +47,10 @@ include("../../backend/funcoes/dashboard-historico.php");
 
                 while ($row = $resultado->fetch_assoc()):
                 ?>
-                    <option value="<?= htmlspecialchars($row['id']) ?>"
-                        <?= ((isset($_GET['atendente']) && $_GET['atendente'] == $row['id']) ? 'selected' : '') ?>>
-                        <?= htmlspecialchars($row['nome']) ?>
-                    </option>
+                <option value="<?= htmlspecialchars($row['id']) ?>"
+                    <?= ((isset($_GET['atendente']) && $_GET['atendente'] == $row['id']) ? 'selected' : '') ?>>
+                    <?= htmlspecialchars($row['nome']) ?>
+                </option>
                 <?php endwhile ?>
             </select>
             <input class="input-filtro" type="date" name="data" id="data"
@@ -81,57 +81,66 @@ include("../../backend/funcoes/dashboard-historico.php");
 
                     // buscando vendas ja feitas
                     if (!empty($atendente) && !empty($data)) {
-                        $sql = "SELECT id, usuario_id, total, data_venda FROM vendas WHERE usuario_id = ? AND data_venda = ? ORDER BY data_venda ASC";
+                        $sql = "SELECT id, usuario_id, total, data_venda FROM vendas WHERE usuario_id = ? AND DATE(data_venda) = ? ORDER BY data_venda DESC";
                         $stmt = $conexao->prepare($sql);
                         $stmt->bind_param("ss", $atendente, $data);
-                    } elseif (!empty($atendente) || !empty($data)) {
-                        $sql = "SELECT id, usuario_id, total, data_venda FROM vendas WHERE usuario_id = ? OR data_venda = ? ORDER BY data_venda ASC";
+                    } elseif (!empty($atendente) && empty($data)) {
+                        $sql = "SELECT id, usuario_id, total, data_venda FROM vendas WHERE usuario_id = ? ORDER BY data_venda DESC";
                         $stmt = $conexao->prepare($sql);
-                        $stmt->bind_param("ss", $atendente, $data);
+                        $stmt->bind_param("s", $atendente);
+                    } elseif (empty($atendente) && !empty($data)) {
+                        $sql = "SELECT id, usuario_id, total, data_venda FROM vendas WHERE DATE(data_venda) = ? ORDER BY data_venda DESC";
+                        $stmt = $conexao->prepare($sql);
+                        $stmt->bind_param("s", $data);
                     } else {
-                        $sql = "SELECT id, usuario_id, total, data_venda FROM vendas ORDER BY data_venda ASC";
+                        $sql = "SELECT id, usuario_id, total, data_venda FROM vendas ORDER BY data_venda DESC";
                         $stmt = $conexao->prepare($sql);
                     }
                     $stmt->execute();
 
                     $resultado = $stmt->get_result();
 
-                    while ($row = $resultado->fetch_assoc()):
+                    if ($resultado->num_rows > 0):
+
+                        while ($row = $resultado->fetch_assoc()):
                     ?>
-                        <tr class="text-center">
-                            <td class="celula-tabela"><?= htmlspecialchars($row['id']) ?></td>
-                            <td class="celula-tabela">
-                                <?php
-                                $stmt = $conexao->prepare("SELECT nome FROM usuarios WHERE id = ?");
-                                $stmt->bind_param("s", $row['usuario_id']);
-                                $stmt->execute();
-                                $stmt->bind_result($atendente);
-                                $stmt->fetch();
-                                $stmt->close();
-                                ?>
-                                <?= htmlspecialchars($atendente) ?>
-                            </td>
-                            <td class="celula-tabela"><?= formatarPreco(htmlspecialchars($row['total'])) ?></td>
-                            <td class="celula-tabela">
-                                <?php
-                                $dataDoBanco = $row['data_venda'];
+                    <tr class="text-center">
+                        <td class="celula-tabela"><?= htmlspecialchars($row['id']) ?></td>
+                        <td class="celula-tabela">
+                            <?php
+                                    $stmt = $conexao->prepare("SELECT nome FROM usuarios WHERE id = ?");
+                                    $stmt->bind_param("s", $row['usuario_id']);
+                                    $stmt->execute();
+                                    $stmt->bind_result($atendente);
+                                    $stmt->fetch();
+                                    $stmt->close();
+                                    ?>
+                            <?= htmlspecialchars($atendente) ?>
+                        </td>
+                        <td class="celula-tabela"><?= formatarPreco(htmlspecialchars($row['total'])) ?></td>
+                        <td class="celula-tabela">
+                            <?php
+                                    $dataDoBanco = $row['data_venda'];
 
-                                $dataObj = new DateTime($dataDoBanco);
+                                    $dataObj = new DateTime($dataDoBanco);
 
-                                echo htmlspecialchars($dataObj->format('d/m/Y H:i'));
-                                ?>
-                            </td>
-                            <td id="td-acoes" class="celula-tabela" colspan="2">
-                                <form id="btn-edita" action="#">
-                                    <button><i class="bi bi-pencil-square"></i></button>
-                                </form>
-                                <form id="btn-deleta" action="#">
-                                    <button><i class="bi bi-trash3"></i></button>
-                                </form>
-                            </td>
-                        </tr>
+                                    echo htmlspecialchars($dataObj->format('d/m/Y H:i'));
+                                    ?>
+                        </td>
+                        <td id="td-acoes" class="celula-tabela" colspan="2">
+                            <form id="btn-edita" action="#">
+                                <button><i class="bi bi-pencil-square"></i></button>
+                            </form>
+                            <form id="btn-deleta" action="#">
+                                <button><i class="bi bi-trash3"></i></button>
+                            </form>
+                        </td>
+                    </tr>
                     <?php endwhile ?>
                 </tbody>
+                <?php else: ?>
+                <?php $_SESSION['resposta'] = "Sem registros!" ?>
+                <?php endif ?>
             </table>
         </div>
     </div>

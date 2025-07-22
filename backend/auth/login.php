@@ -16,14 +16,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     //Verificar token CSRF
     $csrf = trim(strip_tags($_POST["csrf"]));
     if (validarCSRF($csrf) == false) {
-        $_SESSION['resposta'] = "Metódo invalido!";
+        $_SESSION['resposta'] = "Método invalido!";
         header("Location: " . BASE_URL);
         exit;
     }
 
     //Validadar senha
     if (validarSenha($senha) == false) {
-        $_SESSION['resposta'] = "Senha incorreta ou inválida";
+        $_SESSION['resposta'] = "Senha incorreta!";
         header("Location: " . BASE_URL);
         exit;
     }
@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     exit;
                 }
             } else {
-                $_SESSION['resposta'] = "E-mail ou senha inválidos!";
+                $_SESSION['resposta'] = "E-mail ou senha incorretos!";
                 header("Location: " . BASE_URL);
                 exit;
             }

@@ -49,6 +49,44 @@ main {
     }
 }
 
+#div-erro {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    font-size: 1.2rem;
+    border-radius: .8rem;
+    position: fixed;
+    right: 2rem;
+    bottom: -50%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    background-color: #fff;
+    padding: .5rem 2rem;
+    animation: show 5s;
+
+    & i {
+        font-size: 1.8rem;
+    }
+}
+
+@keyframes show {
+    0% {
+        bottom: -50%;
+    }
+
+    20% {
+        bottom: 2rem;
+    }
+
+    80% {
+        bottom: 2rem;
+    }
+
+    100% {
+        bottom: -50%;
+    }
+}
+
 /* header */
 .link-user {
     display: flex;
