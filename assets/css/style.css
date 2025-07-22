@@ -1,5 +1,5 @@
 * {
-    /* outline: 1px solid red; */
+    /*outline: 1px solid red;*/
     transition: .3s ease all;
 }
 
@@ -184,10 +184,11 @@ main {
 
             & .celula-tabela {
                 padding: .5rem;
-                border-top: 1px solid var(--cinza-borda);
+                height: 5rem;
                 min-width: max-content;
                 text-align: center;
                 white-space: nowrap;
+
             }
         }
     }
