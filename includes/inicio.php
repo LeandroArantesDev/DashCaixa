@@ -11,6 +11,8 @@ date_default_timezone_set('America/Sao_Paulo');
 if (!isset($n_valida) || $n_valida == false) {
     include("valida.php");
 }
+
+include(__DIR__ . "/../backend/funcoes/geral.php");
 ?>
 
 <!DOCTYPE html>
@@ -22,7 +24,7 @@ if (!isset($n_valida) || $n_valida == false) {
     <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <?php if (isset($css)): ?>
-    <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/<?= htmlspecialchars($css) ?>.css">
+        <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/<?= htmlspecialchars($css) ?>.css">
     <?php endif ?>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <title><?= htmlspecialchars($titulo ?? "DashCaixa") ?></title>

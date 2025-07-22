@@ -1,11 +1,6 @@
 <?php
 include(__DIR__ . '/../conexao.php');
 
-function formatarPreco($numero)
-{
-    return 'R$ ' . number_format($numero, 2, ',', '.');
-}
-
 function buscar_vendas_diarias()
 {
     global $conexao;

@@ -10,7 +10,7 @@ include("../../backend/funcoes/dashboard-historico.php");
             <h1>Histórico de Vendas</h1>
             <p>Acompanhe todas as vendas realizadas</p>
         </div>
-        <a class="px-5 py-2 bg-lime-600 text-white rounded-lg" href="#"><i class="bi bi-download"></i> Exportar</a>
+        <a class="exportar" href="#"><i class="bi bi-download"></i> Exportar</a>
     </div>
     <div class="grid grid-cols-3 gap-4 mb-5">
         <div id="vendas" class="card">
@@ -35,8 +35,8 @@ include("../../backend/funcoes/dashboard-historico.php");
             <i class="bi bi-calculator-fill"></i>
         </div>
     </div>
-    <div class="w-full border border-gray-300/80 rounded-lg overflow-hidden">
-        <form class="grid grid-cols-3 gap-4 p-5">
+    <div class="tabela-form">
+        <form class="grid grid-cols-3">
             <select class="input-filtro" name="atendente" id="atendente">
                 <option value="0" disabled <?= ((isset($_GET['atendente'])) ? '' : 'selected') ?>>Buscar por atendente
                 </option>
@@ -47,10 +47,10 @@ include("../../backend/funcoes/dashboard-historico.php");
 
                 while ($row = $resultado->fetch_assoc()):
                 ?>
-                <option value="<?= htmlspecialchars($row['id']) ?>"
-                    <?= ((isset($_GET['atendente']) && $_GET['atendente'] == $row['id']) ? 'selected' : '') ?>>
-                    <?= htmlspecialchars($row['nome']) ?>
-                </option>
+                    <option value="<?= htmlspecialchars($row['id']) ?>"
+                        <?= ((isset($_GET['atendente']) && $_GET['atendente'] == $row['id']) ? 'selected' : '') ?>>
+                        <?= htmlspecialchars($row['nome']) ?>
+                    </option>
                 <?php endwhile ?>
             </select>
             <input class="input-filtro" type="date" name="data" id="data"
@@ -104,10 +104,10 @@ include("../../backend/funcoes/dashboard-historico.php");
 
                         while ($row = $resultado->fetch_assoc()):
                     ?>
-                    <tr class="text-center">
-                        <td class="celula-tabela"><?= htmlspecialchars($row['id']) ?></td>
-                        <td class="celula-tabela">
-                            <?php
+                            <tr>
+                                <td class="celula-tabela"><?= htmlspecialchars($row['id']) ?></td>
+                                <td class="celula-tabela">
+                                    <?php
                                     $stmt = $conexao->prepare("SELECT nome FROM usuarios WHERE id = ?");
                                     $stmt->bind_param("s", $row['usuario_id']);
                                     $stmt->execute();
@@ -115,32 +115,32 @@ include("../../backend/funcoes/dashboard-historico.php");
                                     $stmt->fetch();
                                     $stmt->close();
                                     ?>
-                            <?= htmlspecialchars($atendente) ?>
-                        </td>
-                        <td class="celula-tabela"><?= formatarPreco(htmlspecialchars($row['total'])) ?></td>
-                        <td class="celula-tabela">
-                            <?php
+                                    <?= htmlspecialchars($atendente) ?>
+                                </td>
+                                <td class="celula-tabela"><?= formatarPreco(htmlspecialchars($row['total'])) ?></td>
+                                <td class="celula-tabela">
+                                    <?php
                                     $dataDoBanco = $row['data_venda'];
 
                                     $dataObj = new DateTime($dataDoBanco);
 
                                     echo htmlspecialchars($dataObj->format('d/m/Y H:i'));
                                     ?>
-                        </td>
-                        <td id="td-acoes" class="celula-tabela" colspan="2">
-                            <form id="btn-edita" action="#">
-                                <button><i class="bi bi-pencil-square"></i></button>
-                            </form>
-                            <form id="btn-deleta" action="#">
-                                <button><i class="bi bi-trash3"></i></button>
-                            </form>
-                        </td>
-                    </tr>
-                    <?php endwhile ?>
+                                </td>
+                                <td id="td-acoes" class="celula-tabela" colspan="2">
+                                    <form id="btn-edita" action="#">
+                                        <button><i class="bi bi-pencil-square"></i></button>
+                                    </form>
+                                    <form id="btn-deleta" action="#">
+                                        <button><i class="bi bi-trash3"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php endwhile ?>
+                    <?php else: ?>
+                        <?php $_SESSION['resposta'] = "Sem registros!" ?>
+                    <?php endif ?>
                 </tbody>
-                <?php else: ?>
-                <?php $_SESSION['resposta'] = "Sem registros!" ?>
-                <?php endif ?>
             </table>
         </div>
     </div>

@@ -59,23 +59,3 @@
         background-color: #9233ea25;
     }
 }
-
-/* filtros */
-form {
-    background-color: #fff;
-    border-bottom: 1px solid var(--cinza-borda);
-
-    & .input-filtro {
-        padding: .5rem;
-        border: 1px solid var(--cinza-borda);
-        border-radius: .5rem;
-    }
-
-    & button[type='submit'] {
-        padding: .5rem;
-        color: #fff;
-        background-color: var(--azul);
-        border-radius: .5rem;
-        cursor: pointer;
-    }
-}

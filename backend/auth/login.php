@@ -45,6 +45,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $_SESSION["email"] = $email;
                 $_SESSION["tipo"] = $tipo;
 
+                $_SESSION['resposta'] = "Bem Vindo! " . $_SESSION['nome'];
+
                 if ($tipo == 1) {
                     header("Location: " . BASE_URL . "pages/dashboard");
                     exit;
