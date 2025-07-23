@@ -42,8 +42,14 @@ include("../../includes/inicio.php");
                     if ($resultado->num_rows > 0):
                         while ($row = $resultado->fetch_assoc()):
                     ?>
-                            <tr>
-                                <td class="celula-tabela"><?= htmlspecialchars($row['nome']) ?></td>
+                            <tr class="border-t border-[var(--cinza-borda)]">
+                                <td class="celula-tabela flex justify-center items-center gap-2">
+                                    <i class="bi bi-box-seam bg-blue-200 rounded-lg text-blue-600 text-lg flex justify-center items-center w-10 h-10"></i>
+                                    <p>
+                                    <?= htmlspecialchars($row['nome']) ?>
+                                    </p>
+
+                                </td>
                                 <td class="celula-tabela">
                                     <?php
                                     // buscando o nome da categoria
@@ -53,9 +59,10 @@ include("../../includes/inicio.php");
                                     $stmt->bind_result($categoria);
                                     $stmt->fetch();
                                     $stmt->close();
-
-                                    echo $categoria ?? 'N/A';
                                     ?>
+                                    <span class="bg-zinc-100 rounded-full px-2 py-0.5">
+                                        <?= htmlspecialchars($categoria ?? 'N/A') ?>
+                                    </span>
                                 </td>
                                 <td class="celula-tabela"><?= htmlspecialchars(formatarPreco($row['preco'])) ?></td>
                                 <td class="celula-tabela <?= ($row['estoque'] < 5 ? 'text-red-500 font-bold' : '') ?>">
