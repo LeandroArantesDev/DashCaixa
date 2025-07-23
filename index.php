@@ -11,7 +11,6 @@ if (isset($_SESSION['id']) && $_SESSION['id'] == 1) {
 $titulo = "Login";
 $css = "formulario";
 $n_valida = true;
-include("backend/auth/funcoes.php");
 include("includes/inicio.php");
 ?>
 <div class="flex items-center justify-center w-full h-full bg-sky-100">

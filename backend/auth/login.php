@@ -1,6 +1,7 @@
 <?php
 session_start();
 include("funcoes.php");
+include("../funcoes/geral.php");
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = trim(strip_tags($_POST['email']));
