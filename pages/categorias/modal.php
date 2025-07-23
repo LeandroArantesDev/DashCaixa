@@ -70,7 +70,7 @@
         modal.style.visibility = "visible";
 
         try {
-            const response = await fetch(`<?= BASE_URL . 'backend/produtos/buscar_usuario.php?id=' ?>${id}`);
+            const response = await fetch(`<?= BASE_URL . 'backend/produtos/buscar_categoria.php?id=' ?>${id}`);
 
             const data = await response.json();
 

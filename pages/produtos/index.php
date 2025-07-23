@@ -36,7 +36,7 @@ include("../../includes/inicio.php");
                     $busca_like = "%" . $busca . "%";
 
                     // buscando todos produtos
-                    $stmt = $conexao->prepare("SELECT id, nome, categoria_id, preco, estoque FROM produtos WHERE nome LIKE ?");
+                    $stmt = $conexao->prepare("SELECT id, nome, categoria_id, preco, estoque, status FROM produtos WHERE nome LIKE ? AND status IN (0, 1)");
                     $stmt->bind_param("s", $busca_like);
                     $stmt->execute();
                     $resultado = $stmt->get_result();
@@ -70,7 +70,8 @@ include("../../includes/inicio.php");
                                 </td>
                                 <td class="celula-tabela"><?= htmlspecialchars(formatarPreco($row['preco'])) ?></td>
                                 <td class="celula-tabela <?= ($row['estoque'] < 5 ? 'text-red-500 font-bold' : '') ?>">
-                                    <?= htmlspecialchars($row['estoque']) ?></td>
+                                    <?= htmlspecialchars($row['estoque']) ?>
+                                </td>
                                 <td id="td-acoes" class="celula-tabela" colspan="2">
                                     <button id="btn-edita" onclick="modalEditar(<?= htmlspecialchars($row['id']) ?>)">
                                         <i class="bi bi-pencil-square"></i>
@@ -80,6 +81,19 @@ include("../../includes/inicio.php");
                                         <input type="hidden" name="id" value="<?= $row['id'] ?>">
                                         <input type="hidden" name="csrf" id="csrf" value="<?= gerarCSRF() ?>">
                                         <button><i class="bi bi-trash3"></i></button>
+                                    </form>
+                                    <form id="btn-status" action="../../backend/produtos/status.php" method="POST">
+                                        <!-- inputs escondidos -->
+                                        <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                                        <input type="hidden" name="csrf" id="csrf" value="<?= gerarCSRF() ?>">
+                                        <input type="hidden" name="status" value="<?= $row['status'] ?>">
+                                        <button>
+                                            <?php if ($row['status'] == 1) : ?>
+                                                <i class="bi bi-eye-slash"></i>
+                                            <?php elseif ($row['status'] == 0) : ?>
+                                                <i class="bi bi-eye"></i>
+                                            <?php endif ?>
+                                        </button>
                                     </form>
                                 </td>
                             </tr>

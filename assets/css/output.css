@@ -9,6 +9,7 @@
       "Courier New", monospace;
     --color-red-500: oklch(63.7% 0.237 25.331);
     --color-orange-600: oklch(64.6% 0.222 41.116);
+    --color-amber-500: oklch(76.9% 0.188 70.08);
     --color-amber-700: oklch(55.5% 0.163 48.998);
     --color-yellow-200: oklch(94.5% 0.129 101.54);
     --color-yellow-300: oklch(90.5% 0.182 98.111);
@@ -953,7 +954,7 @@
     align-items: center;
     justify-content: center;
     gap: calc(var(--spacing) * 3);
-    & #btn-edita, #btn-deleta {
+    & #btn-edita, #btn-deleta, #btn-status {
       cursor: pointer;
       border-style: var(--tw-border-style);
       border-width: 0px;
@@ -969,6 +970,9 @@
     }
     & #btn-deleta {
       color: #c1121f;
+    }
+    & #btn-status {
+      color: var(--color-gray-500);
     }
   }
 }
