@@ -1,73 +1,47 @@
-.card-topo {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.3rem 1.5rem;
-    border-radius: 1rem;
-    background-color: #fff;
-    border: 1px solid var(--cinza-borda);
-    gap: 1rem;
+@layer components {
+  .card-topo {
+    @apply flex items-center justify-between p-5 rounded-xl bg-white border border-[var(--cinza-borda)] gap-4;
+  }
+  .card-topo span {
+    @apply text-2xl font-bold;
+  }
+  .card-topo i {
+    @apply flex items-center justify-center text-2xl rounded-lg w-12 h-12;
+  }
 
-    & span {
-        font-size: 1.5rem;
-        font-weight: bold;
-    }
+  /* Vendas */
+  #vendas span,
+  #vendas i {
+    @apply text-green-600;
+  }
+  #vendas i {
+    background-color: #16a34a29;
+  }
 
-    & i {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-        border-radius: .5rem;
-        width: 3rem;
-        height: 3rem;
-    }
-}
+  /* Faturamento */
+  #faturamento span,
+  #faturamento i {
+    @apply text-blue-700;
+  }
+  #faturamento i {
+    background-color: #2564eb22;
+  }
 
-& #vendas {
+  /* Produtos */
+  #produtos span,
+  #produtos i {
+    @apply text-orange-600;
+  }
+  #produtos i {
+    background-color: #ea5a0c24;
+  }
 
-    & span,
-    i {
-        color: #16A34A;
-    }
-
-    & i {
-        background-color: #16a34a29;
-    }
-}
-
-& #faturamento {
-
-    & span,
-    i {
-        color: #2563EB;
-    }
-
-    & i {
-        background-color: #2564eb22;
-    }
-}
-
-& #produtos {
-
-    & span,
-    i {
-        color: #EA580C;
-    }
-
-    & i {
-        background-color: #ea5a0c24;
-    }
-}
-
-& #categorias {
-
-    & span,
-    i {
-        color: #9333EA;
-    }
-
-    & i {
-        background-color: #9233ea25;
-    }
+  /* Categorias */
+  #categorias span,
+  #categorias i {
+    @apply text-purple-700;
+  }
+  #categorias i {
+    background-color: #9233ea25;
+  }
 }

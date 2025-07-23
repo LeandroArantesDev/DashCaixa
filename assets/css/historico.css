@@ -1,61 +1,35 @@
-.card {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.3rem 1.5rem;
-    border-radius: 1rem;
-    background-color: #fff;
-    border: 1px solid var(--cinza-borda);
-    gap: 1rem;
+@layer components {
+  .card {
+    @apply flex items-center justify-between p-5 rounded-xl bg-white border border-[var(--cinza-borda)] gap-4;
+  }
+  .card span {
+    @apply text-xl font-bold;
+  }
+  .card i {
+    @apply flex items-center justify-center text-xl rounded-lg w-12 h-12;
+  }
 
-    & span {
-        font-size: 1.5rem;
-        font-weight: bold;
-    }
+  #vendas span,
+  #vendas i {
+    @apply text-green-600;
+  }
+  #vendas i {
+    background-color: #16a34a29;
+  }
 
-    & i {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-        border-radius: .5rem;
-        width: 3rem;
-        height: 3rem;
-    }
-}
+  #faturamento span,
+  #faturamento i {
+    @apply text-blue-600;
+  }
+  #faturamento i {
+    background-color: #2564eb22;
+  }
 
-& #vendas {
-
-    & span,
-    i {
-        color: #16A34A;
-    }
-
-    & i {
-        background-color: #16a34a29;
-    }
-}
-
-& #faturamento {
-
-    & span,
-    i {
-        color: #2563EB;
-    }
-
-    & i {
-        background-color: #2564eb22;
-    }
-}
-
-& #media {
-
-    & span,
-    i {
-        color: #9333EA;
-    }
-
-    & i {
-        background-color: #9233ea25;
-    }
+  #media span,
+  #media i {
+    @apply text-purple-700;
+  }
+  #media i {
+    background-color: #9233ea25;
+  }
 }

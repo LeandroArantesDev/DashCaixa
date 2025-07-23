@@ -1,35 +1,24 @@
-/* geral */
-main {
+@layer components {
+  /* main */
+  .main-full-height {
     height: 100dvh;
-}
+  }
 
-/* formulario */
-.input-group {
-    display: flex;
-    flex-direction: column;
-    gap: .5rem;
-    width: 100%;
+  /* input group */
+  .input-group {
+    @apply flex flex-col gap-2 w-full;
+  }
 
-    & .input-icon {
-        display: flex;
-        width: 100%;
-        position: relative;
+  .input-icon {
+    @apply flex w-full relative;
+  }
 
-        & i {
-            font-size: 1.2rem;
-            position: absolute;
-            top: 50%;
-            left: 1rem;
-            transform: translate(-50%, -50%);
-            color: var(--cinza-texto);
-        }
+  .input-icon i {
+    @apply text-[1.2rem] absolute left-4 top-1/2 text-[var(--cinza-texto)];
+    transform: translate(-50%, -50%);
+  }
 
-        & input {
-            width: 100%;
-            padding: .5rem 1rem;
-            padding-left: 2rem;
-            border-radius: .5rem;
-            border: 1px solid var(--cinza-borda);
-        }
-    }
+  .input-icon input {
+    @apply w-full px-4 py-2 pl-8 rounded-lg border border-[var(--cinza-borda)];
+  }
 }

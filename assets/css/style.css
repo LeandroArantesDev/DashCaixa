@@ -1,222 +1,170 @@
+@import "tailwindcss";
+@import "./dashboard.css";
+@import "./formulario.css";
+@import "./historico.css";
+
+@layer components {
+  .testando {
+    @apply text-blue-400;
+  }
+}
+
 * {
-    /*outline: 1px solid red;*/
-    transition: .3s ease all;
+  /*outline: 1px solid red;*/
+  transition: 0.3s ease all;
 }
 
 /* variaveis */
 :root {
-    --preto-opaco: #00000092;
-    --azul: #38B6FF;
-    --azul-opaco: #38b6ff1a;
-    --cinza-borda: #d3d3d39e;
-    --cinza-texto: #a0a0a0;
+  --preto-opaco: #00000092;
+  --azul: #38b6ff;
+  --azul-opaco: #38b6ff1a;
+  --cinza-borda: #d3d3d39e;
+  --cinza-texto: #a0a0a0;
 }
 
 /* geral */
-
-main,
-.conteudo {
-    background-color: #F9FAFB;
-    height: calc(100dvh - 60px);
-    width: 100%;
-    overflow: auto;
+@layer base {
+  main {
+    @apply bg-gray-50 h-[calc(100dvh-60px)] w-full overflow-auto flex;
+  }
 }
 
-.conteudo {
-    padding: 1rem;
-}
+@layer components {
+  .conteudo {
+    @apply bg-gray-50 h-[calc(100dvh-60px)] w-full overflow-auto;
+  }
 
-main {
-    display: flex;
-}
+  .conteudo {
+    @apply p-4;
+  }
 
-.titulo {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin-bottom: .5rem;
+  .titulo {
+    @apply flex justify-between items-center w-full mb-2;
 
     & .txt-titulo {
-        & h1 {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
+      & h1 {
+        @apply text-2xl font-bold;
+      }
 
-        & p {
-            font-size: 1.1rem;
-            margin-top: -.5rem;
-            color: var(--preto-opaco);
-        }
+      & p {
+        @apply text-lg mt-[-0.5rem] text-black/60;
+      }
     }
 
     & a {
-        background-color: var(--azul);
-        padding: .5rem 1.5rem;
-        color: #fff;
-        border-radius: .5rem;
+      @apply bg-[#38B6FF] px-6 py-2 text-white rounded-lg;
     }
 
     & .exportar {
-        background-color: #16A34A;
+      @apply bg-green-600;
     }
-}
+  }
 
-#div-erro {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    font-size: 1.1rem;
-    border-radius: .8rem;
-    position: fixed;
-    right: 2rem;
-    bottom: -50%;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    background-color: #fff;
-    padding: .5rem 2rem;
-    animation: show 5s;
+  #div-erro {
+    @apply flex items-center justify-center gap-4 text-lg rounded-xl fixed right-8 bottom-[-50%] shadow-lg bg-white px-8 py-2 animate-[show_5s];
 
     & i {
-        font-size: 1.5rem;
+      @apply text-2xl;
     }
-}
+  }
 
-@keyframes show {
+  @keyframes show {
     0% {
-        bottom: -50%;
+      bottom: -50%;
     }
-
     20% {
-        bottom: 2rem;
+      bottom: 2rem;
     }
-
     80% {
-        bottom: 2rem;
+      bottom: 2rem;
     }
-
     100% {
-        bottom: -50%;
+      bottom: -50%;
     }
-}
+  }
 
-/* header */
-.link-user {
-    display: flex;
-    align-items: center;
-    gap: .5rem;
-    padding: .8rem;
-    width: 10rem;
-}
+  /* header */
+  .link-user {
+    @apply flex items-center gap-2 p-3 w-40;
+  }
 
-/* menu */
-.link-menu {
-    display: flex;
-    align-items: center;
-    padding: .5rem;
-    gap: 1rem;
-    border-radius: .5rem;
+  /* menu */
+  .link-menu {
+    @apply flex items-center p-2 gap-4 rounded-lg;
 
     & i {
-        font-size: 1.3rem;
+      @apply text-xl;
     }
 
     &:hover {
-        background-color: var(--azul-opaco);
+      @apply bg-[#38b6ff1a];
 
-        & i {
-            color: var(--azul);
-        }
+      & i {
+        @apply text-[#38B6FF];
+      }
     }
-}
+  }
 
-.atual {
-    background-color: var(--azul-opaco);
-    border-right: .15rem solid var(--azul);
-    color: var(--azul);
-    font-weight: bold;
-}
+  .atual {
+    @apply bg-[#38b6ff1a] border-r-4 border-[#38B6FF] text-[#38B6FF] font-bold;
+  }
 
-/* tabelas */
-.tabela-form {
-    width: 100%;
-    border: 1px solid var(--cinza-borda);
-    border-radius: 1rem;
-    overflow: hidden;
+  /* tabelas */
+  .tabela-form {
+    @apply w-full border border-[#d3d3d39e] rounded-2xl overflow-hidden;
 
     & form {
-        gap: 1rem;
-        padding: 1rem;
-        background-color: #fff;
+      @apply gap-4 p-4 bg-white;
 
-        & .input-filtro {
-            padding: .5rem;
-            border: 1px solid var(--cinza-borda);
-            border-radius: .5rem;
-        }
+      & .input-filtro {
+        @apply p-2 border border-[#d3d3d39e] rounded-lg;
+      }
 
-        & button[type='submit'] {
-            padding: .5rem;
-            color: #fff;
-            background-color: var(--azul);
-            border-radius: .5rem;
-            cursor: pointer;
-        }
+      & button[type="submit"] {
+        @apply p-2 text-white bg-[#38B6FF] rounded-lg cursor-pointer;
+      }
     }
 
     & .table-container {
-        width: 100%;
-        overflow: auto;
+      @apply w-full overflow-auto;
 
-        & table {
-            width: 100%;
-            background-color: #fff;
+      & table {
+        @apply w-full bg-white;
 
-            & thead {
-                background-color: #F9FAFB;
-                border-top: 1px solid var(--cinza-borda);
+        & thead {
+          @apply bg-gray-50 border-t border-[#d3d3d39e];
 
-                & th {
-                    padding: .5rem;
-                    font-weight: 500;
-                }
-            }
-
-            & .celula-tabela {
-                padding: .5rem;
-                height: 5rem;
-                min-width: max-content;
-                text-align: center;
-                white-space: nowrap;
-
-            }
+          & th {
+            @apply p-2 font-medium;
+          }
         }
-    }
-}
 
-#td-acoes {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: .8rem;
-    padding: 1rem;
+        & .celula-tabela {
+          @apply p-2 h-20 min-w-max text-center whitespace-nowrap;
+        }
+      }
+    }
+  }
+
+  #td-acoes {
+    @apply flex justify-center items-center gap-3 p-4;
 
     & #btn-edita,
     #btn-deleta {
-        border: none;
-        padding: 0;
-        font-size: 1.5rem;
+      @apply border-0 p-0 text-2xl;
 
-        & button {
-            cursor: pointer;
-        }
+      & button {
+        @apply cursor-pointer;
+      }
     }
 
     & #btn-edita {
-        color: var(--azul);
+      @apply text-[#38B6FF];
     }
 
     & #btn-deleta {
-        color: #c1121f;
+      @apply text-[#c1121f];
     }
+  }
 }

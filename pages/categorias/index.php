@@ -9,5 +9,6 @@ include("../../includes/inicio.php")
             <p>Organize seus produtos por categorias</p>
         </div>
     </div>
+    <p class="testando">testando</p>
 </div>
 <?php include("../../includes/fim.php") ?>
