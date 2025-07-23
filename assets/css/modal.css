@@ -1,0 +1,37 @@
+@layer components {
+    #modal {
+        @apply fixed invisible top-0 left-0 w-full h-full z-1000;
+
+        & form {
+            @apply flex absolute flex-col p-5 items-center left-1/2 top-1/2 -translate-1/2 shadow-2xl bg-white rounded-2xl gap-3 z-950;
+
+            & h2 {
+                @apply text-xl font-semibold;
+            }
+
+            & .input-group-modal {
+                @apply flex flex-col gap-1 min-w-96;
+
+                & input, select {
+                    @apply border border-[var(--cinza-borda)] p-2 rounded-lg;
+                }
+            }
+
+            & .div-btn {
+                @apply flex gap-2 w-full;
+
+                & button {
+                    @apply border border-[var(--cinza-borda)] p-2 rounded-lg w-1/2 cursor-pointer;
+                }
+
+                & button[type='submit'] {
+                    @apply bg-sky-500 text-white;
+                }
+            }
+        }
+
+        #overlay-modal {
+            @apply absolute top-0 left-0 w-full h-full bg-black/50 z-900;
+        }
+    }
+}

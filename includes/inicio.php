@@ -32,5 +32,5 @@ include(__DIR__ . "/../backend/funcoes/geral.php");
 
 <body>
     <?php include("header.php") ?>
-    <main>
+    <main <?= ((isset($form_index) && $form_index == true) ? "class='main-full-height'" : '') ?>>
         <?php include("menu.php") ?>

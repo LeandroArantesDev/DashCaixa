@@ -41,6 +41,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             // Se verificar que email e senha existe e batem no banco de dados ele loga o usuário;
             if (!empty($nome) && !empty($senha) && password_verify($senha, $senha_db)) {
+                // adicionar o ultimo acesso do usuario
+                $stmt = $conexao->prepare("UPDATE usuarios SET ultimo_acesso = NOW() WHERE id = ?");
+                $stmt->bind_param("i", $id);
+                $stmt->execute();
+                $stmt->close();
+
+                // atualiza as variaveis sessions
                 $_SESSION["id"] = $id;
                 $_SESSION["nome"] = $nome;
                 $_SESSION["email"] = $email;

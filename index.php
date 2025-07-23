@@ -11,6 +11,7 @@ if (isset($_SESSION['id']) && $_SESSION['id'] == 1) {
 $titulo = "Login";
 $css = "formulario";
 $n_valida = true;
+$form_index = true;
 include("includes/inicio.php");
 ?>
 <div class="flex items-center justify-center w-full h-full bg-sky-100">
@@ -33,7 +34,7 @@ include("includes/inicio.php");
                 <input type="password" name="senha" id="senha" placeholder="Sua senha" required>
             </div>
         </div>
-        <button type="submit" class="bg-sky-500 text-white w-full p-2 rounded-lg mt-2">Entrar</button>
+        <button type="submit" class="bg-sky-500 text-white w-full p-2 rounded-lg mt-2 cursor-pointer">Entrar</button>
         <a class="text-sky-500" href="#">Esqueceu sua senha?</a>
     </form>
 </div>
