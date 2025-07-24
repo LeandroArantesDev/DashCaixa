@@ -3,7 +3,7 @@
         <!-- inputs escondidos -->
         <input type="hidden" value="0" name="id">
         <!-- CSRF -->
-        <input type="hidden" name="csrf" id="csrf" value="<?= gerarCSRF()?>">
+        <input type="hidden" name="csrf" id="csrf" value="<?= gerarCSRF() ?>">
         <h2>Adicionar Novo Produto</h2>
         <div class="input-group-modal">
             <label for="nome">Nome do Produto</label>
@@ -22,7 +22,7 @@
 
                 if ($resultado->num_rows > 0):
                     while ($row = $resultado->fetch_assoc()):
-                        ?>
+                ?>
                         <option value="<?= htmlspecialchars($row['id']) ?>"><?= htmlspecialchars($row['nome']) ?></option>
                     <?php endwhile ?>
                 <?php else: ?>
@@ -70,7 +70,7 @@
         modal.style.visibility = "visible";
 
         try {
-            const response = await fetch(`<?= BASE_URL . 'backend/produtos/buscar_usuario.php?id=' ?>${id}`);
+            const response = await fetch(`<?= BASE_URL . 'backend/produtos/buscar_produto.php?id=' ?>${id}`);
 
             const data = await response.json();
 

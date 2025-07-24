@@ -32,34 +32,41 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (!empty($email) && !empty($senha)) {
         try {
             // Faz a verificação no banco de dados
-            $stmt = $conexao->prepare("SELECT id, nome, email, senha, tipo FROM usuarios WHERE email = ?");
+            $stmt = $conexao->prepare("SELECT id, nome, email, senha, tipo, status FROM usuarios WHERE email = ?");
             $stmt->bind_param("s", $email);
             $stmt->execute();
-            $stmt->bind_result($id, $nome, $email, $senha_db, $tipo);
+            $stmt->bind_result($id, $nome, $email, $senha_db, $tipo, $status);
             $stmt->fetch();
             $stmt->close();
 
-            // Se verificar que email e senha existe e batem no banco de dados ele loga o usuário;
-            if (!empty($nome) && !empty($senha) && password_verify($senha, $senha_db)) {
-                // adicionar o ultimo acesso do usuario
-                $stmt = $conexao->prepare("UPDATE usuarios SET ultimo_acesso = NOW() WHERE id = ?");
-                $stmt->bind_param("i", $id);
-                $stmt->execute();
-                $stmt->close();
+            // Verifica se usuário está ativo no sistema
+            if ($status == 0) {
+                // Se verificar que email e senha existe e batem no banco de dados ele loga o usuário;
+                if (!empty($nome) && !empty($senha) && password_verify($senha, $senha_db)) {
+                    // adicionar o ultimo acesso do usuario
+                    $stmt = $conexao->prepare("UPDATE usuarios SET ultimo_acesso = NOW() WHERE id = ?");
+                    $stmt->bind_param("i", $id);
+                    $stmt->execute();
+                    $stmt->close();
 
-                // atualiza as variaveis sessions
-                $_SESSION["id"] = $id;
-                $_SESSION["nome"] = $nome;
-                $_SESSION["email"] = $email;
-                $_SESSION["tipo"] = $tipo;
+                    // atualiza as variaveis sessions
+                    $_SESSION["id"] = $id;
+                    $_SESSION["nome"] = $nome;
+                    $_SESSION["email"] = $email;
+                    $_SESSION["tipo"] = $tipo;
 
-                $_SESSION['resposta'] = "Bem Vindo! " . $_SESSION['nome'];
+                    $_SESSION['resposta'] = "Bem Vindo! " . $_SESSION['nome'];
 
-                if ($tipo == 1) {
-                    header("Location: " . BASE_URL . "pages/dashboard");
-                    exit;
+                    if ($tipo == 1) {
+                        header("Location: " . BASE_URL . "pages/dashboard");
+                        exit;
+                    } else {
+                        header("Location: " . BASE_URL . "pages/vendas");
+                        exit;
+                    }
                 } else {
-                    header("Location: " . BASE_URL . "pages/vendas");
+                    $_SESSION['resposta'] = "E-mail ou senha incorretos!";
+                    header("Location: " . BASE_URL);
                     exit;
                 }
             } else {

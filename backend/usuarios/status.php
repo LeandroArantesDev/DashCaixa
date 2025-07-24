@@ -1,5 +1,5 @@
 <?php
-// backend/produtos/deletar.php
+// backend/usuarios/deletar.php
 
 session_start();
 include("../conexao.php");
@@ -12,40 +12,34 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $csrf = trim(strip_tags($_POST["csrf"]));
     if (validarCSRF($csrf) == false) {
         $_SESSION['resposta'] = "Token Inválido";
-        header("Location: ../../pages/produtos");
+        header("Location: ../../pages/usuarios");
         exit;
     }
 
     try {
-        if (isset($_POST['status']) && $_POST['status'] == 1){
-            $stmt = $conexao->prepare("UPDATE produtos SET status = 0 WHERE id = ?");
+        if (isset($_POST['status']) && $_POST['status'] == 1) {
+            $stmt = $conexao->prepare("UPDATE usuarios SET status = 0 WHERE id = ?");
         } else {
-            $stmt = $conexao->prepare("UPDATE produtos SET status = 1 WHERE id = ?");
+            $stmt = $conexao->prepare("UPDATE usuarios SET status = 1 WHERE id = ?");
         }
 
         $stmt->bind_param("i", $id);
 
         if ($stmt->execute()) {
-            $_SESSION['resposta'] = "Produto atualizado com sucesso!";
+            $_SESSION['resposta'] = "Usuário atualizado com sucesso!";
         } else {
-            $_SESSION['resposta'] = "Ocorreu um erro ao atualizar o produto!";
+            $_SESSION['resposta'] = "Ocorreu um erro ao atualizar o usuário!";
         }
         $stmt->close();
-
     } catch (Exception $erro) {
-        if ($erro->getCode() == 1451) { // erro de restrição de chave estrangeira
-            $_SESSION['resposta'] = "Erro: Este produto não pode ser atualizado pois está associado a outros registros.";
-        } else {
-            registrarErro($_SESSION["id"], pegarRotaUsuario(), "Erro ao atualizar produto!", $erro->getCode(), pegarIpUsuario(), pegarNavegadorUsuario());
-            $_SESSION['resposta'] = "error" . $erro->getCode();
-        }
+        registrarErro($_SESSION["id"], pegarRotaUsuario(), "Erro ao atualizar usuario!", $erro->getCode(), pegarIpUsuario(), pegarNavegadorUsuario());
+        $_SESSION['resposta'] = "error" . $erro->getCode();
     }
 
-    header("Location: ../../pages/produtos");
+    header("Location: ../../pages/usuarios");
     exit;
-
 } else {
     $_SESSION['resposta'] = "Método de solicitação ínvalido!";
-    header("Location: ../../pages/produtos");
+    header("Location: ../../pages/usuarios");
     exit;
 }

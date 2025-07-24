@@ -3,7 +3,7 @@
         <!-- inputs escondidos -->
         <input type="hidden" value="0" name="id">
         <!-- CSRF -->
-        <input type="hidden" name="csrf" id="csrf" value="<?= gerarCSRF()?>">
+        <input type="hidden" name="csrf" id="csrf" value="<?= gerarCSRF() ?>">
         <h2>Adicionar Novo Usuario</h2>
         <div class="input-group-modal">
             <label for="nome">Nome do Usuario</label>
@@ -19,6 +19,14 @@
                 <option value="0">Caixa</option>
                 <option value="1">Administrador</option>
             </select>
+        </div>
+        <div class="input-group-modal">
+            <label for="email">Senha</label>
+            <input type="password" name="senha" id="senha" placeholder="Digite a senha do Usuario">
+        </div>
+        <div class="input-group-modal">
+            <label for="email">Senha</label>
+            <input type="password" name="confirmarsenha" id="confirmarsenha" placeholder="Digite a senha novamente">
         </div>
         <div class="div-btn">
             <button type="button" onclick="esconderModal()">Cancelar</button>
