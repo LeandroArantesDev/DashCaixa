@@ -3,6 +3,7 @@
 @import "./formulario.css";
 @import "./historico.css";
 @import "./modal.css";
+@import "./config.css";
 
 * {
   /*outline: 1px solid red;*/
@@ -39,11 +40,12 @@
       }
 
       & p {
-        @apply text-lg mt-[-0.5rem] text-black/60;
+        @apply text-lg text-black/60;
       }
     }
 
-    & a, button {
+    & a,
+    button {
       @apply bg-[#38B6FF] px-6 py-2 text-white rounded-lg cursor-pointer;
     }
 
@@ -131,7 +133,7 @@
           }
         }
 
-        & tr{
+        & tr {
           @apply border-t border-[var(--cinza-borda)];
         }
 

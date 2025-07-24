@@ -1,0 +1,41 @@
+@layer components {
+  .interface-config {
+    @apply grid grid-cols-1 lg:grid-cols-3 gap-6;
+  }
+
+  .interface-titulo-pessoais {
+    @apply p-6 border-b border-gray-200 flex items-center justify-between;
+  }
+
+  .interface-titulo-seguranca {
+    @apply p-6 border-b border-gray-200;
+  }
+
+  .menu-pessoais {
+    @apply lg:col-span-2  bg-white rounded-xl shadow-sm border border-gray-200;
+  }
+
+  .menu-seguranca {
+    @apply bg-white rounded-xl shadow-sm border border-gray-200;
+  }
+
+  .botao-seguranca {
+    @apply w-full flex items-center justify-center gap-1 cursor-pointer bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors;
+  }
+
+  .botao-editar {
+    @apply flex items-center cursor-pointer font-semibold space-x-2 text-blue-600 hover:text-blue-700;
+  }
+
+  .tipo-usuario {
+    @apply px-2 py-1 text-sm rounded-full font-semibold bg-purple-100 text-purple-800;
+  }
+
+  .interface-atividadesRecentes {
+    @apply bg-white rounded-xl shadow-sm border border-gray-200 mt-5;
+  }
+
+  .interface-conteudo-atividades {
+    @apply flex items-center justify-between py-2;
+  }
+}
