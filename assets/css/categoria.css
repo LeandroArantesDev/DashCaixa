@@ -1,0 +1,32 @@
+@layer components {
+    .card-categoria {
+        @apply flex flex-col gap-5 bg-zinc-200/70 shadow-md p-5 rounded-xl;
+
+        & .topo {
+            @apply flex items-center justify-between w-full;
+
+            & .txt-categoria {
+                @apply flex gap-2 items-center;
+
+                & i {
+                    @apply flex items-center justify-center text-2xl w-5 h-5 p-5 rounded-lg bg-blue-200 text-blue-500;
+                }
+
+                & h2 {
+                    @apply text-lg;
+                }
+            }
+
+            & #btn-edita, #btn-deleta, #btn-deleta button {
+                @apply p-0 m-0 bg-transparent text-xl text-gray-500 cursor-pointer;
+            }
+
+            & #btn-edita:hover {
+                @apply text-blue-500;
+            }
+            & #btn-deleta button:hover {
+                @apply text-red-500;
+            }
+        }
+    }
+}

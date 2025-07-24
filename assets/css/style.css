@@ -4,6 +4,7 @@
 @import "./historico.css";
 @import "./modal.css";
 @import "./config.css";
+@import "./categoria.css";
 
 * {
   /*outline: 1px solid red;*/

@@ -4,7 +4,7 @@ include(__DIR__ . '/../conexao.php');
 function buscar_vendas_diarias()
 {
     global $conexao;
-    $stmt = $conexao->prepare("SELECT COUNT(id) AS total FROM `vendas` WHERE DATE(data_venda) = CURRENT_DATE");
+    $stmt = $conexao->prepare("SELECT COUNT(id) AS total FROM `vendas` WHERE DATE(data_venda) = CURRENT_DATE()");
     $stmt->execute();
     $vendas = 0;
     $stmt->bind_result($vendas);
@@ -17,7 +17,7 @@ function buscar_vendas_diarias()
 function buscar_faturamento_diario()
 {
     global $conexao;
-    $stmt = $conexao->prepare("SELECT SUM(total) AS vendas FROM `vendas` WHERE DATE(data_venda) = CURRENT_DATE");
+    $stmt = $conexao->prepare("SELECT SUM(total) AS vendas FROM `vendas` WHERE DATE(data_venda) = CURRENT_DATE()");
     $stmt->execute();
     $vendas = 0;
     $stmt->bind_result($vendas);
@@ -96,7 +96,7 @@ function media_preco_vendas()
 {
     global $conexao;
 
-    $stmt = $conexao->prepare("SELECT AVG(total) as media FROM vendas WHERE data_venda = CURDATE()");
+    $stmt = $conexao->prepare("SELECT AVG(total) as media FROM vendas WHERE DATE(data_venda) = CURRENT_DATE()");
     $stmt->execute();
 
     $resultado = $stmt->get_result();

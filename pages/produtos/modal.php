@@ -15,7 +15,7 @@
                 <option value="0" disabled selected>Escolha uma categoria</option>
                 <?php
                 // Buscando todas as categorias
-                $stmt = $conexao->prepare("SELECT id, nome FROM categorias");
+                $stmt = $conexao->prepare("SELECT id, nome FROM categorias WHERE status IN (0, 1)");
                 $stmt->execute();
                 $resultado = $stmt->get_result();
                 $stmt->close();

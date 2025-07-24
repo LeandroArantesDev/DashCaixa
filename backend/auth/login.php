@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             // Verifica se usuário está ativo no sistema
             if ($status == 0) {
-                // Se verificar que email e senha existe e batem no banco de dados ele loga o usuário;
+                // verifica que o email e senha existe e batem no banco de dados ele loga o usuário;
                 if (!empty($nome) && !empty($senha) && password_verify($senha, $senha_db)) {
                     // adicionar o ultimo acesso do usuario
                     $stmt = $conexao->prepare("UPDATE usuarios SET ultimo_acesso = NOW() WHERE id = ?");
@@ -70,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     exit;
                 }
             } else {
-                $_SESSION['resposta'] = "E-mail ou senha incorretos!";
+                $_SESSION['resposta'] = "Acesso negado!";
                 header("Location: " . BASE_URL);
                 exit;
             }
