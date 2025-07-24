@@ -148,7 +148,8 @@
     @apply flex justify-center items-center gap-3;
 
     & #btn-edita,
-    #btn-deleta {
+    #btn-deleta,
+    #btn-status {
       @apply border-0 p-0 text-2xl cursor-pointer;
 
       & button {
@@ -162,6 +163,10 @@
 
     & #btn-deleta {
       @apply text-[#c1121f];
+    }
+
+    & #btn-status {
+      @apply text-gray-500;
     }
   }
 }

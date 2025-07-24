@@ -128,9 +128,6 @@ include("../../backend/funcoes/dashboard-historico.php");
                                     ?>
                                 </td>
                                 <td id="td-acoes" class="celula-tabela" colspan="2">
-                                    <form id="btn-edita" action="#">
-                                        <button><i class="bi bi-pencil-square"></i></button>
-                                    </form>
                                     <form id="btn-deleta" action="#">
                                         <button><i class="bi bi-trash3"></i></button>
                                     </form>

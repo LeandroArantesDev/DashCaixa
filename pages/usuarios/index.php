@@ -9,7 +9,7 @@ include("../../includes/valida_adm.php");
                 <h1>Gestão de Usuários</h1>
                 <p>Gerencie os usuários do sistema</p>
             </div>
-            <a href="#"><i class="bi bi-plus-lg"></i> Novo Usuário</a>
+            <button onclick="modalCadastrar()"><i class="bi bi-plus-lg"></i> Novo Usuário</button>
         </div>
         <div class="tabela-form">
             <form class="grid grid-cols-3">
@@ -35,7 +35,7 @@ include("../../includes/valida_adm.php");
                     $busca_like = "%" . $busca . "%";
 
                     // buscando todos usuarios
-                    $stmt = $conexao->prepare("SELECT nome, email, tipo, ultimo_acesso FROM usuarios WHERE nome LIKE ? OR email LIKE ?");
+                    $stmt = $conexao->prepare("SELECT id, nome, email, tipo, ultimo_acesso FROM usuarios WHERE nome LIKE ? OR email LIKE ?");
                     $stmt->bind_param("ss", $busca_like, $busca_like);
                     $stmt->execute();
                     $resultado = $stmt->get_result();
@@ -75,9 +75,9 @@ include("../../includes/valida_adm.php");
                                     ?>
                                 </td>
                                 <td id="td-acoes" class="celula-tabela" colspan="2">
-                                    <form id="btn-edita" action="#">
-                                        <button><i class="bi bi-pencil-square"></i></button>
-                                    </form>
+                                    <button id="btn-edita" onclick="modalEditar(<?= htmlspecialchars($row['id']) ?>)">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </button>
                                     <form id="btn-deleta" action="#">
                                         <button><i class="bi bi-trash3"></i></button>
                                     </form>
@@ -92,4 +92,5 @@ include("../../includes/valida_adm.php");
             </div>
         </div>
     </div>
+<?php include("modal.php") ?>
 <?php include("../../includes/fim.php") ?>

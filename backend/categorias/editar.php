@@ -6,6 +6,7 @@ include("../conexao.php");
 include("../funcoes/geral.php");
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // 1. Receber o ID do produto é crucial para a edição
     $id = (int)($_POST['id'] ?? 0);
 
     // Recebe os outros dados do formulário
@@ -30,7 +31,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     try {
+        // 2. A consulta SQL agora é um UPDATE
         $stmt = $conexao->prepare("UPDATE produtos SET nome = ?, preco = ?, estoque = ?, categoria_id = ? WHERE id = ?");
+        // Os tipos e variáveis no bind_param precisam corresponder à consulta (s,s,s,i,i)
         $stmt->bind_param("sssii", $nome, $preco, $estoque, $categoria_id, $id);
 
         if ($stmt->execute()) {

@@ -10,4 +10,5 @@ include("../../includes/inicio.php")
         </div>
     </div>
 </div>
+<?php include("modal.php")?>
 <?php include("../../includes/fim.php") ?>
