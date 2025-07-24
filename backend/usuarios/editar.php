@@ -15,6 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $tipo = strip_tags(trim($_POST["tipo"]));
     $senha = strip_tags(trim($_POST["senha"]));
     $confirmarsenha = strip_tags(trim($_POST["confirmarsenha"]));
+    $checkbox = strip_tags(trim(isset($_POST["checkbox"]) ? $_POST["checkbox"] : "off"));
 
     // Verificar token CSRF
     $csrf = trim(strip_tags($_POST["csrf"]));
@@ -38,15 +39,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 
-    //Validadar senha
-    if (validarSenha($senha) == false) {
-        $_SESSION['resposta'] = "Pelo menos 8 caracteres, uma letra maiúscula, uma letra minúscula, um número e um caractere especial";
-        header("Location: ../../pages/usuarios");
-        exit;
-    }
-
-    // Verificar se tudo chegou corretamente
-    if (!empty($nome) && !empty($email) && !empty($senha) && !empty($confirmarsenha)) {
+    // Verificar o checkbox para fazer as validações nas senhas
+    if ($checkbox == "on") {
+        //Validadar senha
+        if (validarSenha($senha) == false) {
+            $_SESSION['resposta'] = "Pelo menos 8 caracteres, uma letra maiúscula, uma letra minúscula, um número e um caractere especial";
+            header("Location: ../../pages/usuarios");
+            exit;
+        }
 
         // Verificar se as senhas são iguais e criptografa-la
         if ($senha === $confirmarsenha) {
@@ -56,10 +56,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             header("Location: ../../pages/usuarios");
             exit;
         }
+    } else {
+        $senha = "off";
+        $confirmarsenha = "off";
+    }
 
+    // Verificar se tudo chegou corretamente
+    if (!empty($nome) && !empty($email) && !empty($senha) && !empty($confirmarsenha) && !empty($checkbox)) {
         try {
-            $stmt = $conexao->prepare("UPDATE usuarios SET nome = ?, email = ?, tipo = ?, senha = ? WHERE id = ?");
-            $stmt->bind_param("ssssi", $nome, $email, $tipo, $senha_hash, $id);
+            //Verifica se precisa trocar a senha
+            if ($checkbox == "on") {
+                $stmt = $conexao->prepare("UPDATE usuarios SET nome = ?, email = ?, tipo = ?, senha = ? WHERE id = ?");
+                $stmt->bind_param("ssssi", $nome, $email, $tipo, $senha_hash, $id);
+            } else {
+                $stmt = $conexao->prepare("UPDATE usuarios SET nome = ?, email = ?, tipo = ? WHERE id = ?");
+                $stmt->bind_param("sssi", $nome, $email, $tipo, $id);
+            }
 
             if ($stmt->execute()) {
                 $_SESSION['resposta'] = "Usuario atualizado com sucesso!";
