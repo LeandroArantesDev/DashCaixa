@@ -38,4 +38,10 @@
   .interface-conteudo-atividades {
     @apply flex items-center justify-between py-2;
   }
+
+  .input-group{
+    & input{
+    @apply p-2 border border-[var(--cinza-borda)] rounded-lg;
+    }
+  }
 }

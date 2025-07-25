@@ -103,5 +103,17 @@
 
     function esconderModal() {
         modal.style.visibility = "hidden";
+
+        // esvazia os valores
+        const idInput = form.querySelector("input[name='id']");
+        const nomeInput = document.getElementById("nome");
+        const categoriaInput = document.getElementById("categoria_id");
+        const precoInput = document.getElementById("preco");
+        const estoqueInput = document.getElementById("estoque");
+        idInput.value = '';
+        nomeInput.value = '';
+        categoriaInput.value = 0;
+        precoInput.value = '';
+        estoqueInput.value = '';
     }
 </script>

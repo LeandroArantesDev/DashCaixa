@@ -68,5 +68,11 @@
 
     function esconderModal() {
         modal.style.visibility = "hidden";
+
+        // esvazia os valores
+        const idInput = form.querySelector("input[name='id']");
+        const nomeInput = document.getElementById("nome");
+        idInput.value = '';
+        nomeInput.value = '';
     }
 </script>

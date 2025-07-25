@@ -1,0 +1,35 @@
+@layer components {
+    .produto-card {
+        @apply flex items-center gap-4 p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow;
+
+        & .icone-container {
+            @apply flex-shrink-0 h-12 w-12 flex items-center justify-center bg-sky-100 rounded-lg;
+
+            & i {
+                @apply text-2xl text-sky-600;
+            }
+        }
+
+        & .info-container {
+            @apply flex-grow;
+
+            & h3 {
+                @apply font-semibold text-gray-900;
+            }
+
+            & .preco-tag {
+                @apply text-lg font-bold text-sky-600 mt-1;
+            }
+        }
+
+        & .btn-container {
+            & .add-button {
+                @apply h-10 w-10 flex items-center justify-center bg-sky-500 text-white rounded-md hover:bg-sky-600 transition-colors;
+            }
+        }
+    }
+
+    .btn-venda {
+        @apply w-full p-3 bg-sky-500 text-white font-semibold rounded-lg hover:bg-sky-600 transition-colors disabled:bg-gray-400;
+    }
+}

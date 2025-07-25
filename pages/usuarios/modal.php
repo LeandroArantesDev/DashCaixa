@@ -122,6 +122,16 @@ function esconderModal() {
     // Esconde o modal
     modal.style.visibility = "hidden";
 
+    // preenche os valores
+    const idInput = form.querySelector("input[name='id']");
+    const nomeInput = document.getElementById("nome");
+    const emailInput = document.getElementById("email");
+    const tipoInput = document.getElementById("tipo");
+    idInput.value = '';
+    nomeInput.value = '';
+    emailInput.value = '';
+    tipoInput.value = 0;
+
     // Oculta os campos de senha (divs com class="password")
     const passwordGroups = modal.querySelectorAll('.password');
     passwordGroups.forEach(group => group.classList.remove("ativo"));
