@@ -1037,6 +1037,19 @@
           padding: calc(var(--spacing) * 2);
         }
       }
+      & .checkbox {
+        display: none;
+        flex-direction: unset;
+        &.ativo {
+          display: flex;
+        }
+      }
+      & .password {
+        display: none;
+        &.ativo {
+          display: flex;
+        }
+      }
       & .div-btn {
         display: flex;
         width: 100%;

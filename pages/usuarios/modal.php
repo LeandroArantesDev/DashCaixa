@@ -40,104 +40,104 @@
     <div id="overlay-modal" onclick="esconderModal()"></div>
 </div>
 <script>
-const modal = document.getElementById("modal");
-const form = document.querySelector("#modal form");
+    const modal = document.getElementById("modal");
+    const form = document.querySelector("#modal form");
 
-function modalCadastrar() {
-    // action do formulario
-    form.action = "<?= BASE_URL . 'backend/usuarios/cadastrar.php' ?>";
+    function modalCadastrar() {
+        // action do formulario
+        form.action = "<?= BASE_URL . 'backend/usuarios/cadastrar.php' ?>";
 
-    // titulo do modal
-    const titulo = modal.querySelector("h2");
-    titulo.textContent = "Adicionar Novo Usuario";
+        // titulo do modal
+        const titulo = modal.querySelector("h2");
+        titulo.textContent = "Adicionar Novo Usuario";
 
-    // Mostra os campos de senha (as divs com class="password")
-    const passwordGroups = modal.querySelectorAll('.password');
-    passwordGroups.forEach(group => group.classList.add("ativo"));
+        // Mostra os campos de senha (as divs com class="password")
+        const passwordGroups = modal.querySelectorAll('.password');
+        passwordGroups.forEach(group => group.classList.add("ativo"));
 
-    modal.style.visibility = "visible";
-}
+        modal.style.visibility = "visible";
+    }
 
-async function modalEditar(id) {
-    // ação do formulário
-    form.action = "<?= BASE_URL . 'backend/usuarios/editar.php' ?>";
+    async function modalEditar(id) {
+        // ação do formulário
+        form.action = "<?= BASE_URL . 'backend/usuarios/editar.php' ?>";
 
-    // mensagem de "Carregando..." enquanto busca os dados
-    const titulo = modal.querySelector("h2");
-    titulo.textContent = "Carregando dados do usuario...";
-    modal.style.visibility = "visible";
+        // mensagem de "Carregando..." enquanto busca os dados
+        const titulo = modal.querySelector("h2");
+        titulo.textContent = "Carregando dados do usuario...";
+        modal.style.visibility = "visible";
 
-    // Mostrar checkbox
-    const checkboxDiv = modal.querySelector(".checkbox");
-    checkboxDiv.classList.add("ativo");
+        // Mostrar checkbox
+        const checkboxDiv = modal.querySelector(".checkbox");
+        checkboxDiv.classList.add("ativo");
 
-    // Mostrar/ocultar campos de senha com base na checkbox
-    const checkbox = modal.querySelector("#checkbox");
-    const passwordGroups = modal.querySelectorAll(".password");
+        // Mostrar/ocultar campos de senha com base na checkbox
+        const checkbox = modal.querySelector("#checkbox");
+        const passwordGroups = modal.querySelectorAll(".password");
 
-    // Resetar o estado da checkbox e campos de senha
-    checkbox.checked = false;
-    passwordGroups.forEach(group => group.classList.remove("ativo"));
+        // Resetar o estado da checkbox e campos de senha
+        checkbox.checked = false;
+        passwordGroups.forEach(group => group.classList.remove("ativo"));
 
-    // Quando mudar o estado da checkbox
-    checkbox.onchange = function() {
-        if (checkbox.checked) {
-            passwordGroups.forEach(group => group.classList.add("ativo"));
-        } else {
-            passwordGroups.forEach(group => group.classList.remove("ativo"));
+        // Quando mudar o estado da checkbox
+        checkbox.onchange = function() {
+            if (checkbox.checked) {
+                passwordGroups.forEach(group => group.classList.add("ativo"));
+            } else {
+                passwordGroups.forEach(group => group.classList.remove("ativo"));
+            }
+        };
+
+        try {
+            const response = await fetch(`<?= BASE_URL . 'backend/usuarios/buscar_usuario.php?id=' ?>${id}`);
+
+            const data = await response.json();
+
+            if (data.erro) {
+                titulo.textContent = data.erro;
+                return;
+            }
+
+            const idInput = form.querySelector("input[name='id']");
+            const nomeInput = document.getElementById("nome");
+            const emailInput = document.getElementById("email");
+            const tipoInput = document.getElementById("tipo");
+
+            // preenche os valores
+            idInput.value = id;
+            nomeInput.value = data.nome;
+            emailInput.value = data.email;
+            tipoInput.value = data.tipo;
+
+            // título do modal
+            titulo.textContent = `Editar Usuario: ${data.nome}`;
+
+        } catch (error) {
+            titulo.textContent = "Erro ao buscar os dados.";
+            console.error("Erro no Fetch:", error);
         }
-    };
+    }
 
-    try {
-        const response = await fetch(`<?= BASE_URL . 'backend/usuarios/buscar_usuario.php?id=' ?>${id}`);
+    function esconderModal() {
+        // Esconde o modal
+        modal.style.visibility = "hidden";
 
-        const data = await response.json();
-
-        if (data.erro) {
-            titulo.textContent = data.erro;
-            return;
-        }
-
+        // preenche os valores
         const idInput = form.querySelector("input[name='id']");
         const nomeInput = document.getElementById("nome");
         const emailInput = document.getElementById("email");
         const tipoInput = document.getElementById("tipo");
+        idInput.value = '';
+        nomeInput.value = '';
+        emailInput.value = '';
+        tipoInput.value = 0;
 
-        // preenche os valores
-        idInput.value = id;
-        nomeInput.value = data.nome;
-        emailInput.value = data.email;
-        tipoInput.value = data.tipo;
+        // Oculta os campos de senha (divs com class="password")
+        const passwordGroups = modal.querySelectorAll('.password');
+        passwordGroups.forEach(group => group.classList.remove("ativo"));
 
-        // título do modal
-        titulo.textContent = `Editar Usuario: ${data.nome}`;
-
-    } catch (error) {
-        titulo.textContent = "Erro ao buscar os dados.";
-        console.error("Erro no Fetch:", error);
+        // Ocultar o campo checkbox
+        const checkbox_div = modal.querySelector(".checkbox");
+        checkbox_div.classList.remove("ativo");
     }
-}
-
-function esconderModal() {
-    // Esconde o modal
-    modal.style.visibility = "hidden";
-
-    // preenche os valores
-    const idInput = form.querySelector("input[name='id']");
-    const nomeInput = document.getElementById("nome");
-    const emailInput = document.getElementById("email");
-    const tipoInput = document.getElementById("tipo");
-    idInput.value = '';
-    nomeInput.value = '';
-    emailInput.value = '';
-    tipoInput.value = 0;
-
-    // Oculta os campos de senha (divs com class="password")
-    const passwordGroups = modal.querySelectorAll('.password');
-    passwordGroups.forEach(group => group.classList.remove("ativo"));
-
-    // Ocultar o campo checkbox
-    const checkbox_div = modal.querySelector(".checkbox");
-    checkbox_div.classList.remove("ativo");
-}
 </script>

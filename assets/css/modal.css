@@ -12,8 +12,26 @@
             & .input-group-modal {
                 @apply flex flex-col gap-1 min-w-96;
 
-                & input, select {
+                & input,
+                select {
                     @apply border border-[var(--cinza-borda)] p-2 rounded-lg;
+                }
+            }
+
+            & .checkbox {
+                @apply hidden;
+                flex-direction: unset;
+
+                &.ativo {
+                    @apply flex;
+                }
+            }
+
+            & .password {
+                @apply hidden;
+
+                &.ativo {
+                    @apply flex;
                 }
             }
 
