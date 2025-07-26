@@ -29,7 +29,7 @@ include("../../includes/inicio.php")
                         while ($row = $resultado->fetch_assoc()) :
                     ?>
                             <div
-                                class="produto-card flex items-center gap-4 p-4 border border-[var(--cinza-borda)] rounded-lg hover:shadow-md transition-shadow">
+                                class="produto-card flex items-center gap-4 p-4 border border-[var(--cinza-borda)] rounded-lg hover:shadow-md transition-shadow <?= ($row["estoque"] < 1) ? "filter grayscale" : "" ?>">
                                 <div
                                     class="icone-container flex-shrink-0 h-12 w-12 flex items-center justify-center bg-sky-100 rounded-lg">
                                     <i class="bi bi-box-seam text-2xl text-sky-600"></i>
@@ -37,7 +37,11 @@ include("../../includes/inicio.php")
                                 <div class="info-container flex-grow">
                                     <h3 class="font-semibold text-gray-900">
                                         <?= htmlspecialchars($row['nome']) ?> •
-                                        <span><?= htmlspecialchars($row['estoque']) ?></span>
+                                        <?php if ($row["estoque"] > 0): ?>
+                                            <?= ($row["estoque"] < 5) ? "<span class='text-red-300'>" . htmlspecialchars($row['estoque']) . " Produto com estoque baixo!</span>" : "<span>" . htmlspecialchars($row['estoque']) . "</span>" ?>
+                                        <?php else: ?>
+                                            <span class='text-red-300'>Produto sem estoque!</span>
+                                        <?php endif; ?>
                                     </h3>
                                     <p class="text-sm text-gray-500">
                                         <?php
@@ -54,7 +58,7 @@ include("../../includes/inicio.php")
                                     <p class="preco-tag text-lg font-bold text-sky-600 mt-1">
                                         <?= formatarPreco(htmlspecialchars($row['preco'])) ?></p>
                                 </div>
-                                <button id="btn-add-produto" type="button"
+                                <button id="btn-add-produto" type="button" <?= ($row["estoque"] < 1) ? "disabled" : "" ?>
                                     class="add-button h-10 w-10 flex items-center justify-center bg-sky-500 text-white rounded-md hover:bg-sky-600 transition-colors cursor-pointer"
                                     data-id="<?= htmlspecialchars($row["id"]) ?>"
                                     data-nome="<?= htmlspecialchars($row['nome']) ?>"
@@ -92,7 +96,7 @@ include("../../includes/inicio.php")
                     <p>Busque e adicione produtos à ficha</p>
                 </li>
             </ul>
-            <form action="../../backend/vendas/cadastrar.php" method="POST" target="_blank" id="form-imprimir">
+            <form action="../../backend/vendas/finalizar.php" method="POST" id="form-imprimir">
                 <input type="hidden" name="itens" id="input-itens">
                 <input type="hidden" name="csrf" id="csrf" value="<?= gerarCSRF() ?>">
                 <input type="hidden" name="usuario_id" id="usuario_id" value="<?= $_SESSION["id"] ?>">

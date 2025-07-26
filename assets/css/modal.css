@@ -16,23 +16,8 @@
                 select {
                     @apply border border-[var(--cinza-borda)] p-2 rounded-lg;
                 }
-            }
 
-            & .checkbox {
-                @apply hidden;
-                flex-direction: unset;
-
-                &.ativo {
-                    @apply flex;
-                }
-            }
-
-            & .password {
-                @apply hidden;
-
-                &.ativo {
-                    @apply flex;
-                }
+                &
             }
 
             & .div-btn {
