@@ -67,7 +67,8 @@ include("../../includes/inicio.php")
                 </div>
             </div>
         </div>
-        <div class="w-2/6 h-full bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col" id="carrinho-lateral">
+        <div class="w-2/6 h-full bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col"
+            id="carrinho-lateral">
             <div class="p-6 border-b border-gray-200 flex items-center justify-between">
                 <div class="flex space-x-3">
                     <i class="bi bi-cart text-xl text-blue-600"></i>
@@ -91,8 +92,10 @@ include("../../includes/inicio.php")
                     <p>Busque e adicione produtos à ficha</p>
                 </li>
             </ul>
-            <form action="../../backend/vendas/registrar_venda.php" method="POST" target="_blank" id="form-imprimir">
+            <form action="../../backend/vendas/cadastrar.php" method="POST" target="_blank" id="form-imprimir">
                 <input type="hidden" name="itens" id="input-itens">
+                <input type="hidden" name="csrf" id="csrf" value="<?= gerarCSRF() ?>">
+                <input type="hidden" name="usuario_id" id="usuario_id" value="<?= $_SESSION["id"] ?>">
                 <!-- Aba Total  -->
                 <div class="p-6 border-t border-gray-200">
                     <div class="bg-blue-50 rounded-lg p-4 mb-4">
@@ -104,7 +107,10 @@ include("../../includes/inicio.php")
                             <span id="itens-total">0 itens</span>
                         </div>
                     </div>
-                    <button type="submit" class="w-full bg-blue-600 text-white py-4 rounded-lg font-semibold text-xl hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg cursor-pointer">Finalizar e Imprimir Ficha</button>
+                    <button type="submit" id="btn-finalizar"
+                        class="w-full bg-blue-600 text-white py-4 rounded-lg font-semibold text-xl hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg cursor-pointer"
+                        disabled>Finalizar
+                        e Imprimir Ficha</button>
                 </div>
             </form>
         </div>
