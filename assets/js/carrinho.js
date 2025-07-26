@@ -61,11 +61,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Ao imprimir, limpa o carrinho e recarrega a página
     formImprimir.addEventListener("submit", function () {
+
+        // Botão fica inacessível ao mandar 
+        btnFinalizar.disabled = "true";
+        btnFinalizar.innerHTML = "Processando...";
+
         setTimeout(() => {
             carrinho.length = 0; // esvazia o array
             atualizarCarrinho();
-            window.location.reload();
-        }, 500); // espera meio segundo para o submit abrir o PDF
+        }, 500);
     });
 
     // Atualiza a lista e o total
