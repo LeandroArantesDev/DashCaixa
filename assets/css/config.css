@@ -20,11 +20,18 @@
   }
 
   .botao-seguranca {
-    @apply w-full flex items-center justify-center gap-1 cursor-pointer bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors;
+    @apply w-full flex items-center justify-center gap-1 cursor-pointer bg-gray-100 text-gray-700 px-4 py-2 rounded-lg transition-colors;
+    &:hover{
+      @apply bg-gray-200;
+    }
   }
 
   .botao-editar {
-    @apply flex items-center cursor-pointer font-semibold space-x-2 text-blue-600 hover:text-blue-700;
+    @apply flex items-center cursor-pointer font-semibold space-x-2 text-blue-600;
+
+    &:hover{
+      @apply text-blue-700;
+    }
   }
 
   .tipo-usuario {

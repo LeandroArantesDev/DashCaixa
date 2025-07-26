@@ -14,7 +14,7 @@
     @apply text-green-600;
   }
   #vendas i {
-    background-color: #16a34a29;
+    @apply bg-[#16a34a29];
   }
 
   #faturamento span,
@@ -22,7 +22,7 @@
     @apply text-blue-600;
   }
   #faturamento i {
-    background-color: #2564eb22;
+    @apply bg-[#2564eb22];
   }
 
   #media span,
@@ -30,6 +30,6 @@
     @apply text-purple-700;
   }
   #media i {
-    background-color: #9233ea25;
+    @apply bg-[#9233ea25];
   }
 }

@@ -16,8 +16,18 @@
                 select {
                     @apply border border-[var(--cinza-borda)] p-2 rounded-lg;
                 }
+            }
 
-                &
+            .checkbox{
+                @apply flex flex-row;
+            }
+
+            .password, .checkbox {
+                @apply hidden;
+            }
+
+            .password.ativo, .checkbox.ativo {
+                @apply flex;
             }
 
             & .div-btn {

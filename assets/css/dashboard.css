@@ -15,7 +15,7 @@
     @apply text-green-600;
   }
   #vendas i {
-    background-color: #16a34a29;
+    @apply bg-[#16a34a29];
   }
 
   /* Faturamento */
@@ -24,7 +24,7 @@
     @apply text-blue-700;
   }
   #faturamento i {
-    background-color: #2564eb22;
+   @apply bg-[#2564eb22];
   }
 
   /* Produtos */
@@ -33,7 +33,7 @@
     @apply text-orange-600;
   }
   #produtos i {
-    background-color: #ea5a0c24;
+    @apply bg-[#ea5a0c24];
   }
 
   /* Categorias */
@@ -42,6 +42,6 @@
     @apply text-purple-700;
   }
   #categorias i {
-    background-color: #9233ea25;
+    @apply bg-[#9233ea25];
   }
 }

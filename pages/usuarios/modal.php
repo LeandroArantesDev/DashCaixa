@@ -22,7 +22,7 @@
         </div>
         <div class="input-group-modal checkbox">
             <input type="checkbox" name="checkbox" id="checkbox">
-            <label for="">Deseja alterar a senha do usuário?</label>
+            <label for="checkbox">Deseja alterar a senha do usuário?</label>
         </div>
         <div class="input-group-modal password">
             <label for="email">Senha</label>
