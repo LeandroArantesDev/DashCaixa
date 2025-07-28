@@ -1,6 +1,5 @@
 <?php
 $titulo = "Dashboard";
-$css = "dashboard";
 include("../../backend/funcoes/dashboard-historico.php");
 include("../../includes/inicio.php");
 include("../../includes/valida_adm.php");

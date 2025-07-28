@@ -32,10 +32,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (!empty($email) && !empty($senha)) {
         try {
             // Faz a verificação no banco de dados
-            $stmt = $conexao->prepare("SELECT id, nome, email, senha, tipo, status FROM usuarios WHERE email = ?");
+            $stmt = $conexao->prepare("SELECT id, cliente_id, nome, email, senha, tipo, status FROM usuarios WHERE email = ?");
             $stmt->bind_param("s", $email);
             $stmt->execute();
-            $stmt->bind_result($id, $nome, $email, $senha_db, $tipo, $status);
+            $stmt->bind_result($id, $cliente_id, $nome, $email, $senha_db, $tipo, $status);
             $stmt->fetch();
             $stmt->close();
 
@@ -49,11 +49,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $stmt->execute();
                     $stmt->close();
 
+                    // puxa o status da mensalidade do cliente
+                    $stmt = $conexao->prepare("SELECT status_mensalidade FROM clientes WHERE id = ?");
+                    $stmt->bind_param("i", $cliente_id);
+                    $stmt->execute();
+                    $stmt->bind_result($status_mensalidade);
+                    $stmt->fetch();
+                    $stmt->close();
+
                     // atualiza as variaveis sessions
                     $_SESSION["id"] = $id;
+                    $_SESSION['cliente_id'] = $cliente_id;
                     $_SESSION["nome"] = $nome;
                     $_SESSION["email"] = $email;
                     $_SESSION["tipo"] = $tipo;
+                    $_SESSION["mensalidade"] = $status_mensalidade;
+
+                    // redirecionando para mensalidade caso esteja com a mensalidade pendente e vencida
+                    if ($status_mensalidade === 2){
+                        header("Location: ../../pages/mensalidade");
+                        exit();
+                    }
 
                     $_SESSION['resposta'] = "Bem Vindo! " . $_SESSION['nome'];
 
