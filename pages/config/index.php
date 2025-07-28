@@ -10,7 +10,7 @@ $resultado = $stmt->get_result();
 $row = $resultado->fetch_assoc();
 $stmt->close();
 ?>
-    <div class="conteudo">
+<div class="conteudo">
     <div class="titulo">
         <div class="txt-titulo">
             <h1>Configurações</h1>
@@ -26,28 +26,36 @@ $stmt->close();
             </div>
             <!-- formualario que ficara escondido -->
             <form id="form-editar-info" action="../../backend/config/alterar_info.php" method="POST"
-                  class="p-6 space-y-4 hidden">
+                class="p-6 space-y-4 hidden">
                 <!-- inputs escondigos -->
                 <input type="hidden" name="csrf" id="csrf" value="<?= gerarCSRF() ?>">
-
-                <div class="input-group">
+                <div>
                     <label for="nome">Nome</label>
-                    <input type="text" name="nome" id="nome" value="<?= htmlspecialchars($row['nome']) ?>"
-                           placeholder="Seu nome" required>
+                    <div class="relative">
+                        <i class="bi bi-person icons text-2xl"></i>
+                        <input type="text" name="nome" id="nome" value="<?= htmlspecialchars($row['nome']) ?>"
+                            placeholder="Seu nome" required class="interface-input-pessoais">
+                    </div>
                 </div>
-                <div class="input-group">
+                <div>
                     <label for="email">Email</label>
-                    <input type="email" name="email" id="email" value="<?= htmlspecialchars($row['email']) ?>"
-                           placeholder="Seu email" required>
+                    <div class="relative">
+                        <i class="bi bi-envelope icons text-2xl"></i>
+                        <input type="email" name="email" id="email" value="<?= htmlspecialchars($row['email']) ?>"
+                            placeholder="Seu email" required class="interface-input-pessoais">
+                    </div>
                 </div>
-                <div class="flex gap-2 w-full">
+                <div class="flex space-x-3 pt-4">
                     <button type="button"
-                            class="p-2 w-1/2 border border-[var(--cinza-borda)] rounded-lg cursor-pointer"
-                            onclick="esconderEditarInfo()">
+                        class="btn-cancela"
+                        onclick="esconderEditarInfo()">
                         Cancelar
                     </button>
-                    <button class="p-2 w-1/2 bg-sky-500 text-white rounded-lg cursor-pointer" type="submit">
-                        Enviar
+                    <button class="btn-envia" type="submit">
+                        <i class="bi bi-floppy"></i>
+                        <span>
+                            Salvar
+                        </span>
                     </button>
                 </div>
             </form>
@@ -80,30 +88,48 @@ $stmt->close();
             </div>
             <!-- formulario que ficara escondido -->
             <form action="../../backend/config/alterar_senha.php" method="POST" id="form-alterar-senha"
-                  class="p-6 space-y-4 hidden">
+                class="p-6 space-y-4 hidden">
                 <!-- inputs escondigos -->
                 <input type="hidden" name="csrf" id="csrf" value="<?= gerarCSRF() ?>">
 
-                <div class="input-group">
+                <div class="relative">
                     <label for="senha-atual">Senha Atual</label>
-                    <input type="password" name="senha-atual" id="senha-atual" placeholder="Senha Atual">
+                    <div class="relative">
+                        <i class="bi bi-lock icons"></i>
+                        <input type="password" name="senha-atual" id="senha-atual" placeholder="Senha Atual" class="interface-input-seguranca">
+                        <button type="button" class="button-eye">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="input-group">
+                <div>
                     <label for="nova-senha">Nova Senha</label>
-                    <input type="password" name="nova-senha" id="nova-senha" placeholder="Nova Senha">
+                    <div class="relative">
+                        <i class="bi bi-lock icons"></i>
+                        <input type="password" name="nova-senha" id="nova-senha" placeholder="Nova Senha" class="interface-input-seguranca">
+                        <button type="button" class="button-eye">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="input-group">
+                <div>
                     <label for="confirmar-senha">Confirmar Nova Senha</label>
-                    <input type="password" name="confirmar-senha" id="confirmar-senha"
-                           placeholder="Confirmar Nova Senha">
+                    <div class="relative">
+                        <i class="bi bi-lock icons"></i>
+                        <input type="password" name="confirmar-senha" id="confirmar-senha"
+                            placeholder="Confirmar Nova Senha" class="interface-input-seguranca">
+                        <button type="button" class="button-eye">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="flex gap-2 w-full">
                     <button type="button"
-                            class="p-2 w-1/2 border border-[var(--cinza-borda)] rounded-lg cursor-pointer"
-                            onclick="esconderFormSenha()">
+                        class="btn-cancela"
+                        onclick="esconderFormSenha()">
                         Cancelar
                     </button>
-                    <button class="p-2 w-1/2 bg-sky-500 text-white rounded-lg cursor-pointer" type="submit">
+                    <button class="btn-envia" type="submit">
                         Enviar
                     </button>
                 </div>
@@ -129,33 +155,33 @@ $stmt->close();
             <div class="interface-conteudo-atividades">
                 <span class="text-gray-600">Ultimo Login</span>
                 <span class="text-gray-900 font-medium">
-                        Hoje às
-                        <?php
-                        // puxando o ultimo acesso do usuario e formatando apenas o horario
-                        $data = $row['ultimo_acesso'];
-                        $horario = date('H:i', strtotime($data));
-                        echo $horario;
-                        ?>
-                    </span>
+                    Hoje às
+                    <?php
+                    // puxando o ultimo acesso do usuario e formatando apenas o horario
+                    $data = $row['ultimo_acesso'];
+                    $horario = date('H:i', strtotime($data));
+                    echo $horario;
+                    ?>
+                </span>
             </div>
             <div class="interface-conteudo-atividades">
                 <span class="text-gray-600">Vendas realizadas hoje</span>
                 <span class="text-blue-600 font-medium">
-                        <?php
-                        // buscando as vendas realizadas hoje
-                        $stmt = $conexao->prepare("SELECT COUNT(*) FROM vendas WHERE usuario_id = ? AND DATE(data_venda) = CURDATE()");
-                        $stmt->bind_param("i", $_SESSION["id"]);
-                        $stmt->execute();
-                        $stmt->bind_result($fichas_hoje);
-                        $stmt->fetch();
-                        $stmt->close();
-                        if ($fichas_hoje == 0) {
-                            echo "Nenhuma venda hoje!";
-                        } else {
-                            echo $fichas_hoje . " Vendas";
-                        }
-                        ?>
-                    </span>
+                    <?php
+                    // buscando as vendas realizadas hoje
+                    $stmt = $conexao->prepare("SELECT COUNT(*) FROM vendas WHERE usuario_id = ? AND DATE(data_venda) = CURDATE()");
+                    $stmt->bind_param("i", $_SESSION["id"]);
+                    $stmt->execute();
+                    $stmt->bind_result($fichas_hoje);
+                    $stmt->fetch();
+                    $stmt->close();
+                    if ($fichas_hoje == 0) {
+                        echo "Nenhuma venda hoje!";
+                    } else {
+                        echo $fichas_hoje . " Vendas";
+                    }
+                    ?>
+                </span>
             </div>
             <div class="interface-conteudo-atividades">
                 <span class="text-gray-600">Conta criada em</span>
@@ -164,51 +190,6 @@ $stmt->close();
         </div>
     </div>
 
-    <script>
-        <!-- variaveis da div de troca de senha -->
-        const btn_alterar_senha = document.getElementById('btn-alterar-senha');
-        const form_alterar_senha = document.getElementById('form-alterar-senha');
-        const input_alterar_senha = document.getElementById('input-senha');
+    <script src="../../assets/js/config.js"></script>
 
-        function mostrarFormSenha() {
-            // escondendo botão e input senha
-            btn_alterar_senha.style.display = 'none';
-            input_alterar_senha.style.display = 'none';
-
-            // mostrando formulario de alterar senha
-            form_alterar_senha.style.display = 'block';
-        }
-
-        function esconderFormSenha() {
-            // mostrando o botão e input senha
-            btn_alterar_senha.style.display = 'block';
-            input_alterar_senha.style.display = 'block';
-
-            // escondendo o formulario de alterar senha
-            form_alterar_senha.style.display = 'none';
-        }
-
-        // variaveis para a div de informações
-        const btn_editar_info = document.getElementById('btn-editar-info');
-        const form_editar_info = document.getElementById('form-editar-info');
-        const div_info = document.getElementById('div-info');
-
-        function mostrarEditarInfo() {
-            // escondendo o botão e div info
-            btn_editar_info.style.display = 'none';
-            div_info.style.display = 'none';
-
-            // mostrando o formulario do editar info
-            form_editar_info.style.display = 'block';
-        }
-
-        function esconderEditarInfo() {
-            // mostrando o botão e div info
-            btn_editar_info.style.display = 'block';
-            div_info.style.display = 'block';
-
-            // escondendo o formulario do editar info
-            form_editar_info.style.display = 'none';
-        }
-    </script>
-<?php include("../../includes/fim.php") ?>
+    <?php include("../../includes/fim.php") ?>
