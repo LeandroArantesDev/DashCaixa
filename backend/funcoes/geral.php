@@ -1,4 +1,12 @@
 <?php
+
+if (!defined('BASE_URL')) {
+    if ($_SERVER['HTTP_HOST'] == 'localhost') {
+        define('BASE_URL', '/DashCaixa/');
+    } else {
+        define('BASE_URL', '/');
+    }
+}
 function formatarPreco($numero)
 {
     return 'R$ ' . number_format($numero, 2, ',', '.');
