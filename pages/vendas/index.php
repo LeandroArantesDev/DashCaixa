@@ -113,12 +113,22 @@ include("../../includes/inicio.php")
                     </div>
                     <button type="submit" id="btn-finalizar"
                         class="w-full bg-blue-600 text-white py-4 rounded-lg font-semibold text-xl hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg cursor-pointer"
-                        disabled>Finalizar
-                        e Imprimir Ficha</button>
+                        disabled>Finalizar</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+<?php
+include("modal.php");
+if (isset($_SESSION['modal_venda'])):
+?>
+    <script>
+        abrirModal(<?= $_SESSION['modal_venda'] ?>);
+    </script>
+<?php
+    unset($_SESSION['modal_venda']);
+endif;
+?>
 <script src="../../assets/js/carrinho.js"></script>
 <?php include("../../includes/fim.php") ?>
