@@ -12,7 +12,17 @@ include("../../includes/inicio.php");
     <!--TESTES-->
     <?php
     // buscando faturas pendentes ou vencidas do cliente
-    $stmt = $conexao->prepare("SELECT id, cliente_id, valor, data_vencimento, url_pagamento FROM mensalidades WHERE status IN (1,2)");
+    $stmt = $conexao->prepare("
+    SELECT id, cliente_id, valor, data_vencimento, url_pagamento
+FROM mensalidades
+WHERE status IN (1, 2)
+  AND (
+    DATEDIFF(data_vencimento, CURRENT_DATE) = 5 OR
+    data_vencimento = CURRENT_DATE OR
+    data_vencimento < CURRENT_DATE
+  );
+
+    ");
     $stmt->execute();
     $resultado = $stmt->get_result();
     $stmt->close();
@@ -38,18 +48,4 @@ include("../../includes/inicio.php");
             <?php endif; ?>
         </div>
     <?php endwhile; ?>
-    <script>
-        const div_pendente = document.getElementById("div-pendente");
-        const div_pago = document.getElementById("div-pago");
-
-        function simularPago() {
-            if (div_pago.style.display === "none") {
-                div_pendente.style.display = "none";
-                div_pago.style.display = "block";
-            } else {
-                div_pendente.style.display = "block";
-                div_pago.style.display = "none";
-            }
-        }
-    </script>
     <?php include("../../includes/fim.php"); ?>
