@@ -49,13 +49,41 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $stmt->execute();
                     $stmt->close();
 
-                    // puxa o status da mensalidade do cliente
-                    $stmt = $conexao->prepare("SELECT status_mensalidade FROM clientes WHERE id = ?");
+                    // Verifica e atualiza mensalidade vencida
+                    $stmt = $conexao->prepare("SELECT id, data_vencimento FROM mensalidades WHERE cliente_id = ? AND status = 1 ORDER BY data_vencimento ASC LIMIT 1");
                     $stmt->bind_param("i", $cliente_id);
                     $stmt->execute();
-                    $stmt->bind_result($status_mensalidade);
-                    $stmt->fetch();
+                    $stmt->bind_result($id_mensalidade, $data_vencimento);
+                    if ($stmt->fetch()) {
+                        if ($data_vencimento < date("Y-m-d")) {
+                            $stmt->close();
+                            $stmt = $conexao->prepare("UPDATE mensalidades SET status = 2 WHERE id = ?");
+                            $stmt->bind_param("i", $id_mensalidade);
+                            $stmt->execute();
+                        }
+                    }
                     $stmt->close();
+
+                    // Verifica o status atual da mensalidade do cliente
+                    $stmt = $conexao->prepare("SELECT status FROM mensalidades WHERE cliente_id = ? AND status IN (1,2) ORDER BY data_vencimento ASC LIMIT 1");
+                    $stmt->bind_param("i", $cliente_id);
+                    $stmt->execute();
+                    $resultado = $stmt->get_result();
+                    $status_mensalidade = 0;
+
+                    if ($linha = $resultado->fetch_assoc()) {
+                        $status_mensalidade = $linha['status'];
+                    }
+
+                    $stmt->close();
+
+                    // Atualiza o status do cliente
+                    $stmt = $conexao->prepare("UPDATE clientes SET status_mensalidade = ? WHERE id = ?");
+                    $stmt->bind_param("ii", $status_mensalidade, $cliente_id);
+                    $stmt->execute();
+                    $stmt->close();
+
+                    $_SESSION['mensalidade'] = $status_mensalidade;
 
                     // atualiza as variaveis sessions
                     $_SESSION["id"] = $id;
@@ -63,10 +91,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $_SESSION["nome"] = $nome;
                     $_SESSION["email"] = $email;
                     $_SESSION["tipo"] = $tipo;
-                    $_SESSION["mensalidade"] = $status_mensalidade;
 
-                    // redirecionando para mensalidade caso esteja com a mensalidade pendente e vencida
-                    if ($status_mensalidade === 2){
+                    // redirecionando para mensalidade caso esteja com a mensalidade vencida
+                    if ($_SESSION['mensalidade'] == 2) {
                         header("Location: ../../pages/mensalidade");
                         exit();
                     }

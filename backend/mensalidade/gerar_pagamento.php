@@ -52,7 +52,7 @@ curl_setopt_array($curl, [
             ]
         ],
         'returnUrl' => 'http://localhost/DashCaixa/pages/mensalidade/',
-        'completionUrl' => 'http://localhost/DashCaixa/backend/processar_pagamento.php?fatura_id=' . $fatura_id,
+        'completionUrl' => 'http://localhost/DashCaixa/backend/mensalidade/processar_pagamento.php?fatura_id=' . $fatura_id,
         'customer' => [
             'name' => $nome_cliente,
             'cellphone' => $telefone_cliente,
