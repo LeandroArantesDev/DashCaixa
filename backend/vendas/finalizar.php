@@ -97,6 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                     if ($sucesso_itens) {
                         $_SESSION['resposta'] = "Venda finalizada com sucesso!";
+                        $_SESSION['modal_venda'] = $venda_id;
                     } else {
                         $_SESSION['resposta'] = "Venda não foi finalizada com sucesso!";
                     }

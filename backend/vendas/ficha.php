@@ -3,19 +3,55 @@ require_once("../conexao.php");
 require_once("../funcoes/geral.php");
 session_start();
 
-$itens = json_decode($_SESSION['itens'], true);
+// Verifica se o ID da venda foi passado via GET
+if (!isset($_GET['id']) || empty($_GET['id'])) {
+    registrarErro($_SESSION["id"], pegarRotaUsuario(), "ID da venda não informado!", 1, pegarIpUsuario(), pegarNavegadorUsuario());
+}
+
+$venda_id = intval($_GET['id']);
+
+// Busca os dados da venda
+$stmt_venda = $conexao->prepare("SELECT v.id, v.usuario_id, v.total, v.data_venda, u.nome as usuario_nome 
+                                 FROM vendas v 
+                                 INNER JOIN usuarios u ON v.usuario_id = u.id 
+                                 WHERE v.id = ?");
+$stmt_venda->bind_param("i", $venda_id);
+$stmt_venda->execute();
+$resultado_venda = $stmt_venda->get_result();
+
+if ($resultado_venda->num_rows == 0) {
+    registrarErro($_SESSION["id"], pegarRotaUsuario(), "Venda não encontrada. ID procurado: " . $venda_id, 1, pegarIpUsuario(), pegarNavegadorUsuario());
+}
+
+$venda = $resultado_venda->fetch_assoc();
+$stmt_venda->close();
+
+// Busca os itens da venda
+$stmt_itens = $conexao->prepare("SELECT iv.quantidade, iv.preco_unitario, p.nome as produto_nome 
+                                 FROM itens_venda iv 
+                                 INNER JOIN produtos p ON iv.produto_id = p.id 
+                                 WHERE iv.venda_id = ?");
+$stmt_itens->bind_param("i", $venda_id);
+$stmt_itens->execute();
+$resultado_itens = $stmt_itens->get_result();
+
+$itens = [];
+while ($row = $resultado_itens->fetch_assoc()) {
+    $itens[] = [
+        'nome' => $row['produto_nome'],
+        'quantidade' => $row['quantidade'],
+        'preco' => $row['preco_unitario']
+    ];
+}
+$stmt_itens->close();
 
 if (empty($itens)) {
-    die("Nenhum item foi selecionado.");
+    registrarErro($_SESSION["id"], pegarRotaUsuario(), "Nenhum item encontrado para esta venda. ID: " . $venda_id, 1, pegarIpUsuario(), pegarNavegadorUsuario());
 }
 
-$total = 0;
-$data_venda = date('d/m/Y H:i:s');
 
-// Calcula o total
-foreach ($itens as $item) {
-    $total += $item['preco'] * $item['quantidade'];
-}
+$total = $venda['total'];
+$data_venda = date('d/m/Y H:i:s', strtotime($venda['data_venda']));
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -98,6 +134,8 @@ foreach ($itens as $item) {
     </div>
 
     <div class="info-venda">
+        <p><strong>Número da Venda:</strong><?= $venda['id'] ?></p>
+        <p><strong>Vendedor:</strong> <?= htmlspecialchars($venda['usuario_nome']) ?></p>
         <p><strong>Data da Venda:</strong> <?= $data_venda ?></p>
         <p><strong>Número de Itens:</strong> <?= count($itens) ?></p>
     </div>

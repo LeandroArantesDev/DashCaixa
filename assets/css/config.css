@@ -21,15 +21,23 @@
 
   .botao-seguranca {
     @apply w-full flex items-center justify-center gap-1 cursor-pointer bg-gray-100 text-gray-700 px-4 py-2 rounded-lg transition-colors;
-    &:hover{
+    &:hover {
       @apply bg-gray-200;
     }
   }
 
-  .botao-editar {
-    @apply flex items-center cursor-pointer font-semibold space-x-2 text-blue-600;
+  .btn-cancela {
+    @apply flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer;
+  }
 
-    &:hover{
+  .btn-envia {
+    @apply flex-1 flex items-center justify-center space-x-2 bg-sky-600 text-white px-4 py-2 rounded-lg hover:bg-sky-700 transition-colors cursor-pointer;
+  }
+
+  .botao-editar {
+    @apply flex items-center cursor-pointer font-semibold space-x-2 text-sky-600;
+
+    &:hover {
       @apply text-blue-700;
     }
   }
@@ -46,9 +54,19 @@
     @apply flex items-center justify-between py-2;
   }
 
-  .input-group{
-    & input{
-    @apply p-2 border border-[var(--cinza-borda)] rounded-lg;
-    }
+  .icons {
+    @apply text-xl absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400;
+  }
+
+  .interface-input-pessoais {
+    @apply w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+  }
+
+  .interface-input-seguranca {
+    @apply w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+  }
+
+  .button-eye {
+    @apply absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 text-xl cursor-pointer transition-colors;
   }
 }
