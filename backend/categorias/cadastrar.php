@@ -5,6 +5,7 @@ include("../funcoes/geral.php");
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $nome = strip_tags(trim($_POST["nome"]));
+    $cliente_id = strip_tags(trim($_SESSION["cliente_id"]));
 
     // Verificar token CSRF
     $csrf = trim(strip_tags($_POST["csrf"]));
@@ -14,8 +15,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
     try {
-        $stmt = $conexao->prepare("INSERT INTO categorias (nome) VALUE (?)");
-        $stmt->bind_param("s", $nome);
+        $stmt = $conexao->prepare("INSERT INTO categorias (nome, cliente_id) VALUE (?,?)");
+        $stmt->bind_param("si", $nome, $cliente_id);
 
         if ($stmt->execute()) {
             $_SESSION['resposta'] = "Categoria cadastrada com sucesso!";

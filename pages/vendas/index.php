@@ -20,7 +20,8 @@ include("../../includes/inicio.php")
                 <div class="h-max flex flex-col gap-3 p-3 pb-20">
                     <?php
                     // buscando todos os produtos disponiveis
-                    $stmt = $conexao->prepare("SELECT id, nome, categoria_id, preco, estoque FROM produtos WHERE status IN (0, 1)");
+                    $stmt = $conexao->prepare("SELECT id, nome, categoria_id, preco, estoque FROM produtos WHERE cliente_id = ? AND status IN (0, 1)");
+                    $stmt->bind_param("i", $_SESSION['cliente_id']);
                     $stmt->execute();
                     $resultado = $stmt->get_result();
                     $stmt->close();
@@ -38,9 +39,9 @@ include("../../includes/inicio.php")
                                     <h3 class="font-semibold text-gray-900">
                                         <?= htmlspecialchars($row['nome']) ?> •
                                         <?php if ($row["estoque"] > 0): ?>
-                                            <?= ($row["estoque"] < 5) ? "<span class='text-red-300'>" . htmlspecialchars($row['estoque']) . " Produto com estoque baixo!</span>" : "<span>" . htmlspecialchars($row['estoque']) . "</span>" ?>
+                                            <?= ($row["estoque"] < 5) ? "<span class='text-red-300'>" . htmlspecialchars($row['estoque']) . " Estoque baixo!</span>" : "<span>" . htmlspecialchars($row['estoque']) . "</span>" ?>
                                         <?php else: ?>
-                                            <span class='text-red-300'>Produto sem estoque!</span>
+                                            <span class='text-red-300'>Sem estoque!</span>
                                         <?php endif; ?>
                                     </h3>
                                     <p class="text-sm text-gray-500">
@@ -66,7 +67,7 @@ include("../../includes/inicio.php")
                             </div>
                         <?php endwhile ?>
                     <?php else: ?>
-                        <h2>Sem produtos cadastrados!</h2>
+                        <a class="flex items-center justify-center gap-2 w-full border border-[var(--cinza-borda)] p-2 rounded-lg" href="../produtos">Cadastrar produtos <i class="bi bi-plus-lg bg-blue-200 rounded-lg text-blue-600 text-lg flex justify-center items-center w-8 h-8"></i></a>
                     <?php endif ?>
                 </div>
             </div>

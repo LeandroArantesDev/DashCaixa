@@ -36,8 +36,8 @@ include("../../includes/inicio.php");
                     $busca_like = "%" . $busca . "%";
 
                     // buscando todos produtos
-                    $stmt = $conexao->prepare("SELECT id, nome, categoria_id, preco, estoque, status FROM produtos WHERE nome LIKE ? AND status IN (0, 1)");
-                    $stmt->bind_param("s", $busca_like);
+                    $stmt = $conexao->prepare("SELECT id, nome, categoria_id, preco, estoque, status FROM produtos WHERE cliente_id = ? AND nome LIKE ? AND status IN (0, 1)");
+                    $stmt->bind_param("is", $_SESSION['cliente_id'], $busca_like);
                     $stmt->execute();
                     $resultado = $stmt->get_result();
                     $stmt->close();

@@ -21,7 +21,8 @@ include("../../includes/inicio.php");
             <div class="grid grid-cols-3 p-3 gap-3">
                 <?php
                 // puxando todas as categorias
-                $stmt = $conexao->prepare("SELECT id, nome FROM categorias WHERE status IN (0, 1) ORDER BY nome ASC");
+                $stmt = $conexao->prepare("SELECT id, nome FROM categorias WHERE cliente_id = ? AND status IN (0, 1) ORDER BY nome ASC");
+                $stmt->bind_param("i", $_SESSION['cliente_id']);
                 $stmt->execute();
                 $resultado = $stmt->get_result();
                 $stmt->close();

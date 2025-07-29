@@ -43,6 +43,9 @@ $valor_mensalidade = $resultado['valor'];
 $conexao->begin_transaction();
 
 try {
+    // atualiza a variavel do cliente para pago
+    $_SESSION['mensalidade'] = 0;
+
     // atualizar a fatura atual para "Pago" (status 0)
     $stmt_update = $conexao->prepare("UPDATE mensalidades SET status = 0, data_pagamento = CURRENT_TIMESTAMP() WHERE id = ?");
     $stmt_update->bind_param("i", $fatura_paga_id);

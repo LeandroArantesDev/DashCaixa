@@ -4,7 +4,8 @@ include(__DIR__ . '/../conexao.php');
 function buscar_vendas_diarias()
 {
     global $conexao;
-    $stmt = $conexao->prepare("SELECT COUNT(id) AS total FROM `vendas` WHERE DATE(data_venda) = CURRENT_DATE()");
+    $stmt = $conexao->prepare("SELECT COUNT(id) AS total FROM `vendas` WHERE DATE(data_venda) = CURRENT_DATE() AND cliente_id = ?");
+    $stmt->bind_param("i", $_SESSION['cliente_id']);
     $stmt->execute();
     $vendas = 0;
     $stmt->bind_result($vendas);
@@ -17,7 +18,8 @@ function buscar_vendas_diarias()
 function buscar_faturamento_diario()
 {
     global $conexao;
-    $stmt = $conexao->prepare("SELECT SUM(total) AS vendas FROM `vendas` WHERE DATE(data_venda) = CURRENT_DATE()");
+    $stmt = $conexao->prepare("SELECT SUM(total) AS vendas FROM `vendas` WHERE DATE(data_venda) = CURRENT_DATE() AND cliente_id = ?");
+    $stmt->bind_param("i", $_SESSION['cliente_id']);
     $stmt->execute();
     $vendas = 0;
     $stmt->bind_result($vendas);
@@ -34,9 +36,8 @@ function buscar_faturamento_diario()
 function buscar_faturamento_semanal()
 {
     global $conexao;
-
-    $sql = "SELECT DATE(data_venda) AS dia, SUM(total) AS faturamento FROM vendas WHERE data_venda >= CURDATE() - INTERVAL 6 DAY GROUP BY DATE(data_venda) ORDER BY dia DESC";
-    $stmt = $conexao->prepare($sql);
+    $stmt = $conexao->prepare("SELECT DATE(data_venda) AS dia, SUM(total) AS faturamento FROM vendas WHERE cliente_id = ? AND data_venda >= CURDATE() - INTERVAL 6 DAY GROUP BY DATE(data_venda) ORDER BY dia DESC");
+    $stmt->bind_param("i", $_SESSION['cliente_id']);
     $stmt->execute();
 
     $resultado = $stmt->get_result();
@@ -52,7 +53,8 @@ function buscar_faturamento_semanal()
 function buscar_produto_total()
 {
     global $conexao;
-    $stmt = $conexao->prepare("SELECT COUNT(id) AS total FROM `produtos`");
+    $stmt = $conexao->prepare("SELECT COUNT(id) AS total FROM `produtos` WHERE cliente_id = ? AND status IN (0,1)");
+    $stmt->bind_param("i", $_SESSION['cliente_id']);
     $stmt->execute();
     $produtos = 0;
     $stmt->bind_result($produtos);
@@ -65,7 +67,8 @@ function buscar_produto_total()
 function buscar_categoria_total()
 {
     global $conexao;
-    $stmt = $conexao->prepare("SELECT COUNT(id) AS total FROM `categorias`");
+    $stmt = $conexao->prepare("SELECT COUNT(id) AS total FROM `categorias` WHERE cliente_id = ? AND status IN (0,1)");
+    $stmt->bind_param("i", $_SESSION['cliente_id']);
     $stmt->execute();
     $categorias = 0;
     $stmt->bind_result($categorias);
@@ -78,8 +81,8 @@ function buscar_categoria_total()
 function buscar_alerta_estoque_baixo()
 {
     global $conexao;
-
-    $stmt = $conexao->prepare("SELECT nome, estoque FROM produtos WHERE estoque < 5");
+    $stmt = $conexao->prepare("SELECT nome, estoque FROM produtos WHERE estoque < 5 AND cliente_id = ? AND status IN (0,1)");
+    $stmt->bind_param("i", $_SESSION['cliente_id']);
     $stmt->execute();
 
     $resultado = $stmt->get_result();
@@ -95,8 +98,8 @@ function buscar_alerta_estoque_baixo()
 function media_preco_vendas()
 {
     global $conexao;
-
-    $stmt = $conexao->prepare("SELECT AVG(total) as media FROM vendas WHERE DATE(data_venda) = CURRENT_DATE()");
+    $stmt = $conexao->prepare("SELECT AVG(total) as media FROM vendas WHERE DATE(data_venda) = CURRENT_DATE() AND cliente_id = ?");
+    $stmt->bind_param("i", $_SESSION['cliente_id']);
     $stmt->execute();
 
     $resultado = $stmt->get_result();

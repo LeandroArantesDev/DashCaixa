@@ -7,6 +7,7 @@ date_default_timezone_set('America/Sao_Paulo');
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $usuario_id = strip_tags(trim($_POST["usuario_id"]));
     $itens = json_decode($_POST['itens'], true);
+    $cliente_id = strip_tags(trim($_SESSION["cliente_id"]));
 
     if (empty($itens)) {
         $_SESSION['resposta'] = "Token Inválido";
@@ -64,8 +65,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             // Se o estoque for suficiente ele faz os registros e retira o estoque de cada item
             if ($sucesso_estoque == true) {
                 // Inserir a venda
-                $stmt = $conexao->prepare("INSERT INTO vendas (usuario_id, total) VALUES (?,?)");
-                $stmt->bind_param("is", $usuario_id, $total);
+                $stmt = $conexao->prepare("INSERT INTO vendas (usuario_id, total, cliente_id) VALUES (?,?,?)");
+                $stmt->bind_param("isi", $usuario_id, $total, $cliente_id);
 
                 if ($stmt->execute()) {
                     // Pegando o ID da venda cadastrada

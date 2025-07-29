@@ -8,6 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $preco = strip_tags(trim($_POST["preco"]));
     $estoque = strip_tags(trim($_POST["estoque"]));
     $categoria_id = strip_tags(trim($_POST["categoria_id"]));
+    $cliente_id = strip_tags(trim($_SESSION["cliente_id"]));
 
     // Verificar token CSRF
     $csrf = trim(strip_tags($_POST["csrf"]));
@@ -17,8 +18,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
     try {
-        $stmt = $conexao->prepare("INSERT INTO produtos (nome, preco, estoque, categoria_id) VALUE (?,?,?,?)");
-        $stmt->bind_param("sssi", $nome, $preco, $estoque, $categoria_id);
+        $stmt = $conexao->prepare("INSERT INTO produtos (nome, preco, estoque, categoria_id, cliente_id) VALUE (?,?,?,?,?)");
+        $stmt->bind_param("sssii", $nome, $preco, $estoque, $categoria_id, $cliente_id);
 
         if ($stmt->execute()) {
             $_SESSION['resposta'] = "Produto cadastrado com sucesso!";

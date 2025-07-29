@@ -10,6 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $tipo = strip_tags(trim($_POST["tipo"]));
     $senha = strip_tags(trim($_POST["senha"]));
     $confirmarsenha = strip_tags(trim($_POST["confirmarsenha"]));
+    $cliente_id = strip_tags(trim($_SESSION["cliente_id"]));
 
     // Verificar token CSRF
     $csrf = trim(strip_tags($_POST["csrf"]));
@@ -46,8 +47,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
 
         try {
-            $stmt = $conexao->prepare("INSERT INTO usuarios (nome, email, tipo, senha) VALUE (?,?,?,?)");
-            $stmt->bind_param("ssis", $nome, $email, $tipo, $senha_hash);
+            $stmt = $conexao->prepare("INSERT INTO usuarios (nome, email, tipo, senha, cliente_id) VALUE (?,?,?,?,?)");
+            $stmt->bind_param("ssisi", $nome, $email, $tipo, $senha_hash, $cliente_id);
 
             if ($stmt->execute()) {
                 $_SESSION['resposta'] = "Usuario cadastrado com sucesso!";

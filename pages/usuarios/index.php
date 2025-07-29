@@ -35,8 +35,8 @@ include("../../includes/valida_adm.php");
                     $busca_like = "%" . $busca . "%";
 
                     // buscando todos usuarios
-                    $stmt = $conexao->prepare("SELECT id, nome, email, tipo, ultimo_acesso, status FROM usuarios WHERE (nome LIKE ? OR email LIKE ?) AND status IN (0, 1)");
-                    $stmt->bind_param("ss", $busca_like, $busca_like);
+                    $stmt = $conexao->prepare("SELECT id, nome, email, tipo, ultimo_acesso, status FROM usuarios WHERE cliente_id = ? AND (nome LIKE ? OR email LIKE ?) AND status IN (0, 1)");
+                    $stmt->bind_param("iss", $_SESSION['cliente_id'],$busca_like, $busca_like);
                     $stmt->execute();
                     $resultado = $stmt->get_result();
                     $stmt->close();

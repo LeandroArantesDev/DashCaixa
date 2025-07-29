@@ -15,7 +15,8 @@
                 <option value="0" disabled selected>Escolha uma categoria</option>
                 <?php
                 // Buscando todas as categorias
-                $stmt = $conexao->prepare("SELECT id, nome FROM categorias WHERE status IN (0, 1)");
+                $stmt = $conexao->prepare("SELECT id, nome FROM categorias WHERE cliente_id = ? AND status IN (0, 1)");
+                $stmt->bind_param("i", $_SESSION['cliente_id']);
                 $stmt->execute();
                 $resultado = $stmt->get_result();
                 $stmt->close();
