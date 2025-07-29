@@ -27,13 +27,53 @@ if (isset($_SESSION['id'])):
                        target="_self"><i class="bi bi-people"></i> Usuarios</a>
                     <a class="link-menu <?php echo link_ativo('historico'); ?>" href="<?= BASE_URL ?>pages/historico"
                        target="_self"><i class="bi bi-clock-history"></i> Histórico de Vendas</a>
-                    <a class="link-menu <?php echo link_ativo('mensalidade'); ?>"
-                       href="<?= BASE_URL ?>pages/mensalidade"
-                       target="_self"><i class="bi bi-wallet"></i> Mensalidade</a>
+                    <div class="relative inline-block">
+                        <!-- Botão principal que abre o submenu -->
+                        <button onclick="toggleSubmenu()"
+                                id="mensalidade-btn"
+                                class="link-menu <?php echo (link_ativo('mensalidade') || link_ativo('historico')) ? 'atual' : ''; ?>">
+                            <i class="bi bi-wallet"></i> Mensalidade
+                        </button>
+
+                        <!-- Submenu -->
+                        <div id="mensalidade-submenu"
+                             class="hidden absolute left-0 mt-1 w-52 bg-white shadow-md rounded-md z-50">
+                            <a class="link-menu <?php echo link_ativo('mensalidade'); ?>"
+                               href="<?= BASE_URL ?>pages/mensalidade"
+                               target="_self">
+                                <i class="bi bi-dot"></i> Mensalidade
+                            </a>
+                            <a class="link-menu <?php echo link_ativo('historico'); ?>"
+                               href="<?= BASE_URL ?>pages/mensalidade/historico"
+                               target="_self">
+                                <i class="bi bi-clock-history"></i> Histórico
+                            </a>
+                        </div>
+                    </div>
                 <?php else: ?>
-                    <a class="link-menu <?php echo link_ativo('mensalidade'); ?>"
-                       href="<?= BASE_URL ?>pages/mensalidade"
-                       target="_self"><i class="bi bi-wallet"></i> Mensalidade</a>
+                    <div class="relative inline-block">
+                        <!-- Botão principal que abre o submenu -->
+                        <button onclick="toggleSubmenu()"
+                                id="mensalidade-btn"
+                                class="link-menu <?php echo (link_ativo('mensalidade') || link_ativo('historico')) ? 'atual' : ''; ?>">
+                            <i class="bi bi-wallet"></i> Mensalidade
+                        </button>
+
+                        <!-- Submenu -->
+                        <div id="mensalidade-submenu"
+                             class="hidden absolute left-0 mt-1 w-52 bg-white shadow-md rounded-md z-50">
+                            <a class="link-menu <?php echo link_ativo('mensalidade'); ?>"
+                               href="<?= BASE_URL ?>pages/mensalidade"
+                               target="_self">
+                                <i class="bi bi-dot"></i> Mensalidade
+                            </a>
+                            <a class="link-menu <?php echo link_ativo('historico'); ?>"
+                               href="<?= BASE_URL ?>pages/mensalidade/historico"
+                               target="_self">
+                                <i class="bi bi-clock-history"></i> Histórico
+                            </a>
+                        </div>
+                    </div>
                 <?php endif ?>
             <?php else: ?>
                 <a class="link-menu <?php echo link_ativo('vendas'); ?>" href="<?= BASE_URL ?>pages/vendas"
