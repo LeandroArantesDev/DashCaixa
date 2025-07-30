@@ -24,6 +24,23 @@ include(__DIR__ . "/../backend/funcoes/geral.php");
     <link href="<?= BASE_URL ?>assets/css/output.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <title><?= htmlspecialchars($titulo ?? "DashCaixa") ?></title>
+        <script defer>
+            // script do submenu
+            function toggleSubmenu() {
+            const submenu = document.getElementById('mensalidade-submenu');
+            submenu.classList.toggle('hidden');
+        }
+
+            // Fecha o submenu ao clicar fora
+            document.addEventListener('click', function(event) {
+            const btn = document.getElementById('mensalidade-btn');
+            const submenu = document.getElementById('mensalidade-submenu');
+
+            if (!btn.contains(event.target) && !submenu.contains(event.target)) {
+            submenu.classList.add('hidden');
+        }
+        });
+    </script>
 </head>
 
 <body>
