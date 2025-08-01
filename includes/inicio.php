@@ -15,35 +15,44 @@ if (!isset($n_valida) || $n_valida == false) {
 include(__DIR__ . "/../backend/funcoes/geral.php");
 ?>
 
-<!DOCTYPE html>
-<html lang="pt-br">
+    <!DOCTYPE html>
+    <html lang="pt-br">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="<?= BASE_URL ?>assets/css/output.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <title><?= htmlspecialchars($titulo ?? "DashCaixa") ?></title>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="<?= BASE_URL ?>assets/css/output.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+        <title><?= htmlspecialchars($titulo ?? "DashCaixa") ?></title>
         <script defer>
-            // script do submenu
             function toggleSubmenu() {
-            const submenu = document.getElementById('mensalidade-submenu');
-            submenu.classList.toggle('hidden');
-        }
+                const submenu = document.getElementById('mensalidade-submenu');
+                const seta = document.getElementById('mensalidade-seta');
 
-            // Fecha o submenu ao clicar fora
-            document.addEventListener('click', function(event) {
-            const btn = document.getElementById('mensalidade-btn');
-            const submenu = document.getElementById('mensalidade-submenu');
+                // Alternar visibilidade com animação
+                submenu.classList.toggle('hidden');
+                submenu.classList.toggle('fade-slide');
 
-            if (!btn.contains(event.target) && !submenu.contains(event.target)) {
-            submenu.classList.add('hidden');
-        }
-        });
-    </script>
-</head>
+                // Alternar rotação da seta
+                seta.classList.toggle('rotate-180');
+            }
+
+            // Fecha submenu ao clicar fora
+            document.addEventListener('click', function (event) {
+                const btn = document.getElementById('mensalidade-btn');
+                const submenu = document.getElementById('mensalidade-submenu');
+                const seta = document.getElementById('mensalidade-seta');
+
+                if (!btn.contains(event.target) && !submenu.contains(event.target)) {
+                    submenu.classList.add('hidden');
+                    submenu.classList.remove('fade-slide');
+                    seta.classList.remove('rotate-180');
+                }
+            });
+        </script>
+    </head>
 
 <body>
-    <?php include("header.php") ?>
-    <main <?= ((isset($form_index) && $form_index == true) ? "class='main-full-height'" : '') ?>>
-        <?php include("menu.php") ?>
+<?php include("header.php") ?>
+<main <?= ((isset($form_index) && $form_index == true) ? "class='main-full-height'" : '') ?>>
+<?php include("menu.php") ?>
