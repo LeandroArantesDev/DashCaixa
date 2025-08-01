@@ -29,7 +29,7 @@ include("../../includes/inicio.php")
                         while ($row = $resultado->fetch_assoc()) :
                     ?>
                             <div
-                                class="produto-card flex items-center gap-4 p-4 border border-[var(--cinza-borda)] rounded-lg hover:shadow-md transition-shadow <?= ($row["estoque"] < 1) ? "filter grayscale" : "" ?>">
+                                class="produto-card flex items-center gap-4 p-4 border border-[var(--cinza-borda)] rounded-lg hover:shadow-md transition-all duration-200 hover:scale-102 <?= ($row["estoque"] < 1) ? "filter grayscale" : "" ?>">
                                 <div
                                     class="icone-container flex-shrink-0 h-12 w-12 flex items-center justify-center bg-sky-100 rounded-lg">
                                     <i class="bi bi-box-seam text-2xl text-sky-600"></i>
@@ -59,7 +59,7 @@ include("../../includes/inicio.php")
                                         <?= formatarPreco(htmlspecialchars($row['preco'])) ?></p>
                                 </div>
                                 <button id="btn-add-produto" type="button" <?= ($row["estoque"] < 1) ? "disabled" : "" ?>
-                                    class="add-button h-10 w-10 flex items-center justify-center bg-sky-500 text-white rounded-md hover:bg-sky-600 transition-colors cursor-pointer"
+                                    class="add-button h-10 w-10 flex items-center justify-center bg-sky-500 text-white rounded-md hover:bg-sky-600 transition-all duration-200 hover:scale-110 cursor-pointer"
                                     data-id="<?= htmlspecialchars($row["id"]) ?>"
                                     data-nome="<?= htmlspecialchars($row['nome']) ?>"
                                     data-preco="<?= htmlspecialchars($row['preco']) ?>"><i class="bi bi-plus-lg"></i></button>

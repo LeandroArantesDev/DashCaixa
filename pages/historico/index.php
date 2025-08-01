@@ -131,7 +131,10 @@ include("../../backend/funcoes/dashboard-historico.php");
                                         target="_self">
                                         <input type="hidden" name="csrf" value="<?= htmlspecialchars(gerarCSRF()) ?>">
                                         <input type="hidden" name="item_id" value="<?= htmlspecialchars($row['id']) ?>">
-                                        <button><i class="bi bi-trash3"></i></button>
+                                        <button class="botao-informativo">
+                                            <i class="bi bi-trash3"></i>
+                                            <span class="tooltip">Deletar</span>
+                                        </button>
                                     </form>
                                     <form id="btn-deleta" method="POST" action="#" target="_self">
                                         <button><i class="bi bi-printer text-sky-500"></i></button>

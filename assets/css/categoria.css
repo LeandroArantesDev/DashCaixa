@@ -1,32 +1,62 @@
 @layer components {
-    .card-categoria {
-        @apply flex flex-col gap-5 bg-zinc-200/70 shadow-md p-5 rounded-xl;
+  .card-categoria {
+    @apply flex flex-col gap-5 bg-zinc-200/70 p-5 rounded-xl hover:shadow-md transition-all duration-200 hover:scale-102;
 
-        & .topo {
-            @apply flex items-center justify-between w-full;
+    & .topo {
+      @apply flex items-center justify-between w-full;
 
-            & .txt-categoria {
-                @apply flex gap-2 items-center;
+      & .txt-categoria {
+        @apply flex gap-2 items-center;
 
-                & i {
-                    @apply flex items-center justify-center text-2xl w-5 h-5 p-5 rounded-lg bg-blue-200 text-blue-500;
-                }
-
-                & h2 {
-                    @apply text-lg;
-                }
-            }
-
-            & #btn-edita, #btn-deleta, #btn-deleta button {
-                @apply p-0 m-0 bg-transparent text-xl text-gray-500 cursor-pointer;
-            }
-
-            & #btn-edita:hover {
-                @apply text-blue-500;
-            }
-            & #btn-deleta button:hover {
-                @apply text-red-500;
-            }
+        & i {
+          @apply flex items-center justify-center text-2xl w-5 h-5 p-5 rounded-lg bg-blue-200 text-blue-500;
         }
+
+        & h2 {
+          @apply text-lg;
+        }
+      }
+
+      & #btn-edita,
+      #btn-deleta,
+      #btn-deleta button {
+        @apply p-0 m-0 bg-transparent text-xl text-gray-500 cursor-pointer;
+      }
+
+      & #btn-edita:hover {
+        @apply text-blue-500;
+      }
+      & #btn-deleta button:hover {
+        @apply text-red-500;
+      }
     }
+  }
+  /* Balão Informativo */
+  .botao-informativo {
+    @apply flex flex-col items-center justify-center bg-transparent border-none rounded-lg cursor-pointer transition-all duration-200 relative overflow-hidden;
+  }
+  .botao-informativo:hover {
+    @apply scale-110 overflow-visible;
+  }
+  .botao-informativo path {
+    @apply transition-all duration-200;
+  }
+  .botao-informativo:hover .botao-informativo path {
+    @apply fill-white;
+  }
+  .botao-informativo:active {
+    @apply scale-98;
+  }
+  .tooltip {
+    @apply absolute top-[-40px] bg-[rgb(41,41,41)] text-white rounded-[5px] text-[12px] px-3 py-2 font-semibold shadow-lg flex items-center justify-center opacity-0 transition-all duration-500;
+  }
+  .tooltip::before {
+    @apply absolute w-[10px] h-[10px] bg-[rgb(41,41,41)];
+    content: "";
+    transform: rotate(45deg);
+    bottom: -10%;
+  }
+  .botao-informativo:hover .tooltip {
+    @apply opacity-100;
+  }
 }
