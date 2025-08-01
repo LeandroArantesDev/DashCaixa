@@ -9,6 +9,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const inputBusca = document.getElementById("busca");
   const produtoCards = document.querySelectorAll(".produto-card");
   const btnLimparCarrinho = document.getElementById("limpar-carrinho");
+  const btnCalcularTroco = document.getElementById("btn-calcular-troco");
+  const inputValorRecebido = document.getElementById("input-valor-recebido");
+  const valorTrocoBox = document.getElementById("valor-troco");
+  const valorTrocoValor = document.getElementById("valor-troco-valor");
+  const btnChamarCalcularTroco = document.getElementById(
+    "btn-chamar-calcular-troco"
+  );
 
   // Funcionalidade de busca
   inputBusca.addEventListener("input", function () {
@@ -71,6 +78,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 500);
   });
 
+  // Botão para mostrar o campo de calcular troco
+  if (btnChamarCalcularTroco) {
+    btnChamarCalcularTroco.addEventListener("click", function (e) {
+      e.preventDefault();
+      btnChamarCalcularTroco.style.display = "none";
+      btnCalcularTroco.style.display = "flex";
+      if (inputValorRecebido) inputValorRecebido.focus();
+    });
+  }
+
   // Atualiza a lista e o total
   function atualizarCarrinho() {
     listaCarrinho.innerHTML = "";
@@ -86,13 +103,20 @@ document.addEventListener("DOMContentLoaded", () => {
       valorTotal.textContent = "R$ 0,00";
       btnFinalizar.disabled = true;
       inputItens.value = "";
+      // ESCONDE os botões de troco
+      if (btnChamarCalcularTroco) btnChamarCalcularTroco.style.display = "none";
+      if (btnCalcularTroco) btnCalcularTroco.style.display = "none";
+      if (inputValorRecebido) inputValorRecebido.value = ""; // Limpa o campo valor recebido
+      if (valorTrocoBox) valorTrocoBox.style.display = "none"; // Esconde o troco também
+      if (valorTrocoValor) valorTrocoValor.textContent = "R$ 0,00"; // Reseta o texto do troco
       return;
     }
 
-    // Verificar se tem itens no carrinho para mostrar o botão de esvaziar carrinho
     if (carrinho.length > 0) {
       btnLimparCarrinho.style.display = "block";
       btnFinalizar.disabled = false;
+      if (btnChamarCalcularTroco) btnChamarCalcularTroco.style.display = "flex";
+      if (btnCalcularTroco) btnCalcularTroco.style.display = "none";
     }
 
     carrinho.forEach((item, idx) => {
@@ -165,6 +189,24 @@ document.addEventListener("DOMContentLoaded", () => {
         carrinho.splice(idx, 1);
         atualizarCarrinho();
       });
+    });
+  }
+
+  if (inputValorRecebido) {
+    inputValorRecebido.addEventListener("input", function () {
+      const recebido = parseFloat(this.value.replace(",", "."));
+      const total = parseFloat(
+        valorTotal.textContent.replace("R$ ", "").replace(",", ".")
+      );
+      if (!isNaN(recebido) && recebido >= total && total > 0) {
+        const troco = recebido - total;
+        valorTrocoValor.textContent =
+          "R$ " + troco.toFixed(2).replace(".", ",");
+        valorTrocoBox.style.display = "flex";
+      } else {
+        valorTrocoValor.textContent = "R$ 0,00";
+        valorTrocoBox.style.display = "none";
+      }
     });
   }
 });
