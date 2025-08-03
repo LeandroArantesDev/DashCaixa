@@ -14,14 +14,13 @@ include("../../includes/inicio.php");
     </div>
     <div class="tabela-form">
         <form class="grid grid-cols-3 border-b border-[var(--cinza-borda)]">
-            <input class="input-filtro col-span-2" type="text" name="busca" id="busca"
-                placeholder="Buscar por nome...">
+            <input class="input-filtro col-span-2" type="text" name="busca" id="busca" placeholder="Buscar por nome...">
             <button type="submit"><i class="bi bi-search"></i> Buscar</button>
         </form>
         <div class="grid grid-cols-3 p-3 gap-3">
             <?php
             // puxando todas as categorias
-            $stmt = $conexao->prepare("SELECT id, nome FROM categorias WHERE cliente_id = ? AND status IN (0, 1) ORDER BY nome ASC");
+            $stmt = $conexao->prepare("SELECT id, nome, status FROM categorias WHERE cliente_id = ? AND status IN (0, 1) ORDER BY nome ASC");
             $stmt->bind_param("i", $_SESSION['cliente_id']);
             $stmt->execute();
             $resultado = $stmt->get_result();
@@ -29,14 +28,16 @@ include("../../includes/inicio.php");
             if ($resultado->num_rows > 0) :
                 while ($row = $resultado->fetch_assoc()) :
             ?>
-                    <div class="card-categoria"><!-- card das categorias -->
+                    <div class="card-categoria">
+                        <!-- card das categorias -->
                         <div class="topo">
                             <div class="txt-categoria">
                                 <i class="bi bi-tag"></i>
                                 <h2><?= htmlspecialchars($row['nome']) ?></h2>
                             </div>
                             <div class="flex gap-2">
-                                <button id="btn-edita" class="botao-informativo" onclick="modalEditar(<?= htmlspecialchars($row['id']) ?>)">
+                                <button id="btn-edita" class="botao-informativo"
+                                    onclick="modalEditar(<?= htmlspecialchars($row['id']) ?>)">
                                     <i class="bi bi-pencil-square"></i>
                                     <span class="tooltip">Editar</span>
                                 </button>
@@ -49,9 +50,24 @@ include("../../includes/inicio.php");
                                         <span class="tooltip">Deletar</span>
                                     </button>
                                 </form>
+                                <form id="btn-status" action="../../backend/categorias/status.php" method="POST">
+                                    <!-- inputs escondidos -->
+                                    <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                                    <input type="hidden" name="csrf" id="csrf" value="<?= gerarCSRF() ?>">
+                                    <input type="hidden" name="status" value="<?= $row['status'] ?>">
+                                    <button class="botao-informativo">
+                                        <?php if ($row['status'] == 1) : ?>
+                                            <i class="bi bi-eye-slash"></i>
+                                        <?php elseif ($row['status'] == 0) : ?>
+                                            <i class="bi bi-eye"></i>
+                                        <?php endif ?>
+                                        <span class="tooltip">Alterar visibilidade</span>
+                                    </button>
+                                </form>
                             </div>
                         </div>
-                        <p> <!-- quantidade de produtos cadastrados -->
+                        <p>
+                            <!-- quantidade de produtos cadastrados -->
                             <i class="bi bi-box-seam"></i>
                             <?php
                             // buscando quantos produtos a categoria possui

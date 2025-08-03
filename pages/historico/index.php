@@ -5,6 +5,8 @@ include("../../includes/inicio.php");
 include("../../backend/funcoes/dashboard-historico.php");
 ?>
 <div class="conteudo">
+    <!-- Iframe para imprimir a ficha -->
+    <iframe id="iframe-ficha" src="" class="hidden"></iframe>
     <div class="titulo">
         <div class="txt-titulo">
             <h1>Histórico de Vendas</h1>
@@ -49,10 +51,10 @@ include("../../backend/funcoes/dashboard-historico.php");
 
                 while ($row = $resultado->fetch_assoc()):
                 ?>
-                    <option value="<?= htmlspecialchars($row['id']) ?>"
-                        <?= ((isset($_GET['atendente']) && $_GET['atendente'] == $row['id']) ? 'selected' : '') ?>>
-                        <?= htmlspecialchars($row['nome']) ?>
-                    </option>
+                <option value="<?= htmlspecialchars($row['id']) ?>"
+                    <?= ((isset($_GET['atendente']) && $_GET['atendente'] == $row['id']) ? 'selected' : '') ?>>
+                    <?= htmlspecialchars($row['nome']) ?>
+                </option>
                 <?php endwhile ?>
             </select>
             <input class="input-filtro" type="date" name="data" id="data"
@@ -103,10 +105,10 @@ include("../../backend/funcoes/dashboard-historico.php");
 
                         while ($row = $resultado->fetch_assoc()):
                     ?>
-                            <tr>
-                                <td class="celula-tabela"><?= htmlspecialchars($row['id']) ?></td>
-                                <td class="celula-tabela">
-                                    <?php
+                    <tr>
+                        <td class="celula-tabela"><?= htmlspecialchars($row['id']) ?></td>
+                        <td class="celula-tabela">
+                            <?php
                                     $stmt = $conexao->prepare("SELECT nome FROM usuarios WHERE id = ?");
                                     $stmt->bind_param("s", $row['usuario_id']);
                                     $stmt->execute();
@@ -114,40 +116,74 @@ include("../../backend/funcoes/dashboard-historico.php");
                                     $stmt->fetch();
                                     $stmt->close();
                                     ?>
-                                    <?= htmlspecialchars($atendente) ?>
-                                </td>
-                                <td class="celula-tabela"><?= formatarPreco(htmlspecialchars($row['total'])) ?></td>
-                                <td class="celula-tabela">
-                                    <?php
+                            <?= htmlspecialchars($atendente) ?>
+                        </td>
+                        <td class="celula-tabela"><?= formatarPreco(htmlspecialchars($row['total'])) ?></td>
+                        <td class="celula-tabela">
+                            <?php
                                     $dataDoBanco = $row['data_venda'];
 
                                     $dataObj = new DateTime($dataDoBanco);
 
                                     echo htmlspecialchars($dataObj->format('d/m/Y H:i'));
                                     ?>
-                                </td>
-                                <td id="td-acoes" class="celula-tabela" colspan="2">
-                                    <form id="btn-deleta" method="POST" action="../../backend/historico/deletar.php"
-                                        target="_self">
-                                        <input type="hidden" name="csrf" value="<?= htmlspecialchars(gerarCSRF()) ?>">
-                                        <input type="hidden" name="item_id" value="<?= htmlspecialchars($row['id']) ?>">
-                                        <button class="botao-informativo">
-                                            <i class="bi bi-trash3"></i>
-                                            <span class="tooltip">Deletar</span>
-                                        </button>
-                                    </form>
-                                    <form id="btn-deleta" method="POST" action="#" target="_self">
-                                        <button><i class="bi bi-printer text-sky-500"></i></button>
-                                    </form>
-                                </td>
-                            </tr>
-                        <?php endwhile ?>
+                        </td>
+                        <td id="td-acoes" class="celula-tabela" colspan="2">
+                            <form id="btn-deleta" method="POST" action="../../backend/historico/deletar.php"
+                                target="_self">
+                                <input type="hidden" name="csrf" value="<?= htmlspecialchars(gerarCSRF()) ?>">
+                                <input type="hidden" name="item_id" value="<?= htmlspecialchars($row['id']) ?>">
+                                <button class="botao-informativo">
+                                    <i class="bi bi-trash3"></i>
+                                    <span class="tooltip">Deletar</span>
+                                </button>
+                            </form>
+                            <button id="btn-deleta" class="botao-informativo" onclick="abrirModal(<?= $row['id'] ?>)"><i
+                                    class="bi bi-printer text-sky-500"></i><span
+                                    class="tooltip">Imprimir</span></button>
+                        </td>
+                    </tr>
+                    <?php endwhile ?>
                     <?php else: ?>
-                        <?php $_SESSION['resposta'] = "Sem registros!" ?>
+                    <?php $_SESSION['resposta'] = "Sem registros!" ?>
                     <?php endif ?>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+<script>
+function abrirModal(id) {
+    const iframe = document.getElementById("iframe-ficha");
+
+    // Define o src do iframe com o ID da venda
+    iframe.src = `../../backend/ficha/ficha.php?id=${id}`;
+
+    // Remove listeners antigos
+    iframe.onload = null;
+    iframe.onerror = null;
+
+    // Adiciona listener para quando carregar
+    iframe.onload = function() {
+        console.log('Iframe carregado com sucesso');
+
+        try {
+            // Aguarda um pouco e então imprime
+            setTimeout(() => {
+                iframe.contentWindow.print();
+            }, 1000);
+        } catch (error) {
+            console.error('Erro ao imprimir do iframe:', error);
+            // Fallback: abre em nova janela
+            window.open(iframe.src, '_blank');
+        }
+    };
+
+    // Adiciona listener para erros
+    iframe.onerror = function() {
+        console.error('Erro ao carregar o iframe');
+        alert('Erro ao carregar a ficha. Tente novamente.');
+    };
+}
+</script>
 <?php include("../../includes/fim.php") ?>

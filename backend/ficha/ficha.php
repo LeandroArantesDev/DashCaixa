@@ -61,69 +61,69 @@ $data_venda = date('d/m/Y H:i:s', strtotime($venda['data_venda']));
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ficha de Venda</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            line-height: 1.6;
-        }
+    body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        line-height: 1.6;
+    }
 
-        .cabecalho {
-            text-align: center;
-            border-bottom: 2px solid #333;
-            padding-bottom: 20px;
-            margin-bottom: 30px;
-        }
+    .cabecalho {
+        text-align: center;
+        border-bottom: 2px solid #333;
+        padding-bottom: 20px;
+        margin-bottom: 30px;
+    }
 
-        .info-venda {
-            margin-bottom: 30px;
-        }
+    .info-venda {
+        margin-bottom: 30px;
+    }
 
-        .tabela-itens {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 30px;
-        }
+    .tabela-itens {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 30px;
+    }
 
-        .tabela-itens th,
-        .tabela-itens td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-        }
+    .tabela-itens th,
+    .tabela-itens td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+    }
 
-        .tabela-itens th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
+    .tabela-itens th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
 
-        .total {
-            text-align: right;
-            font-size: 18px;
-            font-weight: bold;
-            margin-top: 20px;
-        }
+    .total {
+        text-align: right;
+        font-size: 18px;
+        font-weight: bold;
+        margin-top: 20px;
+    }
 
-        .botoes {
-            text-align: center;
-            margin-top: 30px;
-        }
+    .botoes {
+        text-align: center;
+        margin-top: 30px;
+    }
 
-        .botoes button {
-            background-color: #007cba;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            margin: 0 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
+    .botoes button {
+        background-color: #007cba;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        margin: 0 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
 
-        .botoes button:hover {
-            background-color: #005a8b;
-        }
+    .botoes button:hover {
+        background-color: #005a8b;
+    }
     </style>
 </head>
 
@@ -151,12 +151,12 @@ $data_venda = date('d/m/Y H:i:s', strtotime($venda['data_venda']));
         </thead>
         <tbody>
             <?php foreach ($itens as $item): ?>
-                <tr>
-                    <td><?= htmlspecialchars($item['nome']) ?></td>
-                    <td><?= htmlspecialchars($item['quantidade']) ?></td>
-                    <td><?= formatarPreco($item['preco']) ?></td>
-                    <td><?= formatarPreco($item['preco'] * $item['quantidade']) ?></td>
-                </tr>
+            <tr>
+                <td><?= htmlspecialchars($item['nome']) ?></td>
+                <td><?= htmlspecialchars($item['quantidade']) ?></td>
+                <td><?= formatarPreco($item['preco']) ?></td>
+                <td><?= formatarPreco($item['preco'] * $item['quantidade']) ?></td>
+            </tr>
             <?php endforeach; ?>
         </tbody>
     </table>

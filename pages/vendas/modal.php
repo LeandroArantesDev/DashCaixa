@@ -1,16 +1,21 @@
 <div id="modal-vendas" class="fixed invisible top-0 left-0 w-full h-full z-1000">
-    <div class="flex absolute flex-col p-5 items-center left-1/2 top-1/2 -translate-1/2 shadow-2xl bg-white rounded-2xl gap-3 z-950">
+    <div
+        class="flex absolute flex-col p-5 items-center left-1/2 top-1/2 -translate-1/2 shadow-2xl bg-white rounded-2xl gap-3 z-950">
         <h2 class="text-xl font-semibold">Venda finalizada com sucesso!</h2>
         <p>Você deseja imprimir uma ficha?</p>
         <div class="flex gap-2 w-full">
-            <button class="border border-[var(--cinza-borda)] hover:bg-gray-200 p-2 rounded-lg w-1/2 cursor-pointer" type="button" onclick="esconderModal()">Sair</button>
-            <button class="border border-[var(--cinza-borda)] hover:bg-sky-700 p-2 rounded-lg w-1/2 cursor-pointer bg-sky-600 text-white" type="button" onclick="imprimirFicha()">
+            <button class="border border-[var(--cinza-borda)] hover:bg-gray-200 p-2 rounded-lg w-1/2 cursor-pointer"
+                type="button" onclick="esconderModal()">Sair</button>
+            <button
+                class="border border-[var(--cinza-borda)] hover:bg-sky-700 p-2 rounded-lg w-1/2 cursor-pointer bg-sky-600 text-white"
+                type="button" onclick="imprimirFicha()">
                 <i class="bi bi-printer"></i>
                 <span>Imprimir</span>
             </button>
         </div>
     </div>
-    <div id="overlay-modal-vendas" class="absolute top-0 left-0 w-full h-full bg-black/50 z-900" onclick="esconderModal()"></div>
+    <div id="overlay-modal-vendas" class="absolute top-0 left-0 w-full h-full bg-black/50 z-900"
+        onclick="esconderModal()"></div>
     <iframe id="iframe-ficha" src="#" class="hidden"></iframe>
 </div>
 <script>
@@ -21,7 +26,7 @@
     function abrirModal(id) {
         vendaId = id;
         // Define o src do iframe com o ID da venda
-        iframeFicha.src = `../../backend/vendas/ficha.php?id=${id}`;
+        iframeFicha.src = `../../backend/ficha/ficha.php?id=${id}`;
         // troca o estado do modal
         modal.style.visibility = "visible";
 

@@ -19,7 +19,17 @@ include("../../includes/inicio.php")
                 <div class="h-max flex flex-col gap-3 p-3 pb-20">
                     <?php
                     // buscando todos os produtos disponiveis
-                    $stmt = $conexao->prepare("SELECT id, nome, categoria_id, preco, estoque FROM produtos WHERE cliente_id = ? AND status IN (0, 1)");
+                    $stmt = $conexao->prepare("SELECT id, nome, categoria_id, preco, estoque
+FROM produtos
+WHERE cliente_id = ?
+  AND status = 0
+  AND categoria_id IN (
+      SELECT id
+      FROM categorias
+      WHERE status = 0
+  )
+ORDER BY nome ASC
+");
                     $stmt->bind_param("i", $_SESSION['cliente_id']);
                     $stmt->execute();
                     $resultado = $stmt->get_result();
@@ -66,7 +76,9 @@ include("../../includes/inicio.php")
                             </div>
                         <?php endwhile ?>
                     <?php else: ?>
-                        <a class="flex items-center justify-center gap-2 w-full border border-[var(--cinza-borda)] p-2 rounded-lg" href="../produtos">Cadastrar produtos <i class="bi bi-plus-lg bg-blue-200 rounded-lg text-sky-600 text-lg flex justify-center items-center w-8 h-8"></i></a>
+                        <a class="flex items-center justify-center gap-2 w-full border border-[var(--cinza-borda)] p-2 rounded-lg"
+                            href="../produtos">Cadastrar produtos <i
+                                class="bi bi-plus-lg bg-blue-200 rounded-lg text-sky-600 text-lg flex justify-center items-center w-8 h-8"></i></a>
                     <?php endif ?>
                 </div>
             </div>
@@ -79,7 +91,8 @@ include("../../includes/inicio.php")
                     <h2 class="text-xl font-semibold text-gray-900">Carrinho</h2>
                 </div>
                 <div>
-                    <button type="button" id="limpar-carrinho" title="Limpar carrinho" class="hidden cursor-pointer text-red-700 hover:text-red-800 transition-colors">
+                    <button type="button" id="limpar-carrinho" title="Limpar carrinho"
+                        class="hidden cursor-pointer text-red-700 hover:text-red-800 transition-colors">
                         <i class="bi bi-trash3 text-xl"></i>
                     </button>
                 </div>
@@ -116,12 +129,14 @@ include("../../includes/inicio.php")
                     </div>
 
                     <!-- chamar calcular troco -->
-                    <button id="btn-chamar-calcular-troco" style="display:none" class="cursor-pointer w-full flex items-center justify-center space-x-2 py-2 rounded-lg font-medium transition-colors bg-gray-100 text-gray-700 hover:bg-gray-200 mb-2">
+                    <button id="btn-chamar-calcular-troco" style="display:none"
+                        class="cursor-pointer w-full flex items-center justify-center space-x-2 py-2 rounded-lg font-medium transition-colors bg-gray-100 text-gray-700 hover:bg-gray-200 mb-2">
                         <i class="bi bi-calculator"></i>
                         <span>Calcular Troco</span>
                     </button>
                     <!-- Calcular o troco -->
-                    <div id="btn-calcular-troco" style="display:none" class="w-full flex items-center justify-center space-x-1 py-2 rounded-lg font-medium transition-colors bg-gray-100 text-gray-700 mb-2">
+                    <div id="btn-calcular-troco" style="display:none"
+                        class="w-full flex items-center justify-center space-x-1 py-2 rounded-lg font-medium transition-colors bg-gray-100 text-gray-700 mb-2">
                         <i class="bi bi-currency-dollar text-lg text-green-600"></i>
                         <span>
                             Valor Recebido:
@@ -130,7 +145,8 @@ include("../../includes/inicio.php")
                             <span class="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500 font-medium">
                                 R$
                             </span>
-                            <input type="number" step="0.01" min="0" id="input-valor-recebido" placeholder="0,00" class="w-30 pl-8 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent text-lg font-medium">
+                            <input type="number" step="0.01" min="0" id="input-valor-recebido" placeholder="0,00"
+                                class="w-30 pl-8 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent text-lg font-medium">
                         </div>
                     </div>
                     <!-- finalizar a venda -->
