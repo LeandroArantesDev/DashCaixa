@@ -13,7 +13,13 @@ if (isset($_SESSION['id'])):
     <aside class="min-w-70 border-r border-gray-300/80 p-4 bg-white">
         <nav class="flex flex-col gap-4">
             <?php if ($_SESSION['tipo'] == 1): ?>
+
+                <!-- caso o usuario for adm -->
+
                 <?php if ($_SESSION['mensalidade'] == 0 || $_SESSION['mensalidade'] == 1): ?>
+
+                    <!-- caso ele esteja com a mensalidade paga ou pendente -->
+
                     <a class="link-menu <?php echo link_ativo('dashboard'); ?>" href="<?= BASE_URL ?>pages/dashboard"
                        target="_self"><i class="bi bi-columns-gap"></i> Dashboard</a>
                     <a class="link-menu <?php echo link_ativo('vendas'); ?>" href="<?= BASE_URL ?>pages/vendas"
@@ -56,13 +62,19 @@ if (isset($_SESSION['id'])):
 
                     </div>
                 <?php else: ?>
+
+                    <!-- caso ele esteja com a mensalidade vencida -->
+
                     <a class="link-menu <?php echo link_ativo('mensalidade'); ?>"
                        href="<?= BASE_URL ?>pages/mensalidade"
                        target="_self">
                         <i class="bi bi-wallet"></i> Mensalidade
                     </a>
                 <?php endif ?>
-            <?php else: ?>
+            <?php elseif ($_SESSION['tipo'] == 0): ?>
+
+                <!-- caso o usuario seja caixa -->
+
                 <a class="link-menu <?php echo link_ativo('vendas'); ?>" href="<?= BASE_URL ?>pages/vendas"
                    target="_self"><i
                             class="bi bi-cart"></i> Vendas</a>
@@ -72,6 +84,14 @@ if (isset($_SESSION['id'])):
                    target="_self"><i class="bi bi-tags"></i> Categorias</a>
                 <a class="link-menu <?php echo link_ativo('historico'); ?>" href="<?= BASE_URL ?>pages/historico"
                    target="_self"><i class="bi bi-clock-history"></i> Histórico de Vendas</a>
+            <?php elseif ($_SESSION['tipo'] == 2): ?>
+
+                <!-- caso o usuario seja fundador -->
+
+                <a class="link-menu <?php echo link_ativo('dashboard'); ?>" href="<?= BASE_URL ?>adm/dashboard"
+                   target="_self"><i class="bi bi-columns-gap"></i> Dashboard</a>
+                <a class="link-menu <?php echo link_ativo('usuarios'); ?>" href="<?= BASE_URL ?>adm/clientes"
+                   target="_self"><i class="bi bi-people"></i> Clientes</a>
             <?php endif ?>
         </nav>
     </aside>
