@@ -5,13 +5,12 @@ include("../../includes/valida_fundador.php");
 $titulo = "Dashboard";
 include("../../backend/funcoes/dashboard-fundadores.php");
 include("../../includes/inicio.php");
-
 ?>
     <div class="conteudo">
         <div class="titulo">
             <div class="txt-titulo">
-                <h1>Dashboard</h1>
-                <p>Visão geral do sistema e nossos clientes</p>
+                <h1>Roadmap</h1>
+                <p>Editar e atualizar o roadmap</p>
             </div>
         </div>
     </div>

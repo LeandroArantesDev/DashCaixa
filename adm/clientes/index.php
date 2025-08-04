@@ -1,4 +1,7 @@
 <?php
+// impedindo usuarios não fundadores de acessar nossas paginas
+include("../../includes/valida_fundador.php");
+
 $titulo = "Clientes";
 include("../../includes/inicio.php");
 ?>

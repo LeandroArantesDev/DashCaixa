@@ -92,6 +92,10 @@ if (isset($_SESSION['id'])):
                    target="_self"><i class="bi bi-columns-gap"></i> Dashboard</a>
                 <a class="link-menu <?php echo link_ativo('usuarios'); ?>" href="<?= BASE_URL ?>adm/clientes"
                    target="_self"><i class="bi bi-people"></i> Clientes</a>
+                <a class="link-menu <?php echo link_ativo('erros'); ?>" href="<?= BASE_URL ?>adm/erros"
+                   target="_self"><i class="bi bi-exclamation-diamond"></i> Erros</a>
+                <a class="link-menu <?php echo link_ativo('roadmap'); ?>" href="<?= BASE_URL ?>adm/roadmap"
+                   target="_self"><i class="bi bi-signpost"></i> Roadmap</a>
             <?php endif ?>
         </nav>
     </aside>

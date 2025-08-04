@@ -101,10 +101,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $_SESSION['resposta'] = "Bem Vindo! " . $_SESSION['nome'];
 
                     if ($tipo == 1) {
+                        // caso o usuario for administrador
                         header("Location: " . BASE_URL . "pages/dashboard");
                         exit;
-                    } else {
+                    } elseif ($tipo = 0) {
+                        // caso o usuario for caixa
                         header("Location: " . BASE_URL . "pages/vendas");
+                        exit;
+                    } elseif ($tipo = 2){
+                        // caso o usuario for fundador
+                        header("Location: " . BASE_URL . "adm/dashboard");
                         exit;
                     }
                 } else {
