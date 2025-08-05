@@ -1,8 +1,10 @@
 <?php
+// validando se o usuario é adm ou fundador para acessar
+include("../../includes/valida_adm.php");
+
 $titulo = "Dashboard";
 include("../../backend/funcoes/dashboard-historico.php");
 include("../../includes/inicio.php");
-include("../../includes/valida_adm.php");
 ?>
 <div class="conteudo">
     <div class="titulo">

@@ -2,7 +2,7 @@
 // função do menu
 function link_ativo(string $pagina): string
 {
-    if (strpos($_SERVER['REQUEST_URI'], 'pages/' . $pagina) !== false) {
+    if (strpos($_SERVER['REQUEST_URI'], 'pages/' . $pagina) !== false || strpos($_SERVER['REQUEST_URI'], 'adm/' . $pagina) !== false) {
         return 'atual';
     }
     return '';
@@ -33,6 +33,8 @@ if (isset($_SESSION['id'])):
                        target="_self"><i class="bi bi-people"></i> Usuarios</a>
                     <a class="link-menu <?php echo link_ativo('historico'); ?>" href="<?= BASE_URL ?>pages/historico"
                        target="_self"><i class="bi bi-clock-history"></i> Histórico de Vendas</a>
+                    <a class="link-menu <?php echo link_ativo('roadmap'); ?>" href="<?= BASE_URL ?>pages/roadmap"
+                       target="_self"><i class="bi bi-signpost"></i> Roadmap</a>
                     <div class="relative inline-block">
                         <!-- Botão principal que abre o submenu -->
                         <button onclick="toggleSubmenu()"
@@ -90,7 +92,7 @@ if (isset($_SESSION['id'])):
 
                 <a class="link-menu <?php echo link_ativo('dashboard'); ?>" href="<?= BASE_URL ?>adm/dashboard"
                    target="_self"><i class="bi bi-columns-gap"></i> Dashboard</a>
-                <a class="link-menu <?php echo link_ativo('usuarios'); ?>" href="<?= BASE_URL ?>adm/clientes"
+                <a class="link-menu <?php echo link_ativo('clientes'); ?>" href="<?= BASE_URL ?>adm/clientes"
                    target="_self"><i class="bi bi-people"></i> Clientes</a>
                 <a class="link-menu <?php echo link_ativo('erros'); ?>" href="<?= BASE_URL ?>adm/erros"
                    target="_self"><i class="bi bi-exclamation-diamond"></i> Erros</a>

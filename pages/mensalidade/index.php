@@ -1,4 +1,7 @@
 <?php
+// validando se o usuario é adm ou fundador para acessar
+include("../../includes/valida_adm.php");
+
 $titulo = "Mensalidade";
 include("../../includes/inicio.php");
 ?>

@@ -5,7 +5,7 @@ include("../funcoes/geral.php");
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = trim(strip_tags($_POST['email']));
-    $senha = trim(strip_tags($_POST["senha"]));
+    $senha = trim($_POST["senha"]);
 
     // Verificar o email
     if (validarEmail($email) == false) {
@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     //Validadar senha
     if (validarSenha($senha) == false) {
-        $_SESSION['resposta'] = "Senha incorreta!";
+        $_SESSION['resposta'] = "Senha inválida!";
         header("Location: " . BASE_URL);
         exit;
     }
@@ -36,13 +36,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $stmt->bind_param("s", $email);
             $stmt->execute();
             $stmt->bind_result($id, $cliente_id, $nome, $email, $senha_db, $tipo, $status);
-            $stmt->fetch();
+
+            $usuarioEncontrado = $stmt->fetch();
             $stmt->close();
+
+            if (!$usuarioEncontrado) {
+                $_SESSION['resposta'] = "E-mail ou senha incorretos!";
+                header("Location: " . BASE_URL);
+                exit;
+            }
 
             // Verifica se usuário está ativo no sistema
             if ($status == 0) {
-                // verifica que o email e senha existe e batem no banco de dados ele loga o usuário;
-                if (!empty($nome) && !empty($senha) && password_verify($senha, $senha_db)) {
+                // verifica se a senha esta correta
+                if (password_verify($senha, $senha_db)) {
+
                     // adicionar o ultimo acesso do usuario
                     $stmt = $conexao->prepare("UPDATE usuarios SET ultimo_acesso = NOW() WHERE id = ?");
                     $stmt->bind_param("i", $id);
@@ -50,39 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $stmt->close();
 
                     // Verifica e atualiza mensalidade vencida
-                    $stmt = $conexao->prepare("SELECT id, data_vencimento FROM mensalidades WHERE cliente_id = ? AND status = 1 ORDER BY data_vencimento ASC LIMIT 1");
-                    $stmt->bind_param("i", $cliente_id);
-                    $stmt->execute();
-                    $stmt->bind_result($id_mensalidade, $data_vencimento);
-                    if ($stmt->fetch()) {
-                        if ($data_vencimento < date("Y-m-d")) {
-                            $stmt->close();
-                            $stmt = $conexao->prepare("UPDATE mensalidades SET status = 2 WHERE id = ?");
-                            $stmt->bind_param("i", $id_mensalidade);
-                            $stmt->execute();
-                        }
-                    }
-                    $stmt->close();
-
-                    // Verifica o status atual da mensalidade do cliente
-                    $stmt = $conexao->prepare("SELECT status FROM mensalidades WHERE cliente_id = ? AND status IN (1,2) ORDER BY data_vencimento ASC LIMIT 1");
-                    $stmt->bind_param("i", $cliente_id);
-                    $stmt->execute();
-                    $resultado = $stmt->get_result();
-                    $status_mensalidade = 0;
-
-                    if ($linha = $resultado->fetch_assoc()) {
-                        $status_mensalidade = $linha['status'];
-                    }
-
-                    $stmt->close();
-
-                    // Atualiza o status do cliente
-                    $stmt = $conexao->prepare("UPDATE clientes SET status_mensalidade = ? WHERE id = ?");
-                    $stmt->bind_param("ii", $status_mensalidade, $cliente_id);
-                    $stmt->execute();
-                    $stmt->close();
-
+                    $status_mensalidade = verificarEMarcarMensalidadeVencida($cliente_id);
                     $_SESSION['mensalidade'] = $status_mensalidade;
 
                     // atualiza as variaveis sessions
@@ -104,11 +80,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         // caso o usuario for administrador
                         header("Location: " . BASE_URL . "pages/dashboard");
                         exit;
-                    } elseif ($tipo = 0) {
+                    } elseif ($tipo == 0) {
                         // caso o usuario for caixa
                         header("Location: " . BASE_URL . "pages/vendas");
                         exit;
-                    } elseif ($tipo = 2){
+                    } elseif ($tipo == 2) {
                         // caso o usuario for fundador
                         header("Location: " . BASE_URL . "adm/dashboard");
                         exit;
@@ -133,7 +109,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     header("Location: " . BASE_URL);
                     exit;
                 default:
-                    $_SESSION['resposta'] = "error" . $erro->getCode();
+                    $_SESSION['resposta'] = "Erro inesperado. Tente novamente.";
                     header("Location: " . BASE_URL);
                     exit;
             }
