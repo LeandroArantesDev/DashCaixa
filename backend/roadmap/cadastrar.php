@@ -4,9 +4,8 @@ include("../conexao.php");
 include("../funcoes/geral.php");
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $titulo = strip_tags(trim($_POST["nome"]));
-    $descricao = strip_tags(trim($_POST["preco"]));
-    $status = strip_tags(trim($_POST["status"]));
+    $titulo = strip_tags(trim($_POST["titulo"]));
+    $descricao = strip_tags(trim($_POST["descricao"]));
 
     // Verificar token CSRF
     $csrf = trim(strip_tags($_POST["csrf"]));
@@ -17,8 +16,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     try {
-        $stmt = $conexao->prepare("INSERT INTO roadmap (titulo, descricao, status) VALUE (?,?,?)");
-        $stmt->bind_param("ssi", $titulo, $descricao, $status);
+        $stmt = $conexao->prepare("INSERT INTO roadmap (titulo, descricao, status) VALUE (?,?,0)");
+        $stmt->bind_param("ss", $titulo, $descricao);
 
         if ($stmt->execute()) {
             $_SESSION['resposta'] = "Item cadastrado com sucesso!";

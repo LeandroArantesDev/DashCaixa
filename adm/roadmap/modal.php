@@ -4,117 +4,105 @@
         <input type="hidden" value="0" name="id">
         <!-- CSRF -->
         <input type="hidden" name="csrf" id="csrf" value="<?= gerarCSRF() ?>">
-        <h2>Adicionar Novo item</h2>
+        <h2>Nova funcionalidade</h2>
         <div class="input-group-modal">
-            <label for="nome">Nome do Produto</label>
-            <input type="text" value="" name="nome" id="nome" placeholder="Digite o nome do Produto">
+            <label for="titulo">Titulo</label>
+            <input type="text" value="" name="titulo" id="titulo" placeholder="Nome da funcionalidade">
         </div>
         <div class="input-group-modal">
-            <label for="categoria">Categoria</label>
-            <select name="categoria_id" id="categoria_id">
-                <option value="0" disabled selected>Escolha uma categoria</option>
-                <?php
-                // Buscando todas as categorias
-                $stmt = $conexao->prepare("SELECT id, nome FROM categorias WHERE cliente_id = ? AND status IN (0, 1)");
-                $stmt->bind_param("i", $_SESSION['cliente_id']);
-                $stmt->execute();
-                $resultado = $stmt->get_result();
-                $stmt->close();
-
-                if ($resultado->num_rows > 0):
-                    while ($row = $resultado->fetch_assoc()):
-                ?>
-                <option value="<?= htmlspecialchars($row['id']) ?>"><?= htmlspecialchars($row['nome']) ?></option>
-                <?php endwhile ?>
-                <?php else: ?>
-                <option value="0" disabled>Nenhuma categoria cadastrada!</option>
-                <?php endif ?>
+            <label for="descricao">Descrição</label>
+            <textarea name="descricao" id="descricao" placeholder="Descreva a funcionalidade"></textarea>
+        </div>
+        <div class="input-group-modal editar">
+            <label for="status">Status</label>
+            <select name="status" id="status">
+                <option value="0">A fazer</option>
+                <option value="1">Em andamento</option>
+                <option value="1">Concluído</option>
             </select>
         </div>
-        <div class="input-group-modal">
-            <label for="preco">Preço de Venda</label>
-            <input type="number" name="preco" id="preco" placeholder="0,00">
+        <div class="input-group-modal editar">
+            <label for="criado_em">Data de Início</label>
+            <input type="date" name="criado_em" id="criado_em">
         </div>
-        <div class="input-group-modal">
-            <label for="estoque">Estoque</label>
-            <input type="number" name="estoque" id="estoque" placeholder="0">
+        <div class="input-group-modal editar">
+            <label for="concluido_em">Data de Conclusão</label>
+            <input type="date" name="concluido_em" id="concluido_em">
         </div>
         <div class="div-btn">
             <button type="button" onclick="esconderModal()">Cancelar</button>
-            <button type="submit">Enviar</button>
+            <button type="submit">Adicionar</button>
         </div>
     </form>
     <div id="overlay-modal" onclick="esconderModal()"></div>
 </div>
 <script>
-const modal = document.getElementById("modal");
-const form = document.querySelector("#modal form");
+    const modal = document.getElementById("modal");
+    const form = document.querySelector("#modal form");
 
-function modalCadastrar() {
-    // action do formulario
-    form.action = "<?= BASE_URL . 'backend/produtos/cadastrar.php' ?>";
+    function modalCadastrar() {
+        // action do formulario
+        form.action = "<?= BASE_URL . 'backend/roadmap/cadastrar.php' ?>";
+        modal.style.visibility = "visible";
 
-    // titulo do modal
-    const titulo = modal.querySelector("h2");
-    titulo.textContent = "Adicionar Novo Produto";
+        const editar = document.querySelectorAll(".editar");
+        editar.forEach(e => e.style.display = "none");
+    }
 
-    modal.style.visibility = "visible";
-}
+    async function modalEditar(id) {
+        // ação do formulário
+        form.action = "<?= BASE_URL . 'backend/produtos/editar.php' ?>";
 
-async function modalEditar(id) {
-    // ação do formulário
-    form.action = "<?= BASE_URL . 'backend/produtos/editar.php' ?>";
+        // mensagem de "Carregando..." enquanto busca os dados
+        const titulo = modal.querySelector("h2");
+        titulo.textContent = "Carregando dados do produto...";
+        modal.style.visibility = "visible";
 
-    // mensagem de "Carregando..." enquanto busca os dados
-    const titulo = modal.querySelector("h2");
-    titulo.textContent = "Carregando dados do produto...";
-    modal.style.visibility = "visible";
+        try {
+            const response = await fetch(`<?= BASE_URL . 'backend/produtos/buscar_produto.php?id=' ?>${id}`);
 
-    try {
-        const response = await fetch(`<?= BASE_URL . 'backend/produtos/buscar_produto.php?id=' ?>${id}`);
+            const data = await response.json();
 
-        const data = await response.json();
+            if (data.erro) {
+                titulo.textContent = data.erro;
+                return;
+            }
 
-        if (data.erro) {
-            titulo.textContent = data.erro;
-            return;
+            const idInput = form.querySelector("input[name='id']");
+            const nomeInput = document.getElementById("nome");
+            const categoriaInput = document.getElementById("categoria_id");
+            const precoInput = document.getElementById("preco");
+            const estoqueInput = document.getElementById("estoque");
+
+            // preenche os valores
+            idInput.value = id;
+            nomeInput.value = data.nome;
+            categoriaInput.value = data.categoria_id;
+            precoInput.value = data.preco;
+            estoqueInput.value = data.estoque;
+
+            // título do modal
+            titulo.textContent = `Editar Produto: ${data.nome}`;
+
+        } catch (error) {
+            titulo.textContent = "Erro ao buscar os dados.";
+            console.error("Erro no Fetch:", error);
         }
+    }
 
+    function esconderModal() {
+        modal.style.visibility = "hidden";
+
+        // esvazia os valores
         const idInput = form.querySelector("input[name='id']");
         const nomeInput = document.getElementById("nome");
         const categoriaInput = document.getElementById("categoria_id");
         const precoInput = document.getElementById("preco");
         const estoqueInput = document.getElementById("estoque");
-
-        // preenche os valores
-        idInput.value = id;
-        nomeInput.value = data.nome;
-        categoriaInput.value = data.categoria_id;
-        precoInput.value = data.preco;
-        estoqueInput.value = data.estoque;
-
-        // título do modal
-        titulo.textContent = `Editar Produto: ${data.nome}`;
-
-    } catch (error) {
-        titulo.textContent = "Erro ao buscar os dados.";
-        console.error("Erro no Fetch:", error);
+        idInput.value = '';
+        nomeInput.value = '';
+        categoriaInput.value = 0;
+        precoInput.value = '';
+        estoqueInput.value = '';
     }
-}
-
-function esconderModal() {
-    modal.style.visibility = "hidden";
-
-    // esvazia os valores
-    const idInput = form.querySelector("input[name='id']");
-    const nomeInput = document.getElementById("nome");
-    const categoriaInput = document.getElementById("categoria_id");
-    const precoInput = document.getElementById("preco");
-    const estoqueInput = document.getElementById("estoque");
-    idInput.value = '';
-    nomeInput.value = '';
-    categoriaInput.value = 0;
-    precoInput.value = '';
-    estoqueInput.value = '';
-}
 </script>

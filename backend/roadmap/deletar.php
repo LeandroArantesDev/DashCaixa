@@ -19,13 +19,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt->bind_param("i", $id);
 
         if ($stmt->execute()) {
-            $_SESSION['resposta'] = "Item deletado com sucesso!";
+            $_SESSION['resposta'] = "Funcionalidade deletada com sucesso!";
         } else {
-            $_SESSION['resposta'] = "Ocorreu um erro ao editar item!";
+            $_SESSION['resposta'] = "Ocorreu um erro ao deletar Funcionalidade!";
         }
         $stmt->close();
     } catch (Exception $erro) {
-        registrarErro($_SESSION["id"], pegarRotaUsuario(), "Ocorreu um erro ao editar item!", $erro->getCode(), pegarIpUsuario(), pegarNavegadorUsuario());
+        registrarErro($_SESSION["id"], pegarRotaUsuario(), "Ocorreu um erro ao deletar Funcionalidade!", $erro->getCode(), pegarIpUsuario(), pegarNavegadorUsuario());
         $_SESSION['resposta'] = "error" . $erro->getCode();
     }
 

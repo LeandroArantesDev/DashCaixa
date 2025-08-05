@@ -15,23 +15,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 
-    $status = $status + 1;
-    if ($status > 2) {;
-        $status = 0;
-    }
+    $dataAtual = date('Y-m-d'); // Formato DATE (ex: 2025-08-05)
 
     try {
-        $stmt = $conexao->prepare("UPDATE roadmap SET status = ? WHERE id = ?");
-        $stmt->bind_param("ii", $status, $id);
+        if ($status == 0) {
+            $status = $status + 1;
+            $stmt = $conexao->prepare("UPDATE roadmap SET status = ?, criado_em = ? WHERE id = ?");
+            $stmt->bind_param("isi", $status, $dataAtual, $id);
+        } else {
+            $status = $status + 1;
+            $stmt = $conexao->prepare("UPDATE roadmap SET status = ?, concluido_em = ? WHERE id = ?");
+            $stmt->bind_param("isi", $status, $dataAtual, $id);
+        }
 
         if ($stmt->execute()) {
-            $_SESSION['resposta'] = "Item avançado com sucesso!";
+            $_SESSION['resposta'] = "Funcionalidade avançada com sucesso!";
         } else {
-            $_SESSION['resposta'] = "Ocorreu um erro ao avançar item!";
+            $_SESSION['resposta'] = "Ocorreu um erro ao avançar funcionalidade!";
         }
         $stmt->close();
     } catch (Exception $erro) {
-        registrarErro($_SESSION["id"], pegarRotaUsuario(), "Ocorreu um erro ao avançar item!", $erro->getCode(), pegarIpUsuario(), pegarNavegadorUsuario());
+        registrarErro($_SESSION["id"], pegarRotaUsuario(), "Ocorreu um erro ao avançar funcionalidade!", $erro->getCode(), pegarIpUsuario(), pegarNavegadorUsuario());
         $_SESSION['resposta'] = "error" . $erro->getCode();
     }
 
