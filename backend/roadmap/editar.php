@@ -5,9 +5,19 @@ include("../funcoes/geral.php");
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $id = strip_tags(trim($_POST["id"]));
-    $titulo = strip_tags(trim($_POST["nome"]));
-    $descricao = strip_tags(trim($_POST["preco"]));
+    $titulo = strip_tags(trim($_POST["titulo"]));
+    $descricao = strip_tags(trim($_POST["descricao"]));
     $status = strip_tags(trim($_POST["status"]));
+    $criado_em = $_POST["criado_em"];
+    $concluido_em = $_POST["concluido_em"];
+
+    if (empty($criado_em)) {
+        $criado_em = null;
+    }
+
+    if (empty($concluido_em)) {
+        $concluido_em = null;
+    }
 
     // Verificar token CSRF
     $csrf = trim(strip_tags($_POST["csrf"]));
@@ -18,8 +28,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     try {
-        $stmt = $conexao->prepare("UPDATE roadmap SET titulo = ?, descricao = ?, status = ? WHERE id = ?");
-        $stmt->bind_param("ssii", $titulo, $descricao, $status, $id);
+        $stmt = $conexao->prepare("UPDATE roadmap SET titulo = ?, descricao = ?, status = ?, criado_em = ?, concluido_em = ? WHERE id = ?");
+        $stmt->bind_param("ssissi", $titulo, $descricao, $status, $criado_em, $concluido_em, $id);
 
         if ($stmt->execute()) {
             $_SESSION['resposta'] = "Item atualizado com sucesso!";
