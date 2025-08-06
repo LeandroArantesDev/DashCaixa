@@ -13,11 +13,11 @@ include("../../includes/inicio.php");
         </button>
     </div>
     <div class="tabela-form">
-        <form class="grid grid-cols-3 border-b border-[var(--cinza-borda)]">
+        <form class="grid grid-cols-3 border-b border-borda">
             <input class="input-filtro col-span-2" type="text" name="busca" id="busca" placeholder="Buscar por nome...">
             <button type="submit"><i class="bi bi-search"></i> Buscar</button>
         </form>
-        <div class="grid grid-cols-3 p-3 gap-3">
+        <div class="grid grid-cols-3 p-3 gap-3 bg-fundo-interface">
             <?php
             // puxando todas as categorias
             $stmt = $conexao->prepare("SELECT id, nome, status FROM categorias WHERE cliente_id = ? AND status IN (0, 1) ORDER BY nome ASC");
@@ -32,7 +32,7 @@ include("../../includes/inicio.php");
                         <!-- card das categorias -->
                         <div class="topo">
                             <div class="txt-categoria">
-                                <i class="bi bi-tag"></i>
+                                <i class="bi bi-tag icones-padrao text-2xl w-5 h-5 p-5"></i>
                                 <h2><?= htmlspecialchars($row['nome']) ?></h2>
                             </div>
                             <div class="flex gap-2">
@@ -61,7 +61,7 @@ include("../../includes/inicio.php");
                                         <?php elseif ($row['status'] == 0) : ?>
                                             <i class="bi bi-eye"></i>
                                         <?php endif ?>
-                                        <span class="tooltip">Alterar visibilidade</span>
+                                        <span class="tooltip">Ocultar</span>
                                     </button>
                                 </form>
                             </div>

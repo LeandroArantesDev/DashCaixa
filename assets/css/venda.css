@@ -1,51 +1,51 @@
 @layer components {
-    .produto-card {
-        @apply flex items-center gap-4 p-4 border border-gray-200 rounded-lg transition-shadow;
+  .produto-card {
+    @apply flex items-center gap-4 p-4 border border-borda rounded-lg transition-shadow;
 
-        & .icone-container {
-            @apply flex-shrink-0 h-12 w-12 flex items-center justify-center bg-sky-100 rounded-lg;
+    & .icone-container {
+      @apply flex-shrink-0 h-12 w-12 flex items-center justify-center bg-sky-100 rounded-lg;
 
-            & i {
-                @apply text-2xl text-sky-600;
-            }
-        }
-
-        & .info-container {
-            @apply flex-grow;
-
-            & h3 {
-                @apply font-semibold text-gray-900;
-            }
-
-            & .preco-tag {
-                @apply text-lg font-bold text-sky-600 mt-1;
-            }
-        }
-
-        & .btn-container {
-            & .add-button {
-                @apply h-10 w-10 flex items-center justify-center bg-sky-500 text-white rounded-md transition-colors;
-
-                &:hover{
-                    @apply bg-sky-600;
-                }
-            }
-        }
-
-        &:hover{
-            @apply shadow-md;
-        }
+      & i {
+        @apply text-2xl text-principal;
+      }
     }
 
-    .btn-venda {
-        @apply w-full p-3 bg-sky-500 text-white font-semibold rounded-lg transition-colors;
+    & .info-container {
+      @apply flex-grow;
 
-        &:hover{
-            @apply bg-sky-600;
-        }
+      & h3 {
+        @apply font-semibold text-gray-900;
+      }
 
-        &:disabled{
-            @apply bg-gray-400;
-        }
+      & .preco-tag {
+        @apply text-lg font-bold text-principal mt-1;
+      }
     }
+
+    & .btn-container {
+      & .add-button {
+        @apply h-10 w-10 flex items-center justify-center bg-principal text-white rounded-lg transition-colors;
+
+        &:hover {
+          @apply bg-principal text-principal;
+        }
+      }
+    }
+
+    &:hover {
+      @apply shadow-sm;
+    }
+  }
+
+  .btn-venda {
+    @apply w-full p-3 bg-principal text-white font-semibold rounded-lg transition-colors;
+
+    &:hover {
+      @apply bg-principal-hover text-principal;
+    }
+
+    &:disabled {
+      @apply bg-gray-400;
+    }
+  }
 }

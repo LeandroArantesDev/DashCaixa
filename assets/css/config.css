@@ -1,44 +1,49 @@
+@theme {
+  --color-titulos-config: #475365;
+  --color-subtitulos-config: #101528;
+}
+
 @layer components {
   .interface-config {
     @apply grid grid-cols-1 lg:grid-cols-3 gap-6;
   }
 
   .interface-titulo-pessoais {
-    @apply p-6 border-b border-gray-200 flex items-center justify-between;
+    @apply p-6 border-b border-borda flex items-center justify-between;
   }
 
   .interface-titulo-seguranca {
-    @apply p-6 border-b border-gray-200;
+    @apply p-6 border-b border-borda;
   }
 
   .menu-pessoais {
-    @apply lg:col-span-2  bg-white rounded-xl shadow-sm border border-gray-200;
+    @apply lg:col-span-2  bg-fundo-interface rounded-xl shadow-sm border border-borda;
   }
 
   .menu-seguranca {
-    @apply bg-white rounded-xl shadow-sm border border-gray-200;
+    @apply bg-fundo-interface rounded-xl shadow-sm border border-borda;
   }
 
   .botao-seguranca {
-    @apply w-full flex items-center justify-center gap-1 cursor-pointer bg-gray-100 text-gray-700 px-4 py-2 rounded-lg transition-colors;
+    @apply w-full flex items-center justify-center gap-1 cursor-pointer bg-gray-100 text-subtitulo px-4 py-2 rounded-lg transition-colors;
     &:hover {
       @apply bg-gray-200;
     }
   }
 
   .btn-cancela {
-    @apply flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer;
+    @apply flex-1 px-4 py-2 border border-borda rounded-lg text-subtitulo hover:bg-gray-200 transition-colors cursor-pointer;
   }
 
   .btn-envia {
-    @apply flex-1 flex items-center justify-center space-x-2 bg-sky-600 text-white px-4 py-2 rounded-lg hover:bg-sky-700 transition-colors cursor-pointer;
+    @apply flex-1 flex items-center justify-center space-x-2 bg-principal text-white px-4 py-2 rounded-lg hover:bg-principal-hover transition-colors cursor-pointer;
   }
 
   .botao-editar {
-    @apply flex items-center cursor-pointer font-semibold space-x-2 text-sky-600;
+    @apply flex items-center cursor-pointer font-semibold space-x-2 text-principal;
 
     &:hover {
-      @apply text-blue-700;
+      @apply text-principal-hover;
     }
   }
 
@@ -47,7 +52,7 @@
   }
 
   .interface-atividadesRecentes {
-    @apply bg-white rounded-xl shadow-sm border border-gray-200 mt-5;
+    @apply bg-fundo-interface rounded-xl shadow-sm border border-borda mt-5;
   }
 
   .interface-conteudo-atividades {
@@ -59,11 +64,11 @@
   }
 
   .interface-input-pessoais {
-    @apply w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+    @apply w-full pl-10 pr-4 py-3 border border-borda rounded-lg focus:ring-2 focus:ring-principal focus:border-transparent;
   }
 
   .interface-input-seguranca {
-    @apply w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+    @apply w-full pl-10 pr-10 py-2 border border-borda rounded-lg focus:ring-2 focus:ring-principal focus:border-transparent;
   }
 
   .button-eye {

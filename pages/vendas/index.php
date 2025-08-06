@@ -10,9 +10,9 @@ include("../../includes/inicio.php")
         </div>
     </div>
     <div class="flex gap-3 items-center justify-between h-[86%]">
-        <div class="tabela-form w-4/6 bg-white h-full">
-            <div class="flex w-full border-b border-[var(--cinza-borda)] gap-4 p-4 bg-white">
-                <input class="input-filtro col-span-2 w-full p-2 border border-[var(--cinza-borda)] rounded-lg"
+        <div class="tabela-form w-4/6 bg-fundo-interface h-full">
+            <div class="flex w-full border-b border-borda gap-4 p-4 bg-fundo-interface">
+                <input class="input-filtro col-span-2 w-full p-2 border border-borda rounded-lg"
                     type="text" name="busca" id="busca" placeholder="Buscar produto por nome...">
             </div>
             <div class="h-full flex-1 overflow-y-auto py-2">
@@ -39,10 +39,10 @@ ORDER BY nome ASC
                         while ($row = $resultado->fetch_assoc()) :
                     ?>
                             <div
-                                class="produto-card flex items-center gap-4 p-4 border border-[var(--cinza-borda)] rounded-lg hover:shadow-md transition-all duration-200 hover:scale-102 <?= ($row["estoque"] < 1) ? "filter grayscale" : "" ?>">
+                                class="produto-card flex items-center gap-4 p-4 border border-borda rounded-lg hover:shadow-sm transition-all duration-200 hover:scale-102 <?= ($row["estoque"] < 1) ? "filter grayscale" : "" ?>">
                                 <div
                                     class="icone-container flex-shrink-0 h-12 w-12 flex items-center justify-center bg-sky-100 rounded-lg">
-                                    <i class="bi bi-box-seam text-2xl text-sky-600"></i>
+                                    <i class="bi bi-box-seam text-2xl text-principal"></i>
                                 </div>
                                 <div class="info-container flex-grow">
                                     <h3 class="font-semibold text-gray-900">
@@ -65,34 +65,34 @@ ORDER BY nome ASC
                                         echo $nome_categoria;
                                         ?>
                                     </p>
-                                    <p class="preco-tag text-lg font-bold text-sky-600 mt-1">
+                                    <p class="preco-tag text-lg font-bold text-principal mt-1">
                                         <?= formatarPreco(htmlspecialchars($row['preco'])) ?></p>
                                 </div>
                                 <button id="btn-add-produto" type="button" <?= ($row["estoque"] < 1) ? "disabled" : "" ?>
-                                    class="add-button h-10 w-10 flex items-center justify-center bg-sky-500 text-white rounded-md hover:bg-sky-600 transition-all duration-200 hover:scale-110 cursor-pointer"
+                                    class="add-button h-10 w-10 flex items-center justify-center bg-principal text-white rounded-lg hover:bg-principal-hover transition-all duration-200 hover:scale-110 cursor-pointer"
                                     data-id="<?= htmlspecialchars($row["id"]) ?>"
                                     data-nome="<?= htmlspecialchars($row['nome']) ?>"
                                     data-preco="<?= htmlspecialchars($row['preco']) ?>"><i class="bi bi-plus-lg"></i></button>
                             </div>
                         <?php endwhile ?>
                     <?php else: ?>
-                        <a class="flex items-center justify-center gap-2 w-full border border-[var(--cinza-borda)] p-2 rounded-lg"
+                        <a class="flex items-center justify-center gap-2 w-full border border-borda p-2 rounded-lg"
                             href="../produtos">Cadastrar produtos <i
-                                class="bi bi-plus-lg bg-blue-200 rounded-lg text-sky-600 text-lg flex justify-center items-center w-8 h-8"></i></a>
+                                class="bi bi-plus-lg bg-blue-200 rounded-lg text-principal text-lg flex justify-center items-center w-8 h-8"></i></a>
                     <?php endif ?>
                 </div>
             </div>
         </div>
-        <div class="w-2/6 h-full bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col"
+        <div class="w-2/6 h-full bg-fundo-interface rounded-2xl shadow-sm border border-borda flex flex-col"
             id="carrinho-lateral">
-            <div class="p-6 border-b border-gray-200 flex items-center justify-between">
+            <div class="p-6 border-b border-borda flex items-center justify-between">
                 <div class="flex space-x-3">
-                    <i class="bi bi-cart text-xl text-sky-600"></i>
+                    <i class="bi bi-cart text-xl text-principal"></i>
                     <h2 class="text-xl font-semibold text-gray-900">Carrinho</h2>
                 </div>
                 <div>
                     <button type="button" id="limpar-carrinho" title="Limpar carrinho"
-                        class="hidden cursor-pointer text-red-700 hover:text-red-800 transition-colors">
+                        class="hidden cursor-pointer text-red-700 hover:text-red-800 hover:scale-115">
                         <i class="bi bi-trash3 text-xl"></i>
                     </button>
                 </div>
@@ -110,12 +110,12 @@ ORDER BY nome ASC
                 <input type="hidden" name="usuario_id" id="usuario_id" value="<?= $_SESSION["id"] ?>">
 
                 <!-- Aba Total  -->
-                <div class="p-6 border-t border-gray-200">
+                <div class="p-6 border-t border-borda">
                     <div class="bg-blue-50 rounded-lg py-2 px-4 mb-2">
                         <!-- valor total -->
                         <div class="flex justify-between items-center">
                             <span class="text-lg font-medium text-gray-900">TOTAL:</span>
-                            <span id="valor-total" class="text-xl font-bold text-sky-600">R$ 0,00</span>
+                            <span id="valor-total" class="text-xl font-bold text-principal">R$ 0,00</span>
                         </div>
                         <!-- troco -->
                         <div id="valor-troco" class="flex justify-between items-center" style="display:none">
@@ -146,12 +146,12 @@ ORDER BY nome ASC
                                 R$
                             </span>
                             <input type="number" step="0.01" min="0" id="input-valor-recebido" placeholder="0,00"
-                                class="w-30 pl-8 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent text-lg font-medium">
+                                class="w-30 pl-8 border border-borda rounded-lg focus:ring-2 focus:ring-principal focus:border-transparent text-lg font-medium">
                         </div>
                     </div>
                     <!-- finalizar a venda -->
                     <button type="submit" id="btn-finalizar"
-                        class="w-full bg-sky-600 text-white py-2 rounded-lg font-semibold text-xl hover:bg-sky-700 focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg cursor-pointer"
+                        class="w-full bg-principal text-white py-2 rounded-lg font-semibold text-xl hover:bg-principal-hover focus:ring-2 focus:ring-principal focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm cursor-pointer"
                         disabled>
                         <span>Finalizar</span>
                     </button>

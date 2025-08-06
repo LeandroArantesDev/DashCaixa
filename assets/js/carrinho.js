@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
       li.innerHTML = `
                     <div class="space-y-2 max-h-80 overflow-y-auto">
                         <div class="space-y-2 max-h-80 overflow-y-auto"> 
-                            <div class="flex items-center justify-between py-1 px-2 border border-gray-200 rounded-lg bg-gray-50">
+                            <div class="flex items-center justify-between py-1 px-2 border border-borda rounded-lg bg-gray-50">
                                 <div class="flex-1"> 
                                     <h3 class="font-medium text-left text-gray-900 "> ${
                                       item.nome
@@ -133,22 +133,22 @@ document.addEventListener("DOMContentLoaded", () => {
                                     <p class="text-sm text-left text-gray-500"> ${item.preco
                                       .toFixed(2)
                                       .replace(".", ",")} cada</p>
-                                    <p class="text-sm text-left font-medium text-sky-600"> Subtotal: R$ ${(
+                                    <p class="text-sm text-left font-medium text-principal"> Subtotal: R$ ${(
                                       item.preco * item.quantidade
                                     )
                                       .toFixed(2)
                                       .replace(".", ",")}</p>
                                 </div>
                                 <div class="flex items-center space-x-3"> 
-                                    <div class="flex items-center space-x-2 bg-white rounded-lg border border-gray-300">
-                                        <button type="button" class="btn-quantidade cursor-pointer p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-l-lg" data-acao="diminuir" data-idx="${idx}">
+                                    <div class="flex items-center space-x-2 overflow-hidden bg-fundo-interface rounded-lg border border-borda">
+                                        <button type="button" class="btn-quantidade cursor-pointer p-2 text-gray-500 hover:text-gray-700 hover:scale-160 hover:bg-gray-100 rounded-l-lg" data-acao="diminuir" data-idx="${idx}">
                                         -</button>
                                         <span class="quantidade w-10 text-center font-medium text-lg">${
                                           item.quantidade
                                         }</span>
-                                        <button type="button" class="btn-quantidade cursor-pointer p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-r-lg" data-acao="aumentar" data-idx="${idx}">+</button>
+                                        <button type="button" class="btn-quantidade cursor-pointer p-2 text-gray-500 hover:text-gray-700 hover:scale-160 hover:bg-gray-100 rounded-r-lg" data-acao="aumentar" data-idx="${idx}">+</button>
                                     </div>
-                                    <button type="button" class="remover-item p-2 cursor-pointer text-red-500 hover:text-red-700 hover:bg-red-50  hover:rounded-lg" data-idx="${idx}" title="Remover">
+                                    <button type="button" class="remover-item p-2 cursor-pointer text-red-500 hover:text-red-700 hover:bg-red-50 hover:scale-120 hover:rounded-lg" data-idx="${idx}" title="Remover">
                                     <i class="bi bi-trash3"></i>
                                     </button>
                                 </div>

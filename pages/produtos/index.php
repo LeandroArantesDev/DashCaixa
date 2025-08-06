@@ -48,7 +48,7 @@ include("../../includes/inicio.php");
                             <tr>
                                 <td class="celula-tabela flex justify-center items-center">
                                     <div class="flex gap-2 items-center w-1/2">
-                                        <i class="bi bi-box-seam bg-blue-200 rounded-lg text-blue-600 text-lg flex justify-center items-center w-8 h-8"></i>
+                                        <i class="bi bi-box-seam icones-padrao text-lg w-8 h-8"></i>
                                         <p>
                                             <?= htmlspecialchars($row['nome']) ?>
                                         </p>
@@ -64,7 +64,7 @@ include("../../includes/inicio.php");
                                     $stmt->fetch();
                                     $stmt->close();
                                     ?>
-                                    <span class="bg-zinc-100 rounded-full px-2 py-0.5">
+                                    <span class="bg-zinc-200 rounded-lg px-2 py-0.5">
                                         <?= htmlspecialchars($categoria ?? 'N/A') ?>
                                     </span>
                                 </td>

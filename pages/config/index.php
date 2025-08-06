@@ -10,7 +10,7 @@ $resultado = $stmt->get_result();
 $row = $resultado->fetch_assoc();
 $stmt->close();
 ?>
-    <div class="conteudo">
+<div class="conteudo">
     <div class="titulo">
         <div class="txt-titulo">
             <h1>Configurações</h1>
@@ -26,7 +26,7 @@ $stmt->close();
             </div>
             <!-- formualario que ficara escondido -->
             <form id="form-editar-info" action="../../backend/config/alterar_info.php" method="POST"
-                  class="p-6 space-y-4 hidden">
+                class="p-6 space-y-4 hidden">
                 <!-- inputs escondigos -->
                 <input type="hidden" name="csrf" id="csrf" value="<?= gerarCSRF() ?>">
                 <div>
@@ -34,7 +34,7 @@ $stmt->close();
                     <div class="relative">
                         <i class="bi bi-person icons text-2xl"></i>
                         <input type="text" name="nome" id="nome" value="<?= htmlspecialchars($row['nome']) ?>"
-                               placeholder="Seu nome" required class="interface-input-pessoais">
+                            placeholder="Seu nome" required class="interface-input-pessoais">
                     </div>
                 </div>
                 <div>
@@ -42,13 +42,13 @@ $stmt->close();
                     <div class="relative">
                         <i class="bi bi-envelope icons text-2xl"></i>
                         <input type="email" name="email" id="email" value="<?= htmlspecialchars($row['email']) ?>"
-                               placeholder="Seu email" required class="interface-input-pessoais">
+                            placeholder="Seu email" required class="interface-input-pessoais">
                     </div>
                 </div>
                 <div class="flex space-x-3 pt-4">
                     <button type="button"
-                            class="btn-cancela"
-                            onclick="esconderEditarInfo()">
+                        class="btn-cancela"
+                        onclick="esconderEditarInfo()">
                         Cancelar
                     </button>
                     <button class="btn-envia" type="submit">
@@ -62,11 +62,11 @@ $stmt->close();
             <div id="div-info" class="p-6 space-y-4">
                 <div class="text-mb text-gray-700 mb-1">
                     <label for="nome">Nome Completo</label>
-                    <p class="text-gray-900 font-semibold"><?= htmlspecialchars($row['nome']) ?></p>
+                    <p class="text-subtitulos-config font-semibold"><?= htmlspecialchars($row['nome']) ?></p>
                 </div>
                 <div class="text-mb text-gray-700">
                     <label for="email">Email</label>
-                    <p class="text-gray-900 font-semibold"><?= htmlspecialchars($row['email']) ?></p>
+                    <p class="text-subtitulos-config font-semibold"><?= htmlspecialchars($row['email']) ?></p>
                 </div>
                 <div class="text-m text-gray-700 mt-2">
                     <label for="tipo">Tipo de Usuario</label>
@@ -78,8 +78,8 @@ $stmt->close();
                             <i class="bi bi-person px-2 py-1 rounded-lg bg-blue-100 text-blue-800"></i>
                             <p class="tipo-usuario bg-blue-100 text-blue-800">Caixa</p>
                         <?php elseif ($row['tipo'] == 2): ?>
-                            <i class="bi bi-person px-2 py-1 rounded-lg bg-gray-700 text-white shadow-lg"></i>
-                            <p class="tipo-usuario bg-gray-700 text-white shadow-lg border border-white">Fundador</p>
+                            <i class="bi bi-person px-2 py-1 rounded-lg bg-gray-700 text-white shadow-sm"></i>
+                            <p class="tipo-usuario bg-gray-700 text-white shadow-sm border border-white">Fundador</p>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -91,7 +91,7 @@ $stmt->close();
             </div>
             <!-- formulario que ficara escondido -->
             <form action="../../backend/config/alterar_senha.php" method="POST" id="form-alterar-senha"
-                  class="p-6 space-y-4 hidden">
+                class="p-6 space-y-4 hidden">
                 <!-- inputs escondigos -->
                 <input type="hidden" name="csrf" id="csrf" value="<?= gerarCSRF() ?>">
 
@@ -100,7 +100,7 @@ $stmt->close();
                     <div class="relative">
                         <i class="bi bi-lock icons"></i>
                         <input type="password" name="senha-atual" id="senha-atual" placeholder="Senha Atual"
-                               class="interface-input-seguranca">
+                            class="interface-input-seguranca">
                         <button type="button" class="button-eye">
                             <i class="bi bi-eye"></i>
                         </button>
@@ -111,7 +111,7 @@ $stmt->close();
                     <div class="relative">
                         <i class="bi bi-lock icons"></i>
                         <input type="password" name="nova-senha" id="nova-senha" placeholder="Nova Senha"
-                               class="interface-input-seguranca">
+                            class="interface-input-seguranca">
                         <button type="button" class="button-eye">
                             <i class="bi bi-eye"></i>
                         </button>
@@ -122,7 +122,7 @@ $stmt->close();
                     <div class="relative">
                         <i class="bi bi-lock icons"></i>
                         <input type="password" name="confirmar-senha" id="confirmar-senha"
-                               placeholder="Confirmar Nova Senha" class="interface-input-seguranca">
+                            placeholder="Confirmar Nova Senha" class="interface-input-seguranca">
                         <button type="button" class="button-eye">
                             <i class="bi bi-eye"></i>
                         </button>
@@ -130,8 +130,8 @@ $stmt->close();
                 </div>
                 <div class="flex gap-2 w-full">
                     <button type="button"
-                            class="btn-cancela"
-                            onclick="esconderFormSenha()">
+                        class="btn-cancela"
+                        onclick="esconderFormSenha()">
                         Cancelar
                     </button>
                     <button class="btn-envia" type="submit">
@@ -154,12 +154,12 @@ $stmt->close();
 
     <div class="interface-atividadesRecentes">
         <div class="p-6 border-b border-gray-200">
-            <h2 class="text-lg font-semibold text-gray-900">Atividade Recente</h2>
+            <h2 class="text-lg font-semibold text-subtitulos-config">Atividade Recente</h2>
         </div>
         <div class="p-6 space-y-3">
             <div class="interface-conteudo-atividades">
-                <span class="text-gray-600">Ultimo Login</span>
-                <span class="text-gray-900 font-medium">
+                <span class="text-titulos-config">Ultimo Login</span>
+                <span class="text-subtitulos-config font-medium">
                     Hoje às
                     <?php
                     // puxando o ultimo acesso do usuario e formatando apenas o horario
@@ -172,32 +172,32 @@ $stmt->close();
             <!-- mostrando as vendas caso o usuario não for fundador -->
             <?php if ($_SESSION['tipo'] != 2): ?>
                 <div class="interface-conteudo-atividades">
-                    <span class="text-gray-600">Vendas realizadas hoje</span>
-                    <span class="text-blue-600 font-medium">
-                    <?php
-                    // buscando as vendas realizadas hoje
-                    $stmt = $conexao->prepare("SELECT COUNT(*) FROM vendas WHERE usuario_id = ? AND DATE(data_venda) = CURDATE()");
-                    $stmt->bind_param("i", $_SESSION["id"]);
-                    $stmt->execute();
-                    $stmt->bind_result($fichas_hoje);
-                    $stmt->fetch();
-                    $stmt->close();
-                    if ($fichas_hoje == 0) {
-                        echo "Nenhuma venda hoje!";
-                    } else {
-                        echo $fichas_hoje . " Vendas";
-                    }
-                    ?>
-                </span>
+                    <span class="text-titulos-config">Vendas realizadas hoje</span>
+                    <span class="text-principal font-medium">
+                        <?php
+                        // buscando as vendas realizadas hoje
+                        $stmt = $conexao->prepare("SELECT COUNT(*) FROM vendas WHERE usuario_id = ? AND DATE(data_venda) = CURDATE()");
+                        $stmt->bind_param("i", $_SESSION["id"]);
+                        $stmt->execute();
+                        $stmt->bind_result($fichas_hoje);
+                        $stmt->fetch();
+                        $stmt->close();
+                        if ($fichas_hoje == 0) {
+                            echo "Nenhuma venda hoje!";
+                        } else {
+                            echo $fichas_hoje . " Vendas";
+                        }
+                        ?>
+                    </span>
                 </div>
             <?php endif; ?>
             <div class="interface-conteudo-atividades">
-                <span class="text-gray-600">Conta criada em</span>
-                <span class="text-gray-900 font-medium"><?= htmlspecialchars(date('d/m/Y', strtotime($row['criado_em']))) ?></span>
+                <span class="text-titulos-config">Conta criada em</span>
+                <span class="text-subtitulos-config font-medium"><?= htmlspecialchars(date('d/m/Y', strtotime($row['criado_em']))) ?></span>
             </div>
         </div>
     </div>
 
     <script src="../../assets/js/config.js"></script>
 
-<?php include("../../includes/fim.php") ?>
+    <?php include("../../includes/fim.php") ?>

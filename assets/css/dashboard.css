@@ -1,6 +1,6 @@
 @layer components {
   .card-topo {
-    @apply flex items-center justify-between p-5 rounded-xl bg-white border border-[var(--cinza-borda)] gap-4;
+    @apply flex items-center justify-between p-5 rounded-xl bg-fundo-interface border border-borda gap-4;
   }
   .card-topo span {
     @apply text-2xl font-bold;
@@ -21,10 +21,10 @@
   /* Faturamento */
   #faturamento span,
   #faturamento i {
-    @apply text-blue-700;
+    @apply text-principal;
   }
   #faturamento i {
-   @apply bg-[#2564eb22];
+    @apply bg-principal;
   }
 
   /* Produtos */

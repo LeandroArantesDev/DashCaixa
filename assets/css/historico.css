@@ -1,6 +1,6 @@
 @layer components {
   .card {
-    @apply flex items-center justify-between p-5 rounded-xl bg-white border border-[var(--cinza-borda)] gap-4;
+    @apply flex items-center justify-between p-5 rounded-lg bg-fundo-interface border border-borda gap-4;
   }
   .card span {
     @apply text-xl font-bold;
@@ -19,7 +19,7 @@
 
   #faturamento span,
   #faturamento i {
-    @apply text-blue-600;
+    @apply text-principal;
   }
   #faturamento i {
     @apply bg-[#2564eb22];

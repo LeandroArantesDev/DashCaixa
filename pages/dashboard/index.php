@@ -52,16 +52,16 @@ include("../../includes/inicio.php");
             $alertas = buscar_alerta_estoque_baixo();
             foreach ($alertas as $produto):
             ?>
-                <p class="flex items-center justify-between w-full bg-white p-3 rounded-xl font-bold">
+                <p class="flex items-center justify-between w-full bg-fundo-conteudo p-3 rounded-xl font-bold">
                     <?= htmlspecialchars($produto['nome']) ?> <span
                         class="text-red-500"><?= htmlentities($produto['estoque']) ?> Unidades</span>
                 </p>
             <?php endforeach; ?>
         </div>
-        <div class="flex flex-col gap-4 border border-gray-300/80 bg-white p-5 rounded-xl w-full h-full">
+        <div class="flex flex-col gap-4 border border-gray-300/80 bg-fundo-conteudo p-5 rounded-xl w-full h-full">
             <div class="flex items-center gap-2 text-xl font-semibold text-gray-700">
                 <i
-                    class="bi bi-graph-up flex items-center justify-center w-10 h-10 rounded-md text-2xl text-sky-500 bg-sky-500/10"></i>
+                    class="bi bi-graph-up flex items-center justify-center w-10 h-10 rounded-md text-2xl text-principal bg-sky-500/10"></i>
                 <h2>Faturamento dos Últimos 7 Dias</h2>
             </div>
 
@@ -93,7 +93,7 @@ include("../../includes/inicio.php");
                     <div class="flex items-center gap-4 text-sm">
                         <span class="w-8 font-medium text-gray-500"><?= htmlspecialchars($dia_abreviado) ?></span>
                         <div class="relative w-full h-5 bg-gray-200/80 rounded-full">
-                            <div class="absolute top-0 left-0 h-full bg-blue-600 rounded-full flex items-center justify-end pr-3"
+                            <div class="absolute top-0 left-0 h-full bg-principal rounded-full flex items-center justify-end pr-3"
                                 style="width: <?= $largura_percentual ?>%;">
                                 <span class="font-bold text-white">
                                     <?= htmlspecialchars(formatarPreco($item['faturamento'])) ?>
