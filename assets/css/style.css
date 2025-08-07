@@ -52,11 +52,11 @@
 
     & a,
     button {
-      @apply flex items-center space-x-2 bg-principal text-white px-4 py-2 rounded-lg hover:bg-principal-hover transition-colors cursor-pointer;
+      @apply flex items-center gap-2 bg-principal text-white px-4 py-2 rounded-lg hover:bg-principal-hover transition-colors cursor-pointer;
     }
 
     & .exportar {
-      @apply bg-green-600;
+      @apply bg-green-600 hover:bg-green-700;
     }
   }
 

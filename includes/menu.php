@@ -10,7 +10,7 @@ function link_ativo(string $pagina): string
 
 if (isset($_SESSION['id'])):
 ?>
-   <aside class="min-w-70 border-r border-gray-300/80 p-4 bg-white">
+   <aside class="min-w-70 border-r border-borda/80 p-4 bg-fundo-interface">
       <nav class="flex flex-col gap-4">
          <?php if ($_SESSION['tipo'] == 1): ?>
 

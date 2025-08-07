@@ -11,9 +11,12 @@ include("../../includes/inicio.php")
     </div>
     <div class="flex gap-3 items-center justify-between h-[86%]">
         <div class="tabela-form w-4/6 bg-fundo-interface h-full">
-            <div class="flex w-full border-b border-borda gap-4 p-4 bg-fundo-interface">
-                <input class="input-filtro col-span-2 w-full p-2 border border-borda rounded-lg"
-                    type="text" name="busca" id="busca" placeholder="Buscar produto por nome...">
+            <div class="p-6 border-b border-borda">
+                <div class="relative">
+                    <i class="bi bi-search absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400"></i>
+                    <input class="input-filtro w-full pl-10 pr-4 py-2 border border-borda rounded-lg focus:ring-2 focus:ring-principal focus:border-transparent text-lg"
+                        type="text" name="busca" id="busca" placeholder="Buscar produto por nome...">
+                </div>
             </div>
             <div class="h-full flex-1 overflow-y-auto py-2">
                 <div class="h-max flex flex-col gap-3 p-3 pb-20">
@@ -119,8 +122,8 @@ ORDER BY nome ASC
                         </div>
                         <!-- troco -->
                         <div id="valor-troco" class="flex justify-between items-center" style="display:none">
-                            <span class="text-xs font-semibold text-gray-900">TROCO:</span>
-                            <span id="valor-troco-valor" class="text-sm font-bold text-green-600">R$ 0,00</span>
+                            <span id="valor-troco-label" class="text-xs font-semibold text-gray-900">TROCO:</span>
+                            <span id="valor-troco-valor" class="text-sm font-bold">R$ 0,00</span>
                         </div>
                         <!-- quantidade de itens -->
                         <div class="mt-2 text-sm text-gray-600">
@@ -130,13 +133,13 @@ ORDER BY nome ASC
 
                     <!-- chamar calcular troco -->
                     <button id="btn-chamar-calcular-troco" style="display:none"
-                        class="cursor-pointer w-full flex items-center justify-center space-x-2 py-2 rounded-lg font-medium transition-colors bg-gray-100 text-gray-700 hover:bg-gray-200 mb-2">
+                        class="cursor-pointer w-full flex items-center justify-center space-x-2 py-2 rounded-lg font-medium transition-colors bg-gray-200 text-black hover:bg-gray-300 mb-2">
                         <i class="bi bi-calculator"></i>
                         <span>Calcular Troco</span>
                     </button>
                     <!-- Calcular o troco -->
                     <div id="btn-calcular-troco" style="display:none"
-                        class="w-full flex items-center justify-center space-x-1 py-2 rounded-lg font-medium transition-colors bg-gray-100 text-gray-700 mb-2">
+                        class="w-full flex items-center justify-center space-x-1 py-2 rounded-lg font-medium transition-colors bg-gray-100 text-black mb-2">
                         <i class="bi bi-currency-dollar text-lg text-green-600"></i>
                         <span>
                             Valor Recebido:

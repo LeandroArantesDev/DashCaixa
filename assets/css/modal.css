@@ -1,50 +1,52 @@
 @layer components {
-    #modal {
-        @apply fixed invisible top-0 left-0 w-full h-full z-1000;
+  #modal {
+    @apply fixed invisible top-0 left-0 w-full h-full z-1000;
 
-        & form {
-            @apply flex absolute flex-col p-5 items-center left-1/2 top-1/2 -translate-1/2 shadow-2xl bg-white rounded-2xl gap-3 z-950;
+    & form {
+      @apply flex absolute flex-col p-5 items-center left-1/2 top-1/2 -translate-1/2 shadow-sm bg-fundo-interface rounded-2xl gap-3 z-950;
 
-            & h2 {
-                @apply text-xl font-semibold;
-            }
+      & h2 {
+        @apply text-xl font-semibold;
+      }
 
-            & .input-group-modal {
-                @apply flex flex-col gap-1 min-w-96;
+      & .input-group-modal {
+        @apply flex flex-col gap-1 min-w-96;
 
-                & input,
-                select {
-                    @apply border border-[var(--cinza-borda)] p-2 rounded-lg;
-                }
-            }
+        & input,
+        select {
+          @apply border border-borda p-2 rounded-lg;
+        }
+      }
 
-            .checkbox{
-                @apply flex flex-row;
-            }
+      .checkbox {
+        @apply flex flex-row;
+      }
 
-            .password, .checkbox {
-                @apply hidden;
-            }
+      .password,
+      .checkbox {
+        @apply hidden;
+      }
 
-            .password.ativo, .checkbox.ativo {
-                @apply flex;
-            }
+      .password.ativo,
+      .checkbox.ativo {
+        @apply flex;
+      }
 
-            & .div-btn {
-                @apply flex gap-2 w-full;
+      & .div-btn {
+        @apply flex gap-2 w-full;
 
-                & button {
-                    @apply border border-[var(--cinza-borda)] p-2 rounded-lg w-1/2 cursor-pointer;
-                }
-
-                & button[type='submit'] {
-                    @apply bg-sky-500 text-white;
-                }
-            }
+        & button {
+          @apply border border-borda p-2 rounded-lg w-1/2 cursor-pointer;
         }
 
-        #overlay-modal {
-            @apply absolute top-0 left-0 w-full h-full bg-black/50 z-900;
+        & button[type="submit"] {
+          @apply bg-principal text-white;
         }
+      }
     }
+
+    #overlay-modal {
+      @apply absolute top-0 left-0 w-full h-full bg-black/50 z-900;
+    }
+  }
 }
