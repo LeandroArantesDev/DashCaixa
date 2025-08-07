@@ -31,15 +31,15 @@ if (isset($_SESSION['id'])):
                   target="_self"><i class="bi bi-tags"></i> Categorias</a>
                <a class="link-menu <?php echo link_ativo('usuarios'); ?>" href="<?= BASE_URL ?>pages/usuarios"
                   target="_self"><i class="bi bi-people"></i> Usuarios</a>
-               <a class="link-menu <?php echo link_ativo('historico'); ?>" href="<?= BASE_URL ?>pages/historico"
+               <a class="link-menu <?php echo link_ativo('historico/'); ?>" href="<?= BASE_URL ?>pages/historico"
                   target="_self"><i class="bi bi-clock-history"></i> Histórico de Vendas</a>
-               <a class="link-menu <?php echo link_ativo('roadmap'); ?>" href="<?= BASE_URL ?>pages/roadmap"
+               <a class="link-menu hidden <?php echo link_ativo('roadmap'); ?>" href="<?= BASE_URL ?>pages/roadmap"
                   target="_self"><i class="bi bi-signpost"></i> Roadmap</a>
                <div class="relative inline-block">
                   <!-- Botão principal que abre o submenu -->
                   <button onclick="toggleSubmenu()"
                      id="mensalidade-btn"
-                     class="link-menu justify-between w-full cursor-pointer <?php echo (link_ativo('mensalidade') || link_ativo('historico-mensalidades')) ? 'atual' : ''; ?>">
+                     class="link-menu justify-between w-full cursor-pointer <?php echo (link_ativo('mensalidade') || link_ativo('historico_mensalidades')) ? 'atual' : ''; ?>">
                      <p class="flex gap-4 items-center">
                         <i class="bi bi-wallet"></i>
                         <span>Mensalidade</span>
@@ -56,7 +56,7 @@ if (isset($_SESSION['id'])):
                         <i class="bi bi-cash-stack"></i> Status
                      </a>
                      <a class="link-submenu"
-                        href="#"
+                        href="<?= BASE_URL ?>pages/historico_mensalidades"
                         target="_self">
                         <i class="bi bi-list-nested"></i> Histórico
                      </a>

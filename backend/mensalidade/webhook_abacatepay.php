@@ -3,6 +3,19 @@ include("../conexao.php");
 include("../funcoes/geral.php");
 include("funcoes.php");
 
+// segredo do webhook
+define('WEBHOOK_SECRET', 'segredo_webhook');
+
+// Verifica se o secret enviado nos headers bate com o esperado
+$headers = getallheaders();
+$received_secret = $headers['X-Abacatepay-Secret'] ?? $headers['x-abacatepay-secret'] ?? null;
+
+if ($received_secret !== WEBHOOK_SECRET) {
+    http_response_code(401);
+    echo 'Acesso não autorizado.';
+    exit;
+}
+
 // Recebe os dados enviados
 $payload = file_get_contents("php://input");
 $data = json_decode($payload, true);
@@ -38,4 +51,3 @@ if (marcarFaturaComoPaga($externalId)) {
     http_response_code(400);
     echo 'ERRO';
 }
-
