@@ -15,7 +15,7 @@ $form_index = true;
 include("includes/inicio.php");
 ?>
 <div class="flex items-center justify-center w-full h-full bg-sky-100">
-    <form class="flex items-center space-y-4 justify-center flex-col rounded-xl p-7 bg-white shadow-xl min-w-lg"
+    <form class="flex items-center space-y-4 justify-center flex-col rounded-xl p-7 bg-fundo-interface shadow-sm min-w-lg"
         action="backend/auth/login.php" method="POST">
         <input type="hidden" name="csrf" id="csrf" value="<?= gerarCSRF() ?>">
         <img src="assets/img/logo.png" alt="Logo DashCaixa" class="h-25">
@@ -24,21 +24,21 @@ include("includes/inicio.php");
             <label for="email">Email</label>
             <div class="relative">
                 <i class="bi bi-envelope input-icon"></i>
-                <input type="email" name="email" id="email" placeholder="Seu email" class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors" required>
+                <input type="email" name="email" id="email" placeholder="Seu email" class="w-full pl-10 pr-4 py-3 border border-borda rounded-lg focus:ring-2 focus:ring-principal focus:border-transparent transition-colors" required>
             </div>
         </div>
         <div class="input-group">
             <label for="senha">Senha</label>
             <div class="relative">
                 <i class="bi bi-lock input-icon"></i>
-                <input type="password" name="senha" id="senha" placeholder="Sua senha" class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors" required>
+                <input type="password" name="senha" id="senha" placeholder="Sua senha" class="w-full pl-10 pr-4 py-3 border border-borda rounded-lg focus:ring-2 focus:ring-principal focus:border-transparent transition-colors" required>
                 <button type="button" class="input-icon-eye" id="toggleSenha">
                     <i class="bi bi-eye" id="iconSenha"></i>
                 </button>
             </div>
         </div>
         <button type="submit" class="button-entrar mt-4">Entrar</button>
-        <a class="text-sky-500 hover:text-sky-700 transition-colors" href="#">Esqueceu sua senha?</a>
+        <a class="text-principal hover:text-principal-hover transition-colors" href="#">Esqueceu sua senha?</a>
     </form>
 </div>
 <script>

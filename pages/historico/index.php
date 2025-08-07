@@ -60,7 +60,7 @@ include("../../backend/funcoes/dashboard-historico.php");
             <input class="input-filtro" type="date" name="data" id="data"
                 value="<?= ((isset($_GET['data']) ? $_GET['data'] : date('Y-m-d'))) ?>">
             <div class="flex items-center justify-center gap-3">
-                <a class="flex items-center justify-center gap-2 w-1/2 border border-borda/80 h-full rounded-lg"
+                <a class="flex items-center justify-center gap-2 w-1/2 border border-borda/80 hover:bg-gray-300 h-full rounded-lg"
                     href="<?= BASE_URL . "pages/historico" ?>">
                     <i class="bi bi-trash3"></i> Limpar Filtros
                 </a>

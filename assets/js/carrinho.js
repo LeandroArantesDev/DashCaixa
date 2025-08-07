@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const inputValorRecebido = document.getElementById("input-valor-recebido");
   const valorTrocoBox = document.getElementById("valor-troco");
   const valorTrocoValor = document.getElementById("valor-troco-valor");
+  const valorTrocoLabel = document.getElementById("valor-troco-label");
   const btnChamarCalcularTroco = document.getElementById(
     "btn-chamar-calcular-troco"
   );
@@ -198,13 +199,29 @@ document.addEventListener("DOMContentLoaded", () => {
       const total = parseFloat(
         valorTotal.textContent.replace("R$ ", "").replace(",", ".")
       );
-      if (!isNaN(recebido) && recebido >= total && total > 0) {
-        const troco = recebido - total;
-        valorTrocoValor.textContent =
-          "R$ " + troco.toFixed(2).replace(".", ",");
-        valorTrocoBox.style.display = "flex";
+      if (!isNaN(recebido) && total > 0) {
+        if (recebido >= total) {
+          const troco = recebido - total;
+          valorTrocoLabel.textContent = "TROCO:";
+          valorTrocoValor.textContent =
+            "R$ " + troco.toFixed(2).replace(".", ",");
+          valorTrocoValor.classList.remove("text-red-600");
+          valorTrocoValor.classList.add("text-green-600");
+          valorTrocoBox.style.display = "flex";
+        } else if (recebido < total) {
+          const falta = total - recebido;
+          valorTrocoLabel.textContent = "FALTA:";
+          valorTrocoValor.textContent =
+            "R$ " + falta.toFixed(2).replace(".", ",");
+          valorTrocoValor.classList.remove("text-green-600");
+          valorTrocoValor.classList.add("text-red-600");
+          valorTrocoBox.style.display = "flex";
+        }
       } else {
+        valorTrocoLabel.textContent = "TROCO:";
         valorTrocoValor.textContent = "R$ 0,00";
+        valorTrocoValor.classList.remove("text-red-600");
+        valorTrocoValor.classList.add("text-green-600");
         valorTrocoBox.style.display = "none";
       }
     });
