@@ -17,7 +17,7 @@ include("../../backend/funcoes/dashboard-historico.php");
             <form class="grid grid-cols-3">
                 <input class="input-filtro col-span-2" type="date" name="data" id="data"
                        value="<?= ((isset($_GET['data']) ? $_GET['data'] : date('Y-m-d'))) ?>">
-                <button class="w-full" type="submit"> Buscar Data</button>
+                <button class="w-full" type="submit"><i class="bi bi-search"></i> Buscar</button>
             </form>
             <div class="table-container">
                 <table>
@@ -25,6 +25,7 @@ include("../../backend/funcoes/dashboard-historico.php");
                     <tr>
                         <th>Valor</th>
                         <th>Data Pagamento</th>
+                        <th>Data Vencimento</th>
                         <th>Status</th>
                         <th>Ações</th>
                     </tr>
@@ -35,10 +36,10 @@ include("../../backend/funcoes/dashboard-historico.php");
 
                     // buscando todas mensalidades
                     if (!empty($data)) {
-                        $stmt = $conexao->prepare("SELECT id, valor, data_pagamento, status FROM mensalidades WHERE cliente_id = ? AND DATE(data_pagamento) = ? ORDER BY data_pagamento DESC");
-                        $stmt->bind_param("is", $_SESSION['cliente_id'], $data);
+                        $stmt = $conexao->prepare("SELECT id, valor, data_pagamento, data_vencimento, status FROM mensalidades WHERE cliente_id = ? AND data_pagamento = ? OR data_vencimento = ? ORDER BY data_pagamento DESC");
+                        $stmt->bind_param("iss", $_SESSION['cliente_id'], $data, $data);
                     } else {
-                        $stmt = $conexao->prepare("SELECT id, valor, data_pagamento, status FROM mensalidades WHERE cliente_id = ? ORDER BY data_pagamento DESC");
+                        $stmt = $conexao->prepare("SELECT id, valor, data_pagamento, data_vencimento, status FROM mensalidades WHERE cliente_id = ? ORDER BY data_pagamento DESC");
                         $stmt->bind_param("i", $_SESSION['cliente_id']);
                     }
                     $stmt->execute();
@@ -53,11 +54,28 @@ include("../../backend/funcoes/dashboard-historico.php");
                                 <td class="celula-tabela"><?= formatarPreco(htmlspecialchars($row['valor'])) ?></td>
                                 <td class="celula-tabela">
                                     <?php
-                                    $dataDoBanco = $row['data_pagamento'];
+                                    if (!empty($row['data_pagamento'])) {
+                                        $dataDoBanco = $row['data_pagamento'];
 
-                                    $dataObj = new DateTime($dataDoBanco);
+                                        $dataObj = new DateTime($dataDoBanco);
 
-                                    echo htmlspecialchars($dataObj->format('d/m/Y H:i'));
+                                        echo htmlspecialchars($dataObj->format('d/m/Y'));
+                                    } else {
+                                        echo "N/A";
+                                    }
+                                    ?>
+                                </td>
+                                <td class="celula-tabela">
+                                    <?php
+                                    if (!empty($row['data_vencimento'])) {
+                                        $dataDoBanco = $row['data_vencimento'];
+
+                                        $dataObj = new DateTime($dataDoBanco);
+
+                                        echo htmlspecialchars($dataObj->format('d/m/Y'));
+                                    } else {
+                                        echo "N/A";
+                                    }
                                     ?>
                                 </td>
                                 <td class="celula-tabela">
@@ -71,20 +89,12 @@ include("../../backend/funcoes/dashboard-historico.php");
                                         <p>Vencida</p>
                                     <?php endif ?>
                                 </td>
-                                <td id="td-acoes" class="celula-tabela" colspan="2">
-                                    <form id="btn-deleta" method="POST" action="../../backend/historico/deletar.php"
-                                          target="_self">
-                                        <input type="hidden" name="csrf" value="<?= htmlspecialchars(gerarCSRF()) ?>">
-                                        <input type="hidden" name="item_id" value="<?= htmlspecialchars($row['id']) ?>">
-                                        <button class="botao-informativo">
-                                            <i class="bi bi-trash3"></i>
-                                            <span class="tooltip">Deletar</span>
-                                        </button>
-                                    </form>
+                                <td id="td-acoes" class="celula-tabela">
                                     <button id="btn-deleta" class="botao-informativo"
-                                            onclick="abrirModal(<?= $row['id'] ?>)"><i
-                                                class="bi bi-printer text-principal"></i><span
-                                                class="tooltip">Imprimir</span></button>
+                                            onclick="abrirModal(<?= $row['id'] ?>)">
+                                        <i class="bi bi-printer text-principal"></i>
+                                        <span class="tooltip">Imprimir </span>
+                                    </button>
                                 </td>
                             </tr>
                         <?php endwhile ?>
