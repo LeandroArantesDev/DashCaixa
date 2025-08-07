@@ -106,13 +106,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $_SESSION['resposta'] = "Venda não foi finalizada com sucesso!";
                 }
             } else {
-                registrarErro($_SESSION["id"], pegarRotaUsuario(), $item_sem_estoque . " com estoque baixo!", "01", pegarIpUsuario(), pegarNavegadorUsuario());
+                registrarErro($_SESSION["cliente_id"], $_SESSION["id"], pegarRotaUsuario(), $item_sem_estoque . " com estoque baixo!", "01", pegarIpUsuario(), pegarNavegadorUsuario());
                 $_SESSION['resposta'] = $item_sem_estoque . " com estoque baixo!";
                 header("Location: ../../pages/vendas");
                 exit;
             }
         } catch (Exception $erro) {
-            registrarErro($_SESSION["id"], pegarRotaUsuario(), "Erro ao finalizar venda!", $erro->getCode(), pegarIpUsuario(), pegarNavegadorUsuario());
+            registrarErro($_SESSION["cliente_id"], $_SESSION["id"], pegarRotaUsuario(), "Erro ao finalizar venda!", $erro->getCode(), pegarIpUsuario(), pegarNavegadorUsuario());
             $_SESSION['resposta'] = "error" . $erro->getCode();
         }
 

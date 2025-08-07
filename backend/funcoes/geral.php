@@ -34,11 +34,12 @@ function validarCSRF($csrf)
     return true;
 }
 
-function registrarErro($usuario_id, $rota, $mensagem, $codigo, $ip, $navegador)
+
+function registrarErro($cliente_id, $usuario_id, $rota, $mensagem, $codigo, $ip, $navegador)
 {
     global $conexao;
-    $stmt = $conexao->prepare("INSERT INTO erros (usuario_id, rota, mensagem, codigo, ip, navegador) VALUES (?,?,?,?,?,?)");
-    $stmt->bind_param("isssss", $usuario_id, $rota, $mensagem, $codigo, $ip, $navegador);
+    $stmt = $conexao->prepare("INSERT INTO erros (cliente_id, usuario_id, rota, mensagem, codigo, ip, navegador) VALUES (?,?,?,?,?,?,?)");
+    $stmt->bind_param("iisssss", $cliente_id, $usuario_id, $rota, $mensagem, $codigo, $ip, $navegador);
 
     if ($stmt->execute()) {
         return true;
