@@ -19,6 +19,35 @@ function gerarCSRF()
     return ($_SESSION["csrf"]);
 }
 
+
+function formatarData($data)
+{
+    if (empty($data)) {
+        return '';
+    }
+
+    try {
+        $dataObj = new DateTime($data);
+        return htmlspecialchars($dataObj->format('d/m/Y'));
+    } catch (Exception $e) {
+        return '';
+    }
+}
+
+function formatarDataHorario($data)
+{
+    if (empty($data)) {
+        return '';
+    }
+
+    try {
+        $dataObj = new DateTime($data);
+        return htmlspecialchars($dataObj->format('d/m/Y H:i'));
+    } catch (Exception $e) {
+        return '';
+    }
+}
+
 function validarCSRF($csrf)
 {
     if (!isset($_SESSION["csrf"])) {
@@ -75,7 +104,7 @@ function pegarIpUsuario()
 function pegarNavegadorUsuario()
 {
     if (isset($_SERVER['HTTP_USER_AGENT'])) {
-        $userAgent =  $_SERVER['HTTP_USER_AGENT'];
+        $userAgent = $_SERVER['HTTP_USER_AGENT'];
 
         // Valores padrão, caso algo não seja encontrado
         $os = 'Desconhecido';

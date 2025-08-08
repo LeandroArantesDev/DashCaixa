@@ -20,40 +20,39 @@ include("../../includes/inicio.php");
         <div class="card-topo">
             <div class="txt-card">
                 Clientes Ativos<br>
-                <span><?= totalClientesAtivos() ?></span>
+                <span class="text-purple-500"><?= totalClientesAtivos() ?></span>
             </div>
-            <i class="bi bi-person-lines-fill"></i>
+            <i class="bi bi-person-lines-fill text-purple-500 bg-purple-500/20"></i>
         </div>
 
         <div class="card-topo">
             <div class="txt-card">
                 Receita Mensal<br>
-                <span><?= formatarPreco(receitaMensal()) ?></span>
+                <span class="text-green-500"><?= formatarPreco(receitaMensal()) ?></span>
             </div>
-            <i class="bi bi-cash-stack"></i>
+            <i class="bi bi-cash-stack text-green-500 bg-green-500/20"></i>
         </div>
 
         <div class="card-topo">
             <div class="txt-card">
                 Adimplência<br>
-                <span><?= taxaAdimplencia() ?>%</span>
+                <span class="text-blue-500"><?= taxaAdimplencia() ?>%</span>
             </div>
-            <i class="bi bi-check-circle"></i>
+            <i class="bi bi-check-circle text-blue-500 bg-blue-500/20"></i>
         </div>
 
         <div class="card-topo">
             <div class="txt-card">
                 Usuários Ativos<br>
-                <span><?= totalUsuarios() ?></span>
+                <span class="text-orange-500"><?= totalUsuarios() ?></span>
             </div>
-            <i class="bi bi-people-fill"></i>
+            <i class="bi bi-people-fill text-orange-500 bg-orange-500/20"></i>
         </div>
     </div>
 
-    <!-- 📊 GRÁFICOS -->
     <div class="flex gap-4 mb-5">
         <!-- Receita últimos 6 meses -->
-        <div class="flex-1 border p-5 rounded-xl bg-fundo-conteudo">
+        <div class="flex-1 border border-borda p-5 rounded-xl bg-white">
             <h2 class="text-xl font-semibold text-gray-700 mb-4 flex items-center gap-2">
                 <i class="bi bi-bar-chart-line"></i> Receita Últimos 6 Meses
             </h2>
@@ -66,7 +65,7 @@ include("../../includes/inicio.php");
                 $largura = ($max > 0) ? ($item['receita'] / $max) * 100 : 0;
                 ?>
                 <div class="mb-2">
-                    <span class="block text-sm font-medium text-gray-500"><?= $item['mes'] ?></span>
+                    <span class="block text-sm font-medium text-gray-500"><?= formatarData($item['mes']) ?></span>
                     <div class="h-5 relative bg-gray-200 rounded-full">
                         <div class="h-5 bg-principal rounded-full text-white flex items-center justify-end pr-2"
                              style="width: <?= $largura ?>%;">
@@ -78,7 +77,7 @@ include("../../includes/inicio.php");
         </div>
 
         <!-- Crescimento de clientes -->
-        <div class="flex-1 border p-5 rounded-xl bg-fundo-conteudo">
+        <div class="flex-1 border border-borda p-5 rounded-xl bg-white">
             <h2 class="text-xl font-semibold text-gray-700 mb-4 flex items-center gap-2">
                 <i class="bi bi-people"></i> Novos Clientes
             </h2>
@@ -91,7 +90,7 @@ include("../../includes/inicio.php");
                 $largura = ($max > 0) ? ($item['total'] / $max) * 100 : 0;
                 ?>
                 <div class="mb-2">
-                    <span class="block text-sm font-medium text-gray-500"><?= $item['mes'] ?></span>
+                    <span class="block text-sm font-medium text-gray-500"><?= formatarData($item['mes']) ?></span>
                     <div class="h-5 relative bg-gray-200 rounded-full">
                         <div class="h-5 bg-principal rounded-full text-white flex items-center justify-end pr-2"
                              style="width: <?= $largura ?>%;">

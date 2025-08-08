@@ -29,7 +29,7 @@ include("../../includes/inicio.php");
                         <th>Codigo</th>
                         <th>IP</th>
                         <th>Navegador</th>
-                        <th>Data do Erro</th>
+                        <th>Data</th>
                         <th>Ações</th>
                     </tr>
                     </thead>
@@ -80,14 +80,7 @@ include("../../includes/inicio.php");
                                 <td class="celula-tabela"><?= htmlspecialchars($row['codigo']) ?></td>
                                 <td class="celula-tabela"><?= htmlspecialchars($row['ip']) ?></td>
                                 <td class="celula-tabela"><?= htmlspecialchars($row['navegador']) ?></td>
-                                <td class="celula-tabela">
-                                    <?php
-                                    // formatando a data e hora
-                                    $dataOriginal = $row['criado_em'];
-                                    $dataFormatada = date('d/m/Y H:i', strtotime($dataOriginal));
-                                    echo htmlspecialchars($dataFormatada);
-                                    ?>
-                                </td>
+                                <td class="celula-tabela"><?= htmlspecialchars(formatarData($row['criado_em'])) ?></td>
                                 <td>
                                     <form id="btn-deleta" action="../../backend/produtos/deletar.php" method="POST">
                                         <!-- inputs escondidos -->
