@@ -68,14 +68,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $_SESSION['resposta'] = "Ocorreu um erro ao atualizar a senha.";
             }
             $stmt_update->close();
-
         } else {
             // Se a senha atual estiver incorreta
             $_SESSION['resposta'] = "A senha atual está incorreta.";
         }
-
     } catch (Exception $erro) {
         registrarErro(
+            $_SESSION["cliente_id"],
             $_SESSION["id"],
             pegarRotaUsuario(),
             "Erro ao alterar senha do usuário",
@@ -89,7 +88,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     header("Location: ../../pages/config");
     exit;
-
 } else {
     $_SESSION['resposta'] = "Método de solicitação inválido.";
     header("Location: ../../pages/config");

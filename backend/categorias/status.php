@@ -33,10 +33,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt->close();
     } catch (Exception $erro) {
         if ($erro->getCode() == 1451) { // erro de restrição de chave estrangeira
-            registrarErro($_SESSION["id"], pegarRotaUsuario(), "Erro: Esta categoria não pode ser atualizada pois está associada a outros registros.", $erro->getCode(), pegarIpUsuario(), pegarNavegadorUsuario());
+            registrarErro($_SESSION["cliente_id"], $_SESSION["id"], pegarRotaUsuario(), "Erro: Esta categoria não pode ser atualizada pois está associada a outros registros.", $erro->getCode(), pegarIpUsuario(), pegarNavegadorUsuario());
             $_SESSION['resposta'] = "Erro: Esta categoria não pode ser atualizada pois está associada a outros registros.";
         } else {
-            registrarErro($_SESSION["id"], pegarRotaUsuario(), "Erro ao atualizar categoria!", $erro->getCode(), pegarIpUsuario(), pegarNavegadorUsuario());
+            registrarErro($_SESSION["cliente_id"], $_SESSION["id"], pegarRotaUsuario(), "Erro ao atualizar categoria!", $erro->getCode(), pegarIpUsuario(), pegarNavegadorUsuario());
             $_SESSION['resposta'] = "error" . $erro->getCode();
         }
     }

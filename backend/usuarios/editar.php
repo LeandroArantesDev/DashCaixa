@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             }
             $stmt->close();
         } catch (Exception $erro) {
-            registrarErro($_SESSION["id"], pegarRotaUsuario(), "Erro ao editar usuario!", $erro->getCode(), pegarIpUsuario(), pegarNavegadorUsuario());
+            registrarErro($_SESSION["cliente_id"], $_SESSION["id"], pegarRotaUsuario(), "Erro ao editar usuario!", $erro->getCode(), pegarIpUsuario(), pegarNavegadorUsuario());
             $_SESSION['resposta'] = "error" . $erro->getCode();
         }
 

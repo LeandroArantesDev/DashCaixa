@@ -36,15 +36,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $_SESSION['resposta'] = "Ocorreu um erro ao atualizar a categoria!";
         }
         $stmt->close();
-
     } catch (Exception $erro) {
-        registrarErro($_SESSION["id"], pegarRotaUsuario(), "Erro ao editar categoria!", $erro->getCode(), pegarIpUsuario(), pegarNavegadorUsuario());
+        registrarErro($_SESSION["cliente_id"], $_SESSION["id"], pegarRotaUsuario(), "Erro ao editar categoria!", $erro->getCode(), pegarIpUsuario(), pegarNavegadorUsuario());
         $_SESSION['resposta'] = "error" . $erro->getCode();
     }
 
     header("Location: ../../pages/categorias");
     exit;
-
 } else {
     $_SESSION['resposta'] = "Método de solicitação ínvalido!";
     header("Location: ../../pages/categorias");

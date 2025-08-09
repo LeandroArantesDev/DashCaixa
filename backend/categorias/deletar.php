@@ -26,19 +26,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $_SESSION['resposta'] = "Ocorreu um erro ao deletar a categoria!";
         }
         $stmt->close();
-
     } catch (Exception $erro) {
         if ($erro->getCode() == 1451) { // erro de restrição de chave estrangeira
             $_SESSION['resposta'] = "Erro: Esta categoria não pode ser deletada pois está associada a outros registros (ex: produtos).";
         } else {
-            registrarErro($_SESSION["id"], pegarRotaUsuario(), "Erro ao deletar categoria!", $erro->getCode(), pegarIpUsuario(), pegarNavegadorUsuario());
+            registrarErro($_SESSION["cliente_id"], $_SESSION["id"], pegarRotaUsuario(), "Erro ao deletar categoria!", $erro->getCode(), pegarIpUsuario(), pegarNavegadorUsuario());
             $_SESSION['resposta'] = "error" . $erro->getCode();
         }
     }
 
     header("Location: ../../pages/categorias");
     exit;
-
 } else {
     $_SESSION['resposta'] = "Método de solicitação ínvalido!";
     header("Location: ../../pages/categorias");

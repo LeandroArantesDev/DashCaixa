@@ -39,15 +39,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $_SESSION['resposta'] = "Ocorreu um erro ao atualizar o produto!";
         }
         $stmt->close();
-
     } catch (Exception $erro) {
-        registrarErro($_SESSION["id"], pegarRotaUsuario(), "Erro ao editar produto!", $erro->getCode(), pegarIpUsuario(), pegarNavegadorUsuario());
+        registrarErro($_SESSION["cliente_id"], $_SESSION["id"], pegarRotaUsuario(), "Erro ao editar produto!", $erro->getCode(), pegarIpUsuario(), pegarNavegadorUsuario());
         $_SESSION['resposta'] = "error" . $erro->getCode();
     }
 
     header("Location: ../../pages/produtos");
     exit;
-
 } else {
     $_SESSION['resposta'] = "Método de solicitação ínvalido!";
     header("Location: ../../pages/produtos");

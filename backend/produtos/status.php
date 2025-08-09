@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     try {
-        if (isset($_POST['status']) && $_POST['status'] == 1){
+        if (isset($_POST['status']) && $_POST['status'] == 1) {
             $stmt = $conexao->prepare("UPDATE produtos SET status = 0 WHERE id = ?");
         } else {
             $stmt = $conexao->prepare("UPDATE produtos SET status = 1 WHERE id = ?");
@@ -31,19 +31,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $_SESSION['resposta'] = "Ocorreu um erro ao atualizar o produto!";
         }
         $stmt->close();
-
     } catch (Exception $erro) {
         if ($erro->getCode() == 1451) { // erro de restrição de chave estrangeira
             $_SESSION['resposta'] = "Erro: Este produto não pode ser atualizado pois está associado a outros registros.";
         } else {
-            registrarErro($_SESSION["id"], pegarRotaUsuario(), "Erro ao atualizar produto!", $erro->getCode(), pegarIpUsuario(), pegarNavegadorUsuario());
+            registrarErro($_SESSION["cliente_id"], $_SESSION["id"], pegarRotaUsuario(), "Erro ao atualizar produto!", $erro->getCode(), pegarIpUsuario(), pegarNavegadorUsuario());
             $_SESSION['resposta'] = "error" . $erro->getCode();
         }
     }
 
     header("Location: ../../pages/produtos");
     exit;
-
 } else {
     $_SESSION['resposta'] = "Método de solicitação ínvalido!";
     header("Location: ../../pages/produtos");

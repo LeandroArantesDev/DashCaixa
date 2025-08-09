@@ -46,6 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } catch (Exception $erro) {
         // Em caso de erro com o banco de dados, registra o erro e informa o usuário
         registrarErro(
+            $_SESSION["cliente_id"],
             $_SESSION["id"],
             pegarRotaUsuario(),
             "Erro ao alterar informações do usuário",
@@ -59,7 +60,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt->close();
     header("Location: ../../pages/config");
     exit;
-
 } else {
     $_SESSION['resposta'] = "Método de solicitação inválido.";
     header("Location: ../../pages/config");

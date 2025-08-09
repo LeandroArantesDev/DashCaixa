@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // Verificar se encontrou itens
         if (empty($itens_venda)) {
             $conexao->rollback();
-            registrarErro($_SESSION["id"], pegarRotaUsuario(), "Nenhum item encontrado para a venda ID: " . $venda_id, 3, pegarIpUsuario(), pegarNavegadorUsuario());
+            registrarErro($_SESSION["cliente_id"], $_SESSION["id"], pegarRotaUsuario(), "Nenhum item encontrado para a venda ID: " . $venda_id, 3, pegarIpUsuario(), pegarNavegadorUsuario());
             $_SESSION['resposta'] = "Nenhum item encontrado para esta venda!";
             header("Location: ../../pages/historico");
             exit;
@@ -110,7 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $conexao->commit();
 
         // Log de sucesso para auditoria
-        registrarErro($_SESSION["id"], pegarRotaUsuario(), "Venda ID: " . $venda_id . " deletada com sucesso!", 0, pegarIpUsuario(), pegarNavegadorUsuario());
+        registrarErro($_SESSION["cliente_id"], $_SESSION["id"], pegarRotaUsuario(), "Venda ID: " . $venda_id . " deletada com sucesso!", 0, pegarIpUsuario(), pegarNavegadorUsuario());
 
         $_SESSION['resposta'] = "Venda deletada com sucesso!";
     } catch (Exception $erro) {
@@ -130,7 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 break;
         }
 
-        registrarErro($_SESSION["id"], pegarRotaUsuario(), "Erro ao deletar venda ID: " . $venda_id . " - " . $erro->getMessage(), $erro->getCode(), pegarIpUsuario(), pegarNavegadorUsuario());
+        registrarErro($_SESSION["cliente_id"], $_SESSION["id"], pegarRotaUsuario(), "Erro ao deletar venda ID: " . $venda_id . " - " . $erro->getMessage(), $erro->getCode(), pegarIpUsuario(), pegarNavegadorUsuario());
         $_SESSION['resposta'] = $mensagem;
     } finally {
         // Garantir que autocommit seja restaurado

@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
         $stmt->close();
     } catch (Exception $erro) {
-        registrarErro($_SESSION["id"], pegarRotaUsuario(), "Ocorreu um erro ao cadastrar item!", 1, pegarIpUsuario(), pegarNavegadorUsuario());
+        registrarErro($_SESSION["cliente_id"], $_SESSION["id"], pegarRotaUsuario(), "Ocorreu um erro ao cadastrar item!", 1, pegarIpUsuario(), pegarNavegadorUsuario());
         switch ($erro->getCode()) {
             default:
                 $_SESSION['resposta'] = "error" . $erro->getCode();

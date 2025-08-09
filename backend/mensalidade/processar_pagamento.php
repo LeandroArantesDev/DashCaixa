@@ -12,7 +12,7 @@ $navegador_usuario = pegarNavegadorUsuario();
 
 // validando o input
 if (empty($_GET['fatura_id'])) {
-    registrarErro($cliente_id, $rota_atual, 'ID da fatura não recebido na URL.', 'INPUT_INVALID', $ip_usuario, $navegador_usuario);
+    registrarErro($cliente_id, $_SESSION["id"], $rota_atual, 'ID da fatura não recebido na URL.', 'INPUT_INVALID', $ip_usuario, $navegador_usuario);
     $_SESSION['resposta'] = "Erro: Identificador da fatura não foi encontrado.";
     header("Location: " . BASE_URL . "pages/mensalidade");
     exit();
@@ -28,7 +28,7 @@ $fatura = $stmt->get_result()->fetch_assoc();
 $stmt->close();
 
 if (!$fatura || $fatura['cliente_id'] != $cliente_id) {
-    registrarErro($cliente_id, $rota_atual, "Fatura inválida ou de outro cliente.", 'AUTH_VIOLATION', $ip_usuario, $navegador_usuario);
+    registrarErro($cliente_id, $_SESSION["cliente_id"], $rota_atual, "Fatura inválida ou de outro cliente.", 'AUTH_VIOLATION', $ip_usuario, $navegador_usuario);
     $_SESSION['resposta'] = "Fatura não encontrada ou não pertence a você.";
     header("Location: " . BASE_URL . "pages/mensalidade");
     exit();

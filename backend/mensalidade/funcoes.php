@@ -1,5 +1,7 @@
 <?php
-function marcarFaturaComoPaga($fatura_id): bool {
+session_start();
+function marcarFaturaComoPaga($fatura_id): bool
+{
     global $conexao;
 
     // Buscar fatura
@@ -34,10 +36,9 @@ function marcarFaturaComoPaga($fatura_id): bool {
 
         $conexao->commit();
         return true;
-
     } catch (Exception $e) {
         $conexao->rollback();
-        registrarErro($cliente_id, 'marcarFaturaComoPaga', $e->getMessage(), 'TRANSACTION_FAIL', $_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT']);
+        registrarErro($cliente_id, $_SESSION["id"], 'marcarFaturaComoPaga', $e->getMessage(), 'TRANSACTION_FAIL', $_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT']);
         return false;
     }
 }

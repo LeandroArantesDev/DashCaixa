@@ -100,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 exit;
             }
         } catch (Exception $erro) {
-            registrarErro(null, pegarRotaUsuario(), "Erro na hora do login", $erro->getCode(), pegarIpUsuario(), pegarNavegadorUsuario());
+            registrarErro(null, null, pegarRotaUsuario(), "Erro na hora do login", $erro->getCode(), pegarIpUsuario(), pegarNavegadorUsuario());
             // Caso houver erro ele retorna
             switch ($erro->getCode()) {
                 // erro de quantidade de paramêtros erro
