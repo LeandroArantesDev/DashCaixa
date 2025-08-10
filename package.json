@@ -2,7 +2,7 @@
   "scripts": {
     "dev": "npx @tailwindcss/cli -i ./assets/css/style.css -o ./assets/css/output.css --watch"
   },
-  "dependencies": {
+  "devDependencies": {
     "@tailwindcss/cli": "^4.1.11",
     "tailwindcss": "^4.1.11"
   }

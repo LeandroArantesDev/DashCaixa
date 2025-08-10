@@ -52,13 +52,13 @@ include("../../includes/inicio.php");
             $alertas = buscar_alerta_estoque_baixo();
             foreach ($alertas as $produto):
             ?>
-                <p class="flex items-center justify-between w-full bg-fundo-conteudo p-3 rounded-xl font-bold">
+                <p class="flex items-center justify-between w-full bg-white p-3 rounded-xl font-bold">
                     <?= htmlspecialchars($produto['nome']) ?> <span
                         class="text-red-500"><?= htmlentities($produto['estoque']) ?> Unidades</span>
                 </p>
             <?php endforeach; ?>
         </div>
-        <div class="flex flex-col gap-4 border border-gray-300/80 bg-fundo-conteudo p-5 rounded-xl w-full h-full">
+        <div class="flex flex-col gap-4 border border-gray-300/80 bg-white p-5 rounded-xl w-full h-full">
             <div class="flex items-center gap-2 text-xl font-semibold text-gray-700">
                 <i
                     class="bi bi-graph-up flex items-center justify-center w-10 h-10 rounded-md text-2xl text-principal bg-sky-500/10"></i>
