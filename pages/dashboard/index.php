@@ -14,7 +14,7 @@ include("../../includes/inicio.php");
         </div>
     </div>
 
-    <div class="grid grid-cols-4 gap-4 mb-5">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
         <div id="vendas" class="card-topo">
             <div class="txt-card">
                 Vendas do dia <br> <span><?= htmlspecialchars(buscar_vendas_diarias()) ?></span>
@@ -41,8 +41,8 @@ include("../../includes/inicio.php");
         </div>
     </div>
 
-    <div class="flex justify-between gap-3">
-        <div class="flex flex-col gap-5 border border-yellow-300 bg-yellow-200/20 p-5 rounded-xl min-w-1/3">
+    <div class="flex flex-col md:flex-row justify-between gap-3">
+        <div class="flex flex-col gap-5 w-full lg:w-auto border border-yellow-300 bg-yellow-200/20 p-5 rounded-xl min-w-1/3">
             <div class="flex gap-2 text-xl text-amber-700">
                 <i
                     class="bi bi-exclamation-triangle flex items-center justify-center w-8 h-8 rounded-md text-yellow-600 bg-yellow-600/20"></i>

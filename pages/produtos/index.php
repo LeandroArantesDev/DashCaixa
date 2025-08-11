@@ -77,7 +77,7 @@ include("../../includes/inicio.php");
                                         <i class="bi bi-pencil-square"></i>
                                         <span class="tooltip">Editar</span>
                                     </button>
-                                    <form id="btn-deleta" action="../../backend/produtos/deletar.php" method="POST">
+                                    <form id="btn-deleta" action="../../backend/produtos/deletar.php" method="POST" onclick="return confirm('Tem certeza que deseja deletar este produto?')">
                                         <!-- inputs escondidos -->
                                         <input type="hidden" name="id" value="<?= $row['id'] ?>">
                                         <input type="hidden" name="csrf" id="csrf" value="<?= gerarCSRF() ?>">
@@ -94,10 +94,11 @@ include("../../includes/inicio.php");
                                         <button class="botao-informativo">
                                             <?php if ($row['status'] == 1) : ?>
                                                 <i class="bi bi-eye-slash"></i>
+                                                <span class="tooltip">Exibir</span>
                                             <?php elseif ($row['status'] == 0) : ?>
                                                 <i class="bi bi-eye"></i>
+                                                <span class="tooltip">Ocultar</span>
                                             <?php endif ?>
-                                            <span class="tooltip">Ocultar</span>
                                         </button>
                                     </form>
                                 </td>

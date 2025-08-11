@@ -14,8 +14,8 @@ $n_valida = true;
 $form_index = true;
 include("includes/inicio.php");
 ?>
-<div class="flex items-center justify-center w-full h-full bg-sky-100">
-    <form class="flex items-center space-y-4 justify-center flex-col rounded-xl p-7 bg-fundo-interface shadow-sm min-w-lg"
+<div class="px-[4%] lg:px-0 flex items-center justify-center w-full h-full bg-sky-100">
+    <form class="flex items-center space-y-4 justify-center flex-col rounded-xl p-7 bg-fundo-interface shadow-xl w-full lg:w-auto lg:min-w-lg"
         action="backend/auth/login.php" method="POST">
         <input type="hidden" name="csrf" id="csrf" value="<?= gerarCSRF() ?>">
         <img src="assets/img/logo.png" alt="Logo DashCaixa" class="h-25">

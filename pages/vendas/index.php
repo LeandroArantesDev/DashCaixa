@@ -18,7 +18,7 @@ include("../../includes/inicio.php")
                         type="text" name="busca" id="busca" placeholder="Buscar produto por nome...">
                 </div>
             </div>
-            <div class="h-full flex-1 overflow-y-auto py-2">
+            <div class="h-full flex-1 overflow-y-auto pb-6">
                 <div class="h-max flex flex-col gap-3 p-3 pb-20">
                     <?php
                     // buscando todos os produtos disponiveis

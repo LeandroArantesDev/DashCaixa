@@ -18,6 +18,32 @@ document.addEventListener("DOMContentLoaded", () => {
     "btn-chamar-calcular-troco"
   );
 
+  // Função para obter o estoque de um produto pelo ID
+  function obterEstoqueProduto(produtoId) {
+    const produtoCard = document
+      .querySelector(`[data-id="${produtoId}"]`)
+      .closest(".produto-card");
+    const estoqueText = produtoCard.querySelector("h3").textContent;
+
+    // Extrai o número do estoque do texto
+    const match = estoqueText.match(/(\d+)/);
+    return match ? parseInt(match[0]) : 0;
+  }
+
+  // Função para mostrar mensagem de erro
+  function mostrarMensagemEstoque(mensagem) {
+    // Cria um toast ou alerta temporário
+    const toast = document.createElement("div");
+    toast.className =
+      "border border-borda flex items-center justify-center gap-4 text-lg rounded-xl fixed right-8 bottom-[-50%] shadow-sm bg-fundo-interface px-8 py-2 animate-[show_5s]";
+    toast.innerHTML = `<i class="bi bi-info-circle-fill"></i> ${mensagem}`;
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+      document.body.removeChild(toast);
+    }, 3000);
+  }
+
   // Funcionalidade de busca
   inputBusca.addEventListener("input", function () {
     const termoBusca = this.value.toLowerCase();
@@ -42,16 +68,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Adicionar produto ao carrinho
+  // Adicionar produto ao carrinho (MODIFICADO)
   document.querySelectorAll(".add-button").forEach((btn) => {
     btn.addEventListener("click", function () {
       const id = this.dataset.id;
       const nome = this.dataset.nome;
       const preco = parseFloat(this.dataset.preco);
       const quantidade = 1;
+      const estoqueDisponivel = obterEstoqueProduto(id);
 
       // Verifica se já existe no carrinho
       const existente = carrinho.find((item) => item.id === id);
+      const quantidadeAtual = existente ? existente.quantidade : 0;
+      const novaQuantidade = quantidadeAtual + quantidade;
+
+      // Verifica se a nova quantidade não excede o estoque
+      if (novaQuantidade > estoqueDisponivel) {
+        mostrarMensagemEstoque(
+          `Estoque insuficiente! Disponível: ${estoqueDisponivel}, no carrinho: ${quantidadeAtual}`
+        );
+        return;
+      }
+
       if (existente) {
         existente.quantidade += quantidade;
       } else {
@@ -60,6 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
           nome,
           preco,
           quantidade,
+          estoque: estoqueDisponivel, // Armazena o estoque para referência
         });
       }
 
@@ -89,7 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Atualiza a lista e o total
+  // Atualiza a lista e o total (MODIFICADO)
   function atualizarCarrinho() {
     listaCarrinho.innerHTML = "";
     let total = 0;
@@ -104,12 +143,11 @@ document.addEventListener("DOMContentLoaded", () => {
       valorTotal.textContent = "R$ 0,00";
       btnFinalizar.disabled = true;
       inputItens.value = "";
-      // ESCONDE os botões de troco
       if (btnChamarCalcularTroco) btnChamarCalcularTroco.style.display = "none";
       if (btnCalcularTroco) btnCalcularTroco.style.display = "none";
-      if (inputValorRecebido) inputValorRecebido.value = ""; // Limpa o campo valor recebido
-      if (valorTrocoBox) valorTrocoBox.style.display = "none"; // Esconde o troco também
-      if (valorTrocoValor) valorTrocoValor.textContent = "R$ 0,00"; // Reseta o texto do troco
+      if (inputValorRecebido) inputValorRecebido.value = "";
+      if (valorTrocoBox) valorTrocoBox.style.display = "none";
+      if (valorTrocoValor) valorTrocoValor.textContent = "R$ 0,00";
       return;
     }
 
@@ -121,6 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     carrinho.forEach((item, idx) => {
+      const estoqueAtual = obterEstoqueProduto(item.id);
       const li = document.createElement("li");
       li.className = "item-carrinho";
       li.innerHTML = `
@@ -128,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <div class="space-y-2 max-h-80 overflow-y-auto"> 
                             <div class="flex items-center justify-between py-1 px-2 border border-borda rounded-lg bg-gray-50">
                                 <div class="flex-1"> 
-                                    <h3 class="font-medium text-left text-gray-900 "> ${
+                                    <h3 class="font-medium text-left text-gray-900"> ${
                                       item.nome
                                     } </h3>
                                     <p class="text-sm text-left text-gray-500"> ${item.preco
@@ -142,14 +181,20 @@ document.addEventListener("DOMContentLoaded", () => {
                                 </div>
                                 <div class="flex items-center space-x-3"> 
                                     <div class="flex items-center space-x-2 overflow-hidden bg-fundo-interface rounded-lg border border-borda">
-                                        <button type="button" class="btn-quantidade cursor-pointer p-2 text-gray-500 hover:text-gray-700 hover:scale-160 hover:bg-gray-100 rounded-l-lg" data-acao="diminuir" data-idx="${idx}">
+                                        <button type="button" class="btn-quantidade cursor-pointer p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-l-lg" data-acao="diminuir" data-idx="${idx}">
                                         -</button>
                                         <span class="quantidade w-10 text-center font-medium text-lg">${
                                           item.quantidade
                                         }</span>
-                                        <button type="button" class="btn-quantidade cursor-pointer p-2 text-gray-500 hover:text-gray-700 hover:scale-160 hover:bg-gray-100 rounded-r-lg" data-acao="aumentar" data-idx="${idx}">+</button>
+                                        <button type="button" class="btn-quantidade cursor-pointer p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-r-lg ${
+                                          item.quantidade >= estoqueAtual
+                                            ? "opacity-50 cursor-not-allowed"
+                                            : ""
+                                        }" data-acao="aumentar" data-idx="${idx}" ${
+        item.quantidade >= estoqueAtual ? "disabled" : ""
+      }>+</button>
                                     </div>
-                                    <button type="button" class="remover-item p-2 cursor-pointer text-red-500 hover:text-red-700 hover:bg-red-50 hover:scale-120 hover:rounded-lg" data-idx="${idx}" title="Remover">
+                                    <button type="button" class="remover-item p-2 cursor-pointer text-red-700 hover:text-red-800 hover:bg-red-50 hover:scale-120 hover:rounded-lg" data-idx="${idx}" title="Remover">
                                     <i class="bi bi-trash3"></i>
                                     </button>
                                 </div>
@@ -165,14 +210,25 @@ document.addEventListener("DOMContentLoaded", () => {
     itensTotal.textContent = carrinho.length + "itens";
     inputItens.value = JSON.stringify(carrinho);
 
-    // Event listeners para os controles de quantidade
+    // Event listeners para os controles de quantidade (MODIFICADO)
     document.querySelectorAll(".btn-quantidade").forEach((btn) => {
       btn.addEventListener("click", function () {
+        if (this.disabled) return; // Previne clique em botão desabilitado
+
         const idx = parseInt(this.dataset.idx);
         const acao = this.dataset.acao;
+        const item = carrinho[idx];
+        const estoqueDisponivel = obterEstoqueProduto(item.id);
 
         if (acao === "aumentar") {
-          carrinho[idx].quantidade++;
+          if (item.quantidade < estoqueDisponivel) {
+            carrinho[idx].quantidade++;
+          } else {
+            mostrarMensagemEstoque(
+              `Estoque máximo atingido! Disponível: ${estoqueDisponivel}`
+            );
+            return;
+          }
         } else if (acao === "diminuir" && carrinho[idx].quantidade > 1) {
           carrinho[idx].quantidade--;
         } else if (acao === "diminuir" && carrinho[idx].quantidade == 1) {
@@ -186,7 +242,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".remover-item").forEach((btn) => {
       btn.addEventListener("click", function () {
         const idx = parseInt(this.dataset.idx);
-        const acao = this.dataset.acao;
         carrinho.splice(idx, 1);
         atualizarCarrinho();
       });

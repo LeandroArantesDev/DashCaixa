@@ -33,7 +33,8 @@
         </div>
         <div class="input-group-modal">
             <label for="preco">Preço de Venda</label>
-            <input type="number" name="preco" id="preco" placeholder="0,00">
+            <input type="text" name="preco_formatado" id="preco" placeholder="R$ 0,00" inputmode="numeric">
+            <input type="hidden" name="preco" id="preco_real">
         </div>
         <div class="input-group-modal">
             <label for="estoque">Estoque</label>
@@ -46,9 +47,15 @@
     </form>
     <div id="overlay-modal" onclick="esconderModal()"></div>
 </div>
+<script src="<?= BASE_URL ?>assets/js/formatarValores.js"></script>
 <script>
     const modal = document.getElementById("modal");
     const form = document.querySelector("#modal form");
+
+    // Aplicar formatação no input de preço quando a página carregar
+    document.addEventListener('DOMContentLoaded', function() {
+        aplicarFormatacaoPreco('preco', 'preco_real');
+    });
 
     function modalCadastrar() {
         // action do formulario
@@ -84,13 +91,18 @@
             const nomeInput = document.getElementById("nome");
             const categoriaInput = document.getElementById("categoria_id");
             const precoInput = document.getElementById("preco");
+            const precoRealInput = document.getElementById("preco_real");
             const estoqueInput = document.getElementById("estoque");
 
             // preenche os valores
             idInput.value = id;
             nomeInput.value = data.nome;
             categoriaInput.value = data.categoria_id;
-            precoInput.value = data.preco;
+
+            // Formatar o preço para exibição
+            precoInput.value = formatarPrecoExibicao(data.preco);
+            precoRealInput.value = parseFloat(data.preco).toFixed(2);
+
             estoqueInput.value = data.estoque;
 
             // título do modal
@@ -110,11 +122,14 @@
         const nomeInput = document.getElementById("nome");
         const categoriaInput = document.getElementById("categoria_id");
         const precoInput = document.getElementById("preco");
+        const precoRealInput = document.getElementById("preco_real");
         const estoqueInput = document.getElementById("estoque");
+
         idInput.value = '';
         nomeInput.value = '';
         categoriaInput.value = 0;
-        precoInput.value = '';
+        precoInput.value = 'R$ 0,00';
+        precoRealInput.value = '0.00';
         estoqueInput.value = '';
     }
 </script>

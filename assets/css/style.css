@@ -194,11 +194,15 @@
     @apply flex justify-center items-center space-x-2;
 
     & #btn-edita {
-      @apply text-principal text-2xl hover:text-principal-hover  p-1 hover:bg-blue-50 rounded;
+      @apply text-principal text-2xl hover:text-principal-hover p-1 hover:bg-blue-50 rounded;
     }
 
     & #btn-deleta {
       @apply text-red-600 text-2xl hover:text-red-700 p-1 hover:bg-red-50 rounded;
+    }
+
+    & #btn-imprimir {
+      @apply text-principal text-2xl hover:text-principal-hover p-1 hover:bg-blue-50 rounded;
     }
 
     & #btn-status {
