@@ -7,15 +7,21 @@
         <h2>Adicionar Novo Usuario</h2>
         <div class="input-group-modal">
             <label for="nome">Nome do Usuario</label>
-            <input type="text" name="nome" id="nome" placeholder="Digite o nome do Usuario">
+            <input type="text" name="nome" id="nome" placeholder="Digite o nome do Usuario" required
+                pattern="^[A-Za-zÀ-ÿ\s]{2,100}$"
+                title="Nome deve conter apenas letras e espaços, entre 2 e 100 caracteres" minlength="2"
+                maxlength="100">
         </div>
         <div class="input-group-modal">
             <label for="email">Email</label>
-            <input type="email" name="email" id="email" placeholder="Digite o email do Usuario">
+            <input type="email" name="email" id="email" placeholder="Digite o email do Usuario" required
+                pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                title="Digite um email válido (exemplo: usuario@dominio.com)" maxlength="255">
         </div>
         <div class="input-group-modal">
             <label for="tipo">Tipo</label>
-            <select name="tipo" id="tipo">
+            <select name="tipo" id="tipo" required title="Selecione o tipo de usuário">
+                <option value="">Selecione o tipo</option>
                 <option value="0">Caixa</option>
                 <option value="1">Administrador</option>
             </select>
@@ -25,12 +31,17 @@
             <label for="checkbox">Deseja alterar a senha do usuário?</label>
         </div>
         <div class="input-group-modal password">
-            <label for="email">Senha</label>
-            <input type="password" name="senha" id="senha" placeholder="Digite a senha do Usuario">
+            <label for="senha">Nova Senha</label>
+            <input type="password" name="senha" id="senha" placeholder="Digite a senha do Usuario"
+                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                title="Senha deve ter pelo menos 8 caracteres, incluindo maiúscula, minúscula, número e símbolo (@$!%*?&)"
+                minlength="8" maxlength="255">
         </div>
         <div class="input-group-modal password">
-            <label for="email">Senha</label>
-            <input type="password" name="confirmarsenha" id="confirmarsenha" placeholder="Digite a senha novamente">
+            <label for="confirmarsenha">Confirmar Senha</label>
+            <input type="password" name="confirmarsenha" id="confirmarsenha" placeholder="Digite a senha novamente"
+                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                title="Confirme a senha exatamente igual à anterior" minlength="8" maxlength="255">
         </div>
         <div class="div-btn">
             <button type="button" onclick="esconderModal()">Cancelar</button>

@@ -12,7 +12,7 @@ include("../../backend/funcoes/dashboard-historico.php");
             <h1>Histórico de Vendas</h1>
             <p>Acompanhe todas as vendas realizadas</p>
         </div>
-        <a class="exportar" href="#"><i class="bi bi-download"></i> Exportar</a>
+        <!-- <a class="exportar" href="#"><i class="bi bi-download"></i> Exportar</a> -->
     </div>
     <div class="grid grid-cols-3 gap-4 mb-5">
         <div id="vendas" class="card">

@@ -7,11 +7,14 @@
         <h2>Adicionar Novo Produto</h2>
         <div class="input-group-modal">
             <label for="nome">Nome do Produto</label>
-            <input type="text" value="" name="nome" id="nome" placeholder="Digite o nome do Produto">
+            <input type="text" value="" name="nome" id="nome" placeholder="Digite o nome do Produto" required
+                pattern="^[A-Za-zÀ-ÿ0-9\s\-_()]{2,100}$"
+                title="Nome deve conter apenas letras, números, espaços, hífens e parênteses (2-100 caracteres)"
+                minlength="2" maxlength="100">
         </div>
         <div class="input-group-modal">
             <label for="categoria">Categoria</label>
-            <select name="categoria_id" id="categoria_id">
+            <select name="categoria_id" id="categoria_id" required title="Selecione uma categoria">
                 <option value="0" disabled selected>Escolha uma categoria</option>
                 <?php
                 // Buscando todas as categorias
@@ -33,12 +36,14 @@
         </div>
         <div class="input-group-modal">
             <label for="preco">Preço de Venda</label>
-            <input type="text" name="preco_formatado" id="preco" placeholder="R$ 0,00" inputmode="numeric">
+            <input type="text" name="preco_formatado" id="preco" placeholder="R$ 0,00" inputmode="numeric" required
+                pattern="^R\$\s\d{1,6}(,\d{2})?$" title="Digite um preço válido (ex: R$ 10,50)" maxlength="12">
             <input type="hidden" name="preco" id="preco_real">
         </div>
         <div class="input-group-modal">
             <label for="estoque">Estoque</label>
-            <input type="number" name="estoque" id="estoque" placeholder="0">
+            <input type="number" name="estoque" id="estoque" placeholder="0" required min="0" max="99999"
+                pattern="^[0-9]{1,5}$" title="Digite uma quantidade válida de estoque (0-99999)" step="1">
         </div>
         <div class="div-btn">
             <button type="button" onclick="esconderModal()">Cancelar</button>

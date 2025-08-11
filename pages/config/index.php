@@ -34,7 +34,9 @@ $stmt->close();
                     <div class="relative">
                         <i class="bi bi-person icons text-2xl"></i>
                         <input type="text" name="nome" id="nome" value="<?= htmlspecialchars($row['nome']) ?>"
-                            placeholder="Seu nome" required class="interface-input-pessoais">
+                            placeholder="Seu nome" required pattern="^[A-Za-zÀ-ÿ\s]{2,100}$"
+                            title="Nome deve conter apenas letras e espaços, entre 2 e 100 caracteres" minlength="2"
+                            maxlength="100" class="interface-input-pessoais">
                     </div>
                 </div>
                 <div>
@@ -42,13 +44,13 @@ $stmt->close();
                     <div class="relative">
                         <i class="bi bi-envelope icons text-2xl"></i>
                         <input type="email" name="email" id="email" value="<?= htmlspecialchars($row['email']) ?>"
-                            placeholder="Seu email" required class="interface-input-pessoais">
+                            placeholder="Seu email" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                            title="Digite um email válido (exemplo: usuario@dominio.com)" maxlength="255"
+                            class="interface-input-pessoais">
                     </div>
                 </div>
                 <div class="flex space-x-3 pt-4">
-                    <button type="button"
-                        class="btn-cancela"
-                        onclick="esconderEditarInfo()">
+                    <button type="button" class="btn-cancela" onclick="esconderEditarInfo()">
                         Cancelar
                     </button>
                     <button class="btn-envia" type="submit">
@@ -71,10 +73,12 @@ $stmt->close();
                 <div class="text-m text-gray-700 mt-2">
                     <label for="tipo">Tipo de Usuario</label>
                     <div class="flex items-center space-x-2 mt-2">
-                        <?php if ($row['tipo'] == 1): ?> <!-- verificando se o usuario é adm -->
+                        <?php if ($row['tipo'] == 1): ?>
+                            <!-- verificando se o usuario é adm -->
                             <i class="bi bi-shield px-2 py-1 rounded-lg bg-purple-100 text-purple-800"></i>
                             <p class="tipo-usuario">Administrador</p>
-                        <?php elseif ($row['tipo'] == 0): ?> <!-- caso for caixa, a cor e o icone mudam -->
+                        <?php elseif ($row['tipo'] == 0): ?>
+                            <!-- caso for caixa, a cor e o icone mudam -->
                             <i class="bi bi-person px-2 py-1 rounded-lg bg-blue-100 text-blue-800"></i>
                             <p class="tipo-usuario bg-blue-100 text-blue-800">Caixa</p>
                         <?php elseif ($row['tipo'] == 2): ?>
@@ -99,8 +103,8 @@ $stmt->close();
                     <label for="senha-atual">Senha Atual</label>
                     <div class="relative">
                         <i class="bi bi-lock icons"></i>
-                        <input type="password" name="senha-atual" id="senha-atual" placeholder="Senha Atual"
-                            class="interface-input-seguranca">
+                        <input type="password" name="senha-atual" id="senha-atual" placeholder="Senha Atual" required
+                            minlength="6" title="Digite sua senha atual" class="interface-input-seguranca">
                         <button type="button" class="button-eye">
                             <i class="bi bi-eye"></i>
                         </button>
@@ -110,8 +114,10 @@ $stmt->close();
                     <label for="nova-senha">Nova Senha</label>
                     <div class="relative">
                         <i class="bi bi-lock icons"></i>
-                        <input type="password" name="nova-senha" id="nova-senha" placeholder="Nova Senha"
-                            class="interface-input-seguranca">
+                        <input type="password" name="nova-senha" id="nova-senha" placeholder="Nova Senha" required
+                            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                            title="A senha deve ter pelo menos 8 caracteres, incluindo: 1 letra minúscula, 1 maiúscula, 1 número e 1 caractere especial (@$!%*?&)"
+                            minlength="8" maxlength="50" class="interface-input-seguranca">
                         <button type="button" class="button-eye">
                             <i class="bi bi-eye"></i>
                         </button>
@@ -122,16 +128,17 @@ $stmt->close();
                     <div class="relative">
                         <i class="bi bi-lock icons"></i>
                         <input type="password" name="confirmar-senha" id="confirmar-senha"
-                            placeholder="Confirmar Nova Senha" class="interface-input-seguranca">
+                            placeholder="Confirmar Nova Senha" required
+                            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                            title="Confirme a nova senha (deve ser idêntica à nova senha)" minlength="8" maxlength="50"
+                            class="interface-input-seguranca">
                         <button type="button" class="button-eye">
                             <i class="bi bi-eye"></i>
                         </button>
                     </div>
                 </div>
                 <div class="flex gap-2 w-full">
-                    <button type="button"
-                        class="btn-cancela"
-                        onclick="esconderFormSenha()">
+                    <button type="button" class="btn-cancela" onclick="esconderFormSenha()">
                         Cancelar
                     </button>
                     <button class="btn-envia" type="submit">
@@ -146,7 +153,8 @@ $stmt->close();
             <div class="px-6">
                 <button id="btn-alterar-senha" class="botao-seguranca" onclick="mostrarFormSenha()">
                     <i class="bi bi-lock"></i>
-                    Alterar Senha <!-- Botão para mostrar o formulario de alteração de senha -->
+                    Alterar Senha
+                    <!-- Botão para mostrar o formulario de alteração de senha -->
                 </button>
             </div>
         </div>
@@ -193,11 +201,37 @@ $stmt->close();
             <?php endif; ?>
             <div class="interface-conteudo-atividades">
                 <span class="text-titulos-config">Conta criada em</span>
-                <span class="text-subtitulos-config font-medium"><?= htmlspecialchars(date('d/m/Y', strtotime($row['criado_em']))) ?></span>
+                <span
+                    class="text-subtitulos-config font-medium"><?= htmlspecialchars(date('d/m/Y', strtotime($row['criado_em']))) ?></span>
             </div>
         </div>
     </div>
 
     <script src="../../assets/js/config.js"></script>
+    <script>
+        // Validação de confirmação de senha
+        document.getElementById('confirmar-senha').addEventListener('input', function() {
+            const novaSenha = document.getElementById('nova-senha').value;
+            const confirmarSenha = this.value;
+
+            if (novaSenha !== confirmarSenha) {
+                this.setCustomValidity('As senhas não coincidem');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+
+        // Também validar quando a nova senha mudar
+        document.getElementById('nova-senha').addEventListener('input', function() {
+            const confirmarSenha = document.getElementById('confirmar-senha');
+            if (confirmarSenha.value !== '') {
+                if (this.value !== confirmarSenha.value) {
+                    confirmarSenha.setCustomValidity('As senhas não coincidem');
+                } else {
+                    confirmarSenha.setCustomValidity('');
+                }
+            }
+        });
+    </script>
 
     <?php include("../../includes/fim.php") ?>

@@ -3,11 +3,14 @@
         <!-- inputs escondidos -->
         <input type="hidden" value="0" name="id">
         <!-- CSRF -->
-        <input type="hidden" name="csrf" id="csrf" value="<?= gerarCSRF()?>">
+        <input type="hidden" name="csrf" id="csrf" value="<?= gerarCSRF() ?>">
         <h2>Adicionar Nova Categoria</h2>
         <div class="input-group-modal">
             <label for="nome">Nome da Categoria</label>
-            <input type="text" value="" name="nome" id="nome" placeholder="Digite o nome da Categoria">
+            <input type="text" value="" name="nome" id="nome" placeholder="Digite o nome da Categoria" required
+                pattern="^[A-Za-zÀ-ÿ0-9\s\-_&()]{2,50}$"
+                title="Nome deve conter apenas letras, números, espaços, hífens, underscores, & e parênteses (2-50 caracteres)"
+                minlength="2" maxlength="50">
         </div>
         <div class="div-btn">
             <button type="button" onclick="esconderModal()">Cancelar</button>
