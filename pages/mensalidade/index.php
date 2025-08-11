@@ -89,7 +89,7 @@ if ($resultado->num_rows > 0):
                 </a>
             <?php else: ?>
                 <form action="../../backend/mensalidade/gerar_pagamento.php" method="POST" class="w-full">
-                    <input type="hidden" name="fatura_id" value="<?php echo $row_pendente['id']; ?>">
+                    <input type="hidden" name="mensalidade_id" value="<?php echo $row_pendente['id']; ?>">
                     <input type="hidden" name="valor" value="<?php echo $row_pendente['valor']; ?>">
                     <button class="cursor-pointer w-full bg-principal text-white py-4 rounded-lg font-semibold text-lg hover:bg-principal-hover focus:ring-2 focus:ring-principal focus:ring-offset-2 transition-colors flex items-center justify-center space-x-3 shadow-lg"
                             type="submit">

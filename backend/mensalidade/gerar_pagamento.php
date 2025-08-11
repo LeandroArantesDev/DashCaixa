@@ -2,13 +2,21 @@
 session_start();
 include("../conexao.php");
 include("../funcoes/geral.php");
+function generate_uuid()
+{
+    return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+        mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+        mt_rand(0, 0xffff),
+        mt_rand(0, 0x0fff) | 0x4000,
+        mt_rand(0, 0x3fff) | 0x8000,
+        mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
+    );
+}
 
-$fatura_id = $_POST['fatura_id'];
-$valor_fatura = $_POST['valor'];
+
+$mensalidade_id = $_POST['mensalidade_id'];
+$valor = $_POST['valor'];
 $cliente_id = $_SESSION['cliente_id'];
-
-// convertendo para centavos o valor
-$valor_fatura = $valor_fatura * 100;
 
 // buscando dados do cliente
 $stmt = $conexao->prepare("SELECT nome, email, telefone, documento FROM clientes WHERE id = ?");
@@ -18,51 +26,56 @@ $stmt->bind_result($nome_cliente, $email_cliente, $telefone_cliente, $doc_client
 $stmt->fetch();
 $stmt->close();
 
-if (!isset($fatura_id) || !isset($valor_fatura)) {
+if (!isset($mensalidade_id) || !isset($valor)) {
     $_SESSION['resposta'] = "Erro ao gerar o pagamento";
     header("Location: ../../pages/mensalidade");
     exit();
 }
 
-$abacatePayApiKey = 'abc_dev_tscgwnkCY3Ncexhr6BchapNT';
+$mercadoPagoAccessToken = 'APP_USR-6022564160361452-081112-6db29656652e1d72d2b47ad7b5321594-578403532';
+$mercadoPagoExternalReference = 'ID_UNICO_DA_FATURA_' . $mensalidade_id;
+
+// Removendo caracteres não numéricos do telefone e documento
+$telefone_cliente_apenas_numeros = preg_replace('/[^0-9]/', '', $telefone_cliente);
+$doc_cliente_apenas_numeros = preg_replace('/[^0-9]/', '', $doc_cliente);
+$nome_cliente_partes = explode(' ', $nome_cliente, 2);
+$primeiro_nome = $nome_cliente_partes[0];
+$ultimo_nome = isset($nome_cliente_partes[1]) ? $nome_cliente_partes[1] : '';
+
+// Dados da requisição para a API do Mercado Pago
+$payload = json_encode([
+    'description' => 'Mensalidade do DashCaixa - ' . $mensalidade_id,
+    'transaction_amount' => (float)$valor,
+    'payment_method_id' => 'pix',
+    'payer' => [
+        'first_name' => $primeiro_nome,
+        'last_name' => $ultimo_nome,
+        'email' => $email_cliente,
+        'identification' => [
+            'type' => (strlen($doc_cliente_apenas_numeros) === 11) ? 'CPF' : 'CNPJ',
+            'number' => $doc_cliente_apenas_numeros
+        ]
+    ],
+    'external_reference' => $mercadoPagoExternalReference,
+    'notification_url' => 'https://dashcaixa.kesug.com/backend/mensalidade/processar_pagamento.php?mensalidade_id=' . $mensalidade_id,
+]);
+$idempotencyKey = generate_uuid();
 
 $curl = curl_init();
 
 curl_setopt_array($curl, [
-    CURLOPT_URL => "https://api.abacatepay.com/v1/billing/create",
+    CURLOPT_URL => "https://api.mercadopago.com/v1/payments",
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_ENCODING => "",
     CURLOPT_MAXREDIRS => 10,
     CURLOPT_TIMEOUT => 30,
     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
     CURLOPT_CUSTOMREQUEST => "POST",
-    CURLOPT_POSTFIELDS => json_encode([
-        'frequency' => 'ONE_TIME',
-        'methods' => [
-            'PIX'
-        ],
-        'allowCoupons' => null,
-        'products' => [
-            [
-                'name' => 'DashCaixa',
-                'quantity' => 1,
-                'price' => $valor_fatura,
-                'description' => 'Mensalidade do DashCaixa',
-                'externalId' => $fatura_id
-            ]
-        ],
-        'returnUrl' => 'http://localhost/DashCaixa/pages/mensalidade/',
-        'completionUrl' => 'http://localhost/DashCaixa/backend/mensalidade/processar_pagamento.php?fatura_id=' . $fatura_id,
-        'customer' => [
-            'name' => $nome_cliente,
-            'cellphone' => $telefone_cliente,
-            'email' => $email_cliente,
-            'taxId' => $doc_cliente,
-        ]
-    ]),
+    CURLOPT_POSTFIELDS => $payload,
     CURLOPT_HTTPHEADER => [
-        "Authorization: Bearer $abacatePayApiKey",
-        "Content-Type: application/json"
+        "Authorization: Bearer $mercadoPagoAccessToken",
+        "Content-Type: application/json",
+        "X-Idempotency-Key: " . $idempotencyKey
     ],
 ]);
 
@@ -77,32 +90,29 @@ if ($err) {
     header("Location: ../../pages/mensalidade");
     exit();
 } else {
-    // decodifica a resposta JSON para um array
     $data = json_decode($response, true);
 
-    // verifica se a API retornou um erro interno
-    if (isset($data['error']) && $data['error'] !== null) {
-        $_SESSION['resposta'] = "Erro do gateway: " . json_encode($data['error']);
-        header("Location: ../../pages/mensalidade");
-        exit();
-    }
+    // Verifica se a requisição foi bem-sucedida e se o pagamento foi criado
+    if (isset($data['status']) && $data['status'] === 'pending') {
+        $payment_url = $data['point_of_interaction']['transaction_data']['ticket_url'];
+        $pix_code = $data['point_of_interaction']['transaction_data']['qr_code'];
+        $pix_base64_image = $data['point_of_interaction']['transaction_data']['qr_code_base64'];
 
-    // se tudo deu certo, extrai a URL de pagamento e redireciona o cliente
-    if (isset($data['data']['url'])) {
-        $payment_url = $data['data']['url'];
-
-        // guarda a URL no banco caso o usuario queira pagar outro momento
-        $stmt = $conexao->prepare("UPDATE mensalidades SET url_pagamento = ? WHERE id = ?");
-        $stmt->bind_param("si", $payment_url, $fatura_id);
+        // guarda a URL e a CHAVE DE IDEMPOTÊNCIA no banco caso o usuario queira pagar outro momento
+        // É uma boa prática salvar a chave de idempotência para poder reenviar a mesma requisição em caso de erro.
+        $stmt = $conexao->prepare("UPDATE mensalidades SET url_pagamento = ?, idempotency_key = ? WHERE id = ?");
+        $stmt->bind_param("ssi", $payment_url, $idempotencyKey, $mensalidade_id);
         $stmt->execute();
         $stmt->close();
 
         header("Location: " . $payment_url);
         exit();
     } else {
-        // caso a URL não seja encontrada na resposta por algum motivo
-        $_SESSION['resposta'] = "Não foi possível obter a URL de pagamento.";
+        // Trata erros da API do Mercado Pago
+        $error_message = isset($data['message']) ? $data['message'] : "Erro desconhecido ao gerar o pagamento.";
+        $_SESSION['resposta'] = "Erro do gateway: " . $error_message . " Detalhes: " . json_encode(isset($data['cause']) ? $data['cause'] : $data);
         header("Location: ../../pages/mensalidade");
         exit();
     }
 }
+?>
