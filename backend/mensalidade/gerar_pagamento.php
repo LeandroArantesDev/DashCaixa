@@ -32,7 +32,7 @@ if (!isset($mensalidade_id) || !isset($valor)) {
     exit();
 }
 
-$mercadoPagoAccessToken = 'TEST-6022564160361452-081112-3ab0d9536a1f271c03093ea88dc04e3f-578403532';
+$mercadoPagoAccessToken = 'APP_USR-6022564160361452-081112-6db29656652e1d72d2b47ad7b5321594-578403532';
 $mercadoPagoExternalReference = 'ID_UNICO_DA_FATURA_' . $mensalidade_id;
 
 // Removendo caracteres não numéricos do telefone e documento
