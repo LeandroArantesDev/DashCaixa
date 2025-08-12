@@ -32,7 +32,7 @@ if (!isset($mensalidade_id) || !isset($valor)) {
     exit();
 }
 
-$mercadoPagoAccessToken = 'APP_USR-6022564160361452-081112-6db29656652e1d72d2b47ad7b5321594-578403532';
+$mercadoPagoAccessToken = 'TEST-6022564160361452-081112-3ab0d9536a1f271c03093ea88dc04e3f-578403532';
 $mercadoPagoExternalReference = 'ID_UNICO_DA_FATURA_' . $mensalidade_id;
 
 // Removendo caracteres não numéricos do telefone e documento
@@ -57,7 +57,7 @@ $payload = json_encode([
         ]
     ],
     'external_reference' => $mercadoPagoExternalReference,
-    'notification_url' => 'https://dashcaixa.kesug.com/backend/mensalidade/processar_pagamento.php?mensalidade_id=' . $mensalidade_id,
+    'notification_url' => 'https://dashcaixa.kesug.com/backend/mensalidade/processar_pagamento.php',
 ]);
 $idempotencyKey = generate_uuid();
 
@@ -98,8 +98,6 @@ if ($err) {
         $pix_code = $data['point_of_interaction']['transaction_data']['qr_code'];
         $pix_base64_image = $data['point_of_interaction']['transaction_data']['qr_code_base64'];
 
-        // guarda a URL e a CHAVE DE IDEMPOTÊNCIA no banco caso o usuario queira pagar outro momento
-        // É uma boa prática salvar a chave de idempotência para poder reenviar a mesma requisição em caso de erro.
         $stmt = $conexao->prepare("UPDATE mensalidades SET url_pagamento = ?, idempotency_key = ? WHERE id = ?");
         $stmt->bind_param("ssi", $payment_url, $idempotencyKey, $mensalidade_id);
         $stmt->execute();

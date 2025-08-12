@@ -4,7 +4,7 @@ if ($_SERVER['HTTP_HOST'] == 'localhost') {
     $host = 'localhost';
     $username = 'root';
     $password = '';
-    $dbname = 'dashcaixa';
+    $dbname = 'dash_caixa';
 } else {
     $host = 'sql313.infinityfree.com';
     $username = 'if0_39683322';
