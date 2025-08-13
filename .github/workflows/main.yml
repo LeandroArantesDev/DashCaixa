@@ -1,4 +1,7 @@
-on: push
+on:
+  push:
+    branches:
+      - main
 name: 🚀 Deploy website on push
 jobs:
   web-deploy:
@@ -11,8 +14,8 @@ jobs:
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ftpupload.net
-          username: if0_39683322
-          password: UikYkRLYHWEjOp
+          server: 45.132.157.8
+          username: u262084135.blanchedalmond-grasshopper-461561.hostingersite.com
+          password: .Crazyoffgg1209
           local-dir: ./
-          server-dir: /htdocs/
+          server-dir: /domains/blanchedalmond-grasshopper-461561.hostingersite.com/public_html/admin/

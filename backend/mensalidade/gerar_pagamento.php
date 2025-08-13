@@ -32,8 +32,14 @@ if (!isset($mensalidade_id) || !isset($valor)) {
     exit();
 }
 
-$mercadoPagoAccessToken = 'APP_USR-6022564160361452-081112-6db29656652e1d72d2b47ad7b5321594-578403532';
+$mercadoPagoAccessToken = 'TEST-6022564160361452-081112-3ab0d9536a1f271c03093ea88dc04e3f-578403532';
+// Adicione esta linha para ver qual token está sendo usado
+echo "<h1>Diagnóstico do Gerador de Pagamento</h1>";
+echo "<h3>O token que está sendo usado para CRIAR este pagamento termina em: " . htmlspecialchars(substr($mercadoPagoAccessToken, -9)) . "</h3><hr>";
 $mercadoPagoExternalReference = 'ID_UNICO_DA_FATURA_' . $mensalidade_id;
+
+// URL webhook
+$url_webhook = 'https://d12b7e571089.ngrok-free.app/DashCaixa/';
 
 // Removendo caracteres não numéricos do telefone e documento
 $telefone_cliente_apenas_numeros = preg_replace('/[^0-9]/', '', $telefone_cliente);
@@ -57,7 +63,7 @@ $payload = json_encode([
         ]
     ],
     'external_reference' => $mercadoPagoExternalReference,
-    'notification_url' => 'https://dashcaixa.kesug.com/backend/mensalidade/processar_pagamento.php',
+    'notification_url' => $url_webhook . '/backend/mensalidade/processar_pagamento.php',
 ]);
 $idempotencyKey = generate_uuid();
 
