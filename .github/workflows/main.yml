@@ -16,6 +16,6 @@ jobs:
         with:
           server: 45.132.157.8
           username: u262084135.blanchedalmond-grasshopper-461561.hostingersite.com
-          password: .Crazyoffgg1209
+          password: Cr@zyoff1209
           local-dir: ./
           server-dir: /domains/blanchedalmond-grasshopper-461561.hostingersite.com/public_html/admin/
