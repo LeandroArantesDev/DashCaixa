@@ -6,10 +6,10 @@ if ($_SERVER['HTTP_HOST'] == 'localhost') {
     $password = '';
     $dbname = 'dash_caixa';
 } else {
-    $host = 'sql313.infinityfree.com';
-    $username = 'if0_39683322';
-    $password = 'UikYkRLYHWEjOp';
-    $dbname = 'if0_39683322_dashcaixa';
+    $host = 'localhost';
+    $username = 'u262084135_admin';
+    $password = ':Y6pwzR^7u';
+    $dbname = 'u262084135_dash_caixa';
 }
 
 $conexao = new mysqli($host, $username, $password, $dbname);
