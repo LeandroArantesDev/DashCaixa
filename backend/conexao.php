@@ -1,6 +1,6 @@
 <?php
 
-if ($_SERVER['HTTP_HOST'] == 'localhost') {
+if ($_SERVER['HTTP_HOST'] == 'localhost' || $_SERVER['HTTP_HOST'] == '076f731191cb.ngrok-free.app') {
     $host = 'localhost';
     $username = 'root';
     $password = '';
