@@ -1,16 +1,21 @@
 <?php
 
-if ($_SERVER['HTTP_HOST'] == 'localhost' || $_SERVER['HTTP_HOST'] == '076f731191cb.ngrok-free.app') {
+$hostAtual = $_SERVER['HTTP_HOST'];
+
+if ($hostAtual == 'localhost' || str_contains($hostAtual, 'ngrok-free.app')) {
+    // Ambiente local ou ngrok
     $host = 'localhost';
     $username = 'root';
     $password = '';
     $dbname = 'dash_caixa';
 } else {
+    // Ambiente de produção
     $host = 'localhost';
     $username = 'u262084135_admin';
     $password = ':Y6pwzR^7u';
     $dbname = 'u262084135_dash_caixa';
 }
+
 
 $conexao = new mysqli($host, $username, $password, $dbname);
 

@@ -36,7 +36,7 @@ $mercadoPagoAccessToken = 'APP_USR-6022564160361452-081112-6db29656652e1d72d2b47
 $mercadoPagoExternalReference = 'ID_UNICO_DA_FATURA_' . $mensalidade_id;
 
 // URL webhook
-$url_webhook = 'https://076f731191cb.ngrok-free.app/DashCaixa';
+$url_webhook = 'https://a9ff25fddb69.ngrok-free.app/DashCaixa';
 
 // formatando informações
 $telefone_cliente_apenas_numeros = preg_replace('/[^0-9]/', '', $telefone_cliente);

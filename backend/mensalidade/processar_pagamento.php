@@ -1,83 +1,101 @@
 <?php
+//includes
 include("../conexao.php");
 include("funcoes.php");
+include("../funcoes/geral.php");
 
-// função auxiliar para buscar o cliente_id a partir da mensalidade_id
-function obterClienteIdDaMensalidade($mensalidade_id, $conexao) {
-    $stmt = $conexao->prepare("SELECT cliente_id FROM mensalidades WHERE id = ?");
-    $stmt->bind_param("i", $mensalidade_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if ($result->num_rows > 0) {
-        $data = $result->fetch_assoc();
-        return $data['cliente_id'];
-    }
-    return null;
+// Verificação inicial para garantir que a função registrarErro exista antes de prosseguir.
+if (!function_exists('registrarErro')) {
+    http_response_code(500);
+    // Se a função de log de erro não existir, não há como registrar o problema.
+    exit("Falha crítica: Função de log de erros não encontrada.");
 }
 
+// verificando se as funções foram carregadas
+if (!function_exists('marcarFaturaComoPaga')) {
+    registrarErro(null, null, pegarRotaUsuario(), "ERRO FATAL: Função marcarFaturaComoPaga() não encontrada!", '500', pegarIpUsuario(), pegarNavegadorUsuario());
+    http_response_code(500);
+    exit();
+}
 
-// receber a notificação do Mercado Pago
+// captura e valida o payload
 $json_data = file_get_contents('php://input');
 $notification_data = json_decode($json_data, true);
 
-// verifica o tipo de notificação
+if (json_last_error() !== JSON_ERROR_NONE) {
+    $json_error_msg = json_last_error_msg();
+    // Registra o erro de JSON inválido no banco.
+    registrarErro(null, null, pegarRotaUsuario(), "ERRO: Payload JSON inválido. Erro: " . $json_error_msg, '400', pegarIpUsuario(), pegarNavegadorUsuario());
+    http_response_code(400); // Bad Request
+    exit();
+}
+
+// verificando se a notificação é de pagamento
 $is_payment_notification = (isset($notification_data['type']) && $notification_data['type'] === 'payment') ||
     (isset($notification_data['action']) && strpos($notification_data['action'], 'payment') !== false);
 
-if ($is_payment_notification && isset($notification_data['data']['id'])) {
-    $payment_id = $notification_data['data']['id'];
+if (!$is_payment_notification || !isset($notification_data['data']['id'])) {
+    // Caso não for de pagamento ignorar a notificação.
+    http_response_code(200);
+    echo "Notificação ignorada (não é de pagamento).";
+    exit();
+}
 
-    // busca os detalhes completos do pagamento na API
-    $mercadoPagoAccessToken = 'APP_USR-6022564160361452-081112-6db29656652e1d72d2b47ad7b5321594-578403532';
+// detalhes da API Mercado Pago
+$payment_id = $notification_data['data']['id'];
+$mercadoPagoAccessToken = 'APP_USR-6022564160361452-081112-6db29656652e1d72d2b47ad7b5321594-578403532';
 
-    $curl = curl_init();
-    curl_setopt_array($curl, [
-        CURLOPT_URL => "https://api.mercadopago.com/v1/payments/" . $payment_id,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_HTTPHEADER => [
-            "Authorization: Bearer $mercadoPagoAccessToken"
-        ],
-    ]);
-    $response = curl_exec($curl);
+$curl = curl_init();
+curl_setopt_array($curl, [
+    CURLOPT_URL => "https://api.mercadopago.com/v1/payments/" . $payment_id,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_HTTPHEADER => [
+        "Authorization: Bearer $mercadoPagoAccessToken"
+    ],
+]);
+$response = curl_exec($curl);
+
+if ($response === false) {
+    $curl_error = curl_error($curl);
+    $curl_errno = curl_errno($curl);
     curl_close($curl);
+    // Registra a falha na comunicação com a API do Mercado Pago.
+    registrarErro(null, null, pegarRotaUsuario(), "ERRO: Falha na requisição CURL: " . $curl_error, $curl_errno, pegarIpUsuario(), pegarNavegadorUsuario());
+    http_response_code(500);
+    exit();
+}
+curl_close($curl);
 
-    $payment_details = json_decode($response, true);
+$payment_details = json_decode($response, true);
+if (json_last_error() !== JSON_ERROR_NONE) {
+    $json_error_msg = json_last_error_msg();
+    // Registra o erro de resposta inválida da API.
+    registrarErro(null, null, pegarRotaUsuario(), "ERRO: Resposta da API MP não é um JSON válido. Erro: " . $json_error_msg, 'API_RESPONSE_INVALID', pegarIpUsuario(), pegarNavegadorUsuario());
+    http_response_code(500);
+    exit();
+}
 
-    // processa a resposta
-    if ($payment_details && isset($payment_details['status']) && $payment_details['status'] === 'approved' && isset($payment_details['external_reference'])) {
-        $external_reference = $payment_details['external_reference'];
-        $parts = explode('_', $external_reference);
-        $mensalidade_id = end($parts);
+// processando pagamento aprovado
+if ($payment_details && isset($payment_details['status']) && $payment_details['status'] === 'approved' && isset($payment_details['external_reference'])) {
+    $external_reference = $payment_details['external_reference'];
+    $parts = explode('_', $external_reference);
+    $mensalidade_id = end($parts);
 
-        if (is_numeric($mensalidade_id)) {
-            // caso de tudo certo
-            marcarFaturaComoPaga((int)$mensalidade_id);
-        } else {
-            // ERRO: O ID da mensalidade extraído não é numérico.
-            $cliente_id_erro = obterClienteIdDaMensalidade($mensalidade_id, $conexao);
-            $mensagem_erro = "Webhook MP: external_reference ('$external_reference') não continha um ID numérico válido. Payload: " . $json_data;
-            registrarErro($cliente_id_erro, null, __FILE__, $mensagem_erro, 'MP_WH_01', $_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT']);
+    if (is_numeric($mensalidade_id)) {
+        $resultado = marcarFaturaComoPaga((int)$mensalidade_id);
+
+        if ($resultado === false) {
+            // Registra a falha ao tentar atualizar o status da fatura no banco de dados.
+            registrarErro(null, null, pegarRotaUsuario(), "ERRO: marcarFaturaComoPaga retornou FALSE para mensalidade ID: $mensalidade_id.", 'DB_UPDATE_FAILED', pegarIpUsuario(), pegarNavegadorUsuario());
         }
     } else {
-        // ERRO: Pagamento não está aprovado ou falta a referência externa.
-        $mensalidade_id = null;
-        if (isset($payment_details['external_reference'])) {
-            $parts = explode('_', $payment_details['external_reference']);
-            $mensalidade_id_temp = end($parts);
-            if (is_numeric($mensalidade_id_temp)) {
-                $mensalidade_id = $mensalidade_id_temp;
-            }
-        }
-        $cliente_id_erro = $mensalidade_id ? obterClienteIdDaMensalidade($mensalidade_id, $conexao) : null;
-        $status_pagamento = $payment_details['status'] ?? 'N/A';
-        $mensagem_erro = "Webhook MP: Pagamento ID $payment_id não aprovado ou sem external_reference. Status: $status_pagamento. Resposta API: " . $response;
-        registrarErro($cliente_id_erro, null, __FILE__, $mensagem_erro, 'MP_WH_02', $_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT']);
+        // Registra o erro de referência externa malformada.
+        registrarErro(null, null, pegarRotaUsuario(), "ERRO: external_reference inválido ('$external_reference'). Não contém ID numérico.", 'INVALID_REFERENCE', pegarIpUsuario(), pegarNavegadorUsuario());
     }
 }
 
-// resposta ao Mercado Pago com um código 200 (OK) para confirmar o recebimento.
+// caso de tudo certo resposta 200
 http_response_code(200);
-echo "Notificação recebida.";
+echo "Notificação recebida e processada.";
 exit();
-
 ?>
