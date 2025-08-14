@@ -9,243 +9,244 @@
 
 /* variaveis */
 @theme {
-  --color-principal: #3485d1;
-  --color-principal-hover: #005ea9;
-  --color-fundo-conteudo: #f2f3f6;
-  --color-fundo-interface: #ffffff;
-  --color-borda: #d8dae0;
-  --color-subtitulo: #a0a0a0;
-  --color-destaque-menu: #01437637;
+    --color-principal: #3485d1;
+    --color-principal-hover: #005ea9;
+    --color-fundo-conteudo: #f2f3f6;
+    --color-fundo-interface: #ffffff;
+    --color-borda: #d8dae0;
+    --color-subtitulo: #a0a0a0;
+    --color-destaque-menu: #01437637;
 }
 
 /* geral */
 @layer base {
-  * {
-    transition: background-color 0.3s ease, color 0.1s, opacity 0.3s, scale 0.2s;
-  }
-  main {
-    @apply bg-fundo-conteudo h-[calc(100dvh-60px)] w-full overflow-auto flex;
-  }
+    * {
+        transition: background-color 0.3s ease, color 0.1s, opacity 0.3s, scale 0.2s, right 0.3s;
+    }
+
+    main {
+        @apply bg-fundo-conteudo h-[calc(100dvh-60px)] w-full overflow-auto flex;
+    }
 }
 
 @layer components {
-  .icones-padrao {
-    @apply flex items-center justify-center rounded-lg bg-blue-200 text-principal;
-  }
-
-  .conteudo {
-    @apply bg-fundo-conteudo h-[calc(100dvh-60px)] w-full overflow-auto p-4;
-  }
-
-  .titulo {
-    @apply flex justify-between items-center w-full mb-2;
-
-    & .txt-titulo {
-      & h1 {
-        @apply text-2xl font-bold;
-      }
-
-      & p {
-        @apply text-lg text-black/60;
-      }
+    .icones-padrao {
+        @apply flex items-center justify-center rounded-lg bg-blue-200 text-principal;
     }
 
-    & a,
-    button {
-      @apply flex items-center gap-2 bg-principal text-white px-4 py-2 rounded-lg hover:bg-principal-hover transition-colors cursor-pointer;
+    .conteudo {
+        @apply bg-fundo-conteudo h-[calc(100dvh-60px)] w-full overflow-auto p-4;
     }
 
-    & .exportar {
-      @apply bg-green-600 hover:bg-green-700;
-    }
-  }
+    .titulo {
+        @apply flex justify-between items-center w-full mb-2;
 
-  #div-erro {
-    @apply flex items-center justify-center gap-4 text-lg rounded-xl fixed right-8 bottom-[-50%] shadow-lg bg-fundo-interface px-8 py-2 animate-[show_5s];
+        & .txt-titulo {
+            & h1 {
+                @apply text-2xl font-bold;
+            }
 
-    & i {
-      @apply text-2xl;
-    }
-  }
+            & p {
+                @apply text-lg text-black/60;
+            }
+        }
 
-  @keyframes show {
-    0% {
-      bottom: -50%;
-    }
-    20% {
-      bottom: 2rem;
-    }
-    80% {
-      bottom: 2rem;
-    }
-    100% {
-      bottom: -50%;
-    }
-  }
+        & a,
+        button {
+            @apply flex items-center gap-2 bg-principal text-white px-4 py-2 rounded-lg hover:bg-principal-hover transition-colors cursor-pointer;
+        }
 
-  /* header */
-  .link-user {
-    @apply flex items-center gap-2 p-3 w-40;
-  }
-
-  /* menu */
-  .link-menu {
-    @apply flex items-center p-2 gap-4 rounded-lg;
-
-    & i {
-      @apply text-xl;
+        & .exportar {
+            @apply bg-green-600 hover:bg-green-700;
+        }
     }
 
-    &:hover {
-      @apply bg-destaque-menu;
+    #div-erro {
+        @apply flex items-center justify-center gap-4 text-lg rounded-xl fixed right-8 bottom-[-50%] shadow-lg bg-fundo-interface px-8 py-2 animate-[show_5s];
 
-      & i {
-        @apply text-principal;
-      }
-    }
-  }
-
-  .link-submenu {
-    @apply flex items-center p-2 gap-4 rounded-lg;
-
-    & i {
-      @apply text-xl;
+        & i {
+            @apply text-2xl;
+        }
     }
 
-    &:hover {
-      @apply bg-destaque-menu;
-
-      & i {
-        @apply text-principal;
-      }
+    @keyframes show {
+        0% {
+            bottom: -50%;
+        }
+        20% {
+            bottom: 2rem;
+        }
+        80% {
+            bottom: 2rem;
+        }
+        100% {
+            bottom: -50%;
+        }
     }
-  }
 
-  .fade-slide {
-    animation: slideFade 0.3s ease-out;
-  }
-
-  @keyframes slideFade {
-    0% {
-      opacity: 0;
-      transform: translateY(-10px);
+    /* header */
+    .link-user {
+        @apply flex items-center gap-2 p-3 w-40;
     }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
+
+    /* menu */
+    .link-menu {
+        @apply flex items-center p-2 gap-4 rounded-lg;
+
+        & i {
+            @apply text-xl;
+        }
+
+        &:hover {
+            @apply bg-destaque-menu;
+
+            & i {
+                @apply text-principal;
+            }
+        }
     }
-  }
 
-  .rotate-180 {
-    transform: rotate(180deg);
-  }
+    .link-submenu {
+        @apply flex items-center p-2 gap-4 rounded-lg;
 
-  .transition-transform {
-    transition: transform 0.3s ease;
-  }
+        & i {
+            @apply text-xl;
+        }
 
-  .atual {
-    @apply bg-destaque-menu border-r-4 border-principal text-principal font-bold;
-  }
+        &:hover {
+            @apply bg-destaque-menu;
 
-  /* tabelas */
-  .tabela-form {
-    @apply w-full border border-borda rounded-2xl overflow-hidden shadow-lg;
+            & i {
+                @apply text-principal;
+            }
+        }
+    }
 
-    & form {
-      @apply gap-4 p-4 bg-fundo-interface;
+    .fade-slide {
+        animation: slideFade 0.3s ease-out;
+    }
 
-      & .input-filtro {
-        @apply p-2 border border-borda rounded-lg;
-      }
+    @keyframes slideFade {
+        0% {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
 
-      & button[type="submit"] {
-        @apply p-2 text-white bg-principal rounded-lg cursor-pointer transition-colors
+    .rotate-180 {
+        transform: rotate(180deg);
+    }
+
+    .transition-transform {
+        transition: transform 0.3s ease;
+    }
+
+    .atual {
+        @apply bg-destaque-menu border-r-4 border-principal text-principal font-bold;
+    }
+
+    /* tabelas */
+    .tabela-form {
+        @apply w-full border border-borda rounded-2xl overflow-hidden shadow-lg;
+
+        & form {
+            @apply gap-4 p-4 bg-fundo-interface;
+
+            & .input-filtro {
+                @apply p-2 border border-borda rounded-lg;
+            }
+
+            & button[type="submit"] {
+                @apply p-2 text-white bg-principal rounded-lg cursor-pointer transition-colors
                 hover:bg-principal-hover;
-      }
-    }
-
-    & .table-container {
-      @apply w-full overflow-auto;
-
-      & table {
-        @apply w-full bg-fundo-interface;
-
-        & thead {
-          @apply bg-gray-50 border-t border-borda;
-
-          & th {
-            @apply p-2 font-medium;
-          }
+            }
         }
 
-        & tr {
-          @apply border-t border-borda;
+        & .table-container {
+            @apply w-full overflow-auto;
+
+            & table {
+                @apply w-full bg-fundo-interface;
+
+                & thead {
+                    @apply bg-gray-50 border-t border-borda;
+
+                    & th {
+                        @apply p-2 font-medium;
+                    }
+                }
+
+                & tr {
+                    @apply border-t border-borda;
+                }
+
+                & .celula-tabela {
+                    @apply p-2 text-center whitespace-nowrap;
+                }
+            }
+        }
+    }
+
+    #td-acoes {
+        @apply flex justify-center items-center space-x-2;
+
+        & #btn-edita {
+            @apply text-principal text-2xl hover:text-principal-hover p-1 hover:bg-blue-50 rounded;
         }
 
-        & .celula-tabela {
-          @apply p-2 text-center whitespace-nowrap;
+        & #btn-deleta {
+            @apply text-red-600 text-2xl hover:text-red-700 p-1 hover:bg-red-50 rounded;
         }
-      }
-    }
-  }
 
-  #td-acoes {
-    @apply flex justify-center items-center space-x-2;
+        & #btn-imprimir {
+            @apply text-principal text-2xl hover:text-principal-hover p-1 hover:bg-blue-50 rounded;
+        }
 
-    & #btn-edita {
-      @apply text-principal text-2xl hover:text-principal-hover p-1 hover:bg-blue-50 rounded;
+        & #btn-status {
+            @apply text-gray-600 text-2xl hover:text-gray-700 p-1 hover:bg-gray-50 rounded;
+        }
     }
-
-    & #btn-deleta {
-      @apply text-red-600 text-2xl hover:text-red-700 p-1 hover:bg-red-50 rounded;
-    }
-
-    & #btn-imprimir {
-      @apply text-principal text-2xl hover:text-principal-hover p-1 hover:bg-blue-50 rounded;
-    }
-
-    & #btn-status {
-      @apply text-gray-600 text-2xl hover:text-gray-700 p-1 hover:bg-gray-50 rounded;
-    }
-  }
 }
 
 /* Botoes Informativos */
 
 @layer components {
-  .botao-informativo {
-    @apply flex flex-col items-center justify-center bg-transparent border-none rounded-lg cursor-pointer transition-all duration-200 relative overflow-hidden;
-  }
+    .botao-informativo {
+        @apply flex flex-col items-center justify-center bg-transparent border-none rounded-lg cursor-pointer transition-all duration-200 relative overflow-hidden;
+    }
 
-  .botao-informativo:hover {
-    @apply scale-110 overflow-visible;
-  }
+    .botao-informativo:hover {
+        @apply scale-110 overflow-visible;
+    }
 
-  .botao-informativo path {
-    @apply transition-all duration-200;
-  }
+    .botao-informativo path {
+        @apply transition-all duration-200;
+    }
 
-  .botao-informativo:hover .botao-informativo path {
-    @apply fill-white;
-  }
+    .botao-informativo:hover .botao-informativo path {
+        @apply fill-white;
+    }
 
-  .botao-informativo:active {
-    @apply scale-98;
-  }
+    .botao-informativo:active {
+        @apply scale-98;
+    }
 
-  .tooltip {
-    @apply absolute top-[-40px] bg-[rgb(41,41,41)] text-white rounded-[5px] text-[12px] px-3 py-2 font-semibold shadow-lg flex items-center justify-center opacity-0 transition-all duration-500;
-  }
+    .tooltip {
+        @apply absolute top-[-40px] bg-[rgb(41,41,41)] text-white rounded-[5px] text-[12px] px-3 py-2 font-semibold shadow-lg flex items-center justify-center opacity-0 transition-all duration-500;
+    }
 
-  .tooltip::before {
-    @apply absolute w-[10px] h-[10px] bg-[rgb(41,41,41)];
-    content: "";
-    transform: rotate(45deg);
-    bottom: -10%;
-  }
+    .tooltip::before {
+        @apply absolute w-[10px] h-[10px] bg-[rgb(41,41,41)];
+        content: "";
+        transform: rotate(45deg);
+        bottom: -10%;
+    }
 
-  .botao-informativo:hover .tooltip {
-    @apply opacity-100;
-  }
+    .botao-informativo:hover .tooltip {
+        @apply opacity-100;
+    }
 }
