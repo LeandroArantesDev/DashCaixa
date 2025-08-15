@@ -11,13 +11,21 @@ include("../../includes/inicio.php");
             <h1>Gestão de Usuários</h1>
             <p>Gerencie os usuários do sistema</p>
         </div>
-        <button onclick="modalCadastrar()"><i class="bi bi-plus-lg"></i> Novo Usuário</button>
+        <button onclick="modalCadastrar()"><i class="bi bi-plus-lg"></i>
+            <span class="hidden lg:block">
+                Novo Usuário
+            </span>
+        </button>
     </div>
     <div class="tabela-form">
         <form class="grid grid-cols-3">
             <input class="input-filtro col-span-2" type="text" name="busca" id="busca"
                 placeholder="Buscar por nome ou email...">
-            <button type="submit"><i class="bi bi-search"></i> Buscar</button>
+            <button type="submit" class="flex justify-center items-center lg:gap-2"><i class="bi bi-search"></i>
+                <span class="hidden lg:block">
+                    Buscar
+                </span>
+            </button>
         </form>
         <div class="table-container">
             <table>

@@ -9,16 +9,23 @@ include("../../includes/inicio.php");
             <p>Organize seus produtos por categorias</p>
         </div>
         <button onclick="modalCadastrar()">
-            <i class="bi bi-plus-lg"></i> Nova Categoria
+            <i class="bi bi-plus-lg"></i>
+            <span class="hidden lg:block">
+                Nova Categoria
+            </span>
         </button>
     </div>
     <div class="tabela-form">
         <form class="grid grid-cols-3 border-b border-borda">
             <input class="input-filtro col-span-2" type="text" name="busca" id="busca"
                 placeholder="Buscar por nome...">
-            <button type="submit"><i class="bi bi-search"></i> Buscar</button>
+            <button type="submit" class="flex items-center justify-center lg:space-x-2"><i class="bi bi-search"></i>
+                <span class="hidden lg:block">
+                    Buscar
+                </span>
+            </button>
         </form>
-        <div class="grid grid-cols-3 p-3 gap-3 bg-fundo-interface">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-3 gap-3 bg-fundo-interface">
             <?php
             $busca = $_GET['busca'] ?? '';
 

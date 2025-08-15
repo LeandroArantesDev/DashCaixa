@@ -14,7 +14,7 @@ include("../../backend/funcoes/dashboard-historico.php");
         </div>
         <!-- <a class="exportar" href="#"><i class="bi bi-download"></i> Exportar</a> -->
     </div>
-    <div class="grid grid-cols-3 gap-4 mb-5">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-5">
         <div id="vendas" class="card">
             <div class="txt-card">
                 <p>Total de Vendas</p>

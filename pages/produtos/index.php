@@ -9,13 +9,18 @@ include("../../includes/inicio.php");
             <p>Gerencie seu catálogo de produtos</p>
         </div>
         <button onclick="modalCadastrar()">
-            <i class="bi bi-plus-lg"></i> Novo Produto
+            <i class="bi bi-plus-lg"></i>
+            <span class="hidden lg:block">Novo Produto</span>
         </button>
     </div>
     <div class="tabela-form">
         <form class="grid grid-cols-3">
             <input class="input-filtro col-span-2" type="text" name="busca" id="busca" placeholder="Buscar por nome...">
-            <button type="submit"><i class="bi bi-search"></i> Buscar</button>
+            <button type="submit" class="flex justify-center items-center lg:gap-2"><i class="bi bi-search"></i>
+                <span class="hidden lg:block">
+                    Buscar
+                </span>
+            </button>
         </form>
         <div class="table-container">
             <table>
@@ -44,17 +49,17 @@ include("../../includes/inicio.php");
                     if ($resultado->num_rows > 0):
                         while ($row = $resultado->fetch_assoc()):
                     ?>
-                    <tr>
-                        <td class="celula-tabela flex justify-center items-center">
-                            <div class="flex gap-2 items-center w-1/2">
-                                <i class="bi bi-box-seam icones-padrao text-lg w-8 h-8"></i>
-                                <p>
-                                    <?= htmlspecialchars($row['nome']) ?>
-                                </p>
-                            </div>
-                        </td>
-                        <td class="celula-tabela">
-                            <?php
+                            <tr>
+                                <td class="celula-tabela flex justify-center items-center">
+                                    <div class="flex gap-2 items-center w-1/2">
+                                        <i class="bi bi-box-seam icones-padrao text-lg w-8 h-8"></i>
+                                        <p>
+                                            <?= htmlspecialchars($row['nome']) ?>
+                                        </p>
+                                    </div>
+                                </td>
+                                <td class="celula-tabela">
+                                    <?php
                                     // buscando o nome da categoria
                                     $stmt = $conexao->prepare("SELECT nome FROM categorias WHERE id = ?");
                                     $stmt->bind_param("i", $row['categoria_id']);
@@ -63,50 +68,50 @@ include("../../includes/inicio.php");
                                     $stmt->fetch();
                                     $stmt->close();
                                     ?>
-                            <span class="bg-zinc-200 rounded-lg px-2 py-0.5 flex justify-center items-center">
-                                <?= htmlspecialchars($categoria ?? 'N/A') ?>
-                            </span>
-                        </td>
-                        <td class="celula-tabela"><?= htmlspecialchars(formatarPreco($row['preco'])) ?></td>
-                        <td class="celula-tabela <?= ($row['estoque'] < 5 ? 'text-red-500 font-bold' : '') ?>">
-                            <?= htmlspecialchars($row['estoque']) ?>
-                        </td>
-                        <td id="td-acoes" class="celula-tabela" colspan="2">
-                            <button id="btn-edita" class="botao-informativo"
-                                onclick="modalEditar(<?= htmlspecialchars($row['id']) ?>)">
-                                <i class="bi bi-pencil-square"></i>
-                                <span class="tooltip">Editar</span>
-                            </button>
-                            <form id="btn-deleta" action="../../backend/produtos/deletar.php" method="POST"
-                                onclick="return confirm('Tem certeza que deseja deletar este produto?')">
-                                <!-- inputs escondidos -->
-                                <input type="hidden" name="id" value="<?= $row['id'] ?>">
-                                <input type="hidden" name="csrf" id="csrf" value="<?= gerarCSRF() ?>">
-                                <button class="botao-informativo">
-                                    <i class="bi bi-trash3"></i>
-                                    <span class="tooltip">Deletar</span>
-                                </button>
-                            </form>
-                            <form id="btn-status" action="../../backend/produtos/status.php" method="POST">
-                                <!-- inputs escondidos -->
-                                <input type="hidden" name="id" value="<?= $row['id'] ?>">
-                                <input type="hidden" name="csrf" id="csrf" value="<?= gerarCSRF() ?>">
-                                <input type="hidden" name="status" value="<?= $row['status'] ?>">
-                                <button class="botao-informativo">
-                                    <?php if ($row['status'] == 1) : ?>
-                                    <i class="bi bi-eye-slash"></i>
-                                    <span class="tooltip">Exibir</span>
-                                    <?php elseif ($row['status'] == 0) : ?>
-                                    <i class="bi bi-eye"></i>
-                                    <span class="tooltip">Ocultar</span>
-                                    <?php endif ?>
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                    <?php endwhile ?>
+                                    <span class="bg-zinc-200 rounded-lg px-2 py-0.5 flex justify-center items-center">
+                                        <?= htmlspecialchars($categoria ?? 'N/A') ?>
+                                    </span>
+                                </td>
+                                <td class="celula-tabela"><?= htmlspecialchars(formatarPreco($row['preco'])) ?></td>
+                                <td class="celula-tabela <?= ($row['estoque'] < 5 ? 'text-red-500 font-bold' : '') ?>">
+                                    <?= htmlspecialchars($row['estoque']) ?>
+                                </td>
+                                <td id="td-acoes" class="celula-tabela" colspan="2">
+                                    <button id="btn-edita" class="botao-informativo"
+                                        onclick="modalEditar(<?= htmlspecialchars($row['id']) ?>)">
+                                        <i class="bi bi-pencil-square"></i>
+                                        <span class="tooltip">Editar</span>
+                                    </button>
+                                    <form id="btn-deleta" action="../../backend/produtos/deletar.php" method="POST"
+                                        onclick="return confirm('Tem certeza que deseja deletar este produto?')">
+                                        <!-- inputs escondidos -->
+                                        <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                                        <input type="hidden" name="csrf" id="csrf" value="<?= gerarCSRF() ?>">
+                                        <button class="botao-informativo">
+                                            <i class="bi bi-trash3"></i>
+                                            <span class="tooltip">Deletar</span>
+                                        </button>
+                                    </form>
+                                    <form id="btn-status" action="../../backend/produtos/status.php" method="POST">
+                                        <!-- inputs escondidos -->
+                                        <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                                        <input type="hidden" name="csrf" id="csrf" value="<?= gerarCSRF() ?>">
+                                        <input type="hidden" name="status" value="<?= $row['status'] ?>">
+                                        <button class="botao-informativo">
+                                            <?php if ($row['status'] == 1) : ?>
+                                                <i class="bi bi-eye-slash"></i>
+                                                <span class="tooltip">Exibir</span>
+                                            <?php elseif ($row['status'] == 0) : ?>
+                                                <i class="bi bi-eye"></i>
+                                                <span class="tooltip">Ocultar</span>
+                                            <?php endif ?>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php endwhile ?>
                     <?php else: ?>
-                    <?php $_SESSION['resposta'] = "Sem registros!" ?>
+                        <?php $_SESSION['resposta'] = "Sem registros!" ?>
                     <?php endif ?>
                 </tbody>
             </table>
