@@ -1,6 +1,6 @@
 @layer components {
   /* main */
-  .main-full-height {
+  .main-formulario {
     @apply flex items-center justify-center bg-sky-200 h-dvh w-full overflow-auto;
   }
 
