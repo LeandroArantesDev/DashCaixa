@@ -18,6 +18,71 @@ document.addEventListener("DOMContentLoaded", () => {
     "btn-chamar-calcular-troco"
   );
 
+  // botão mobile para abrir o carrinho e esconder a tabela
+  const btnCarrinhoMobile = document.querySelector(".carrinho-mobile");
+  const tabelaForm = document.querySelector(".tabela-form");
+  const interfaceCarrinho = document.querySelector(".inteface-carrinho");
+  const carrinhoBadge = document.querySelector(".carrinho-mobile > span"); // badge do mobile
+
+  // estado para saber se o carrinho está aberto no mobile
+  let carrinhoAberto = false;
+
+  // inicializa badge escondida se vazio
+  if (carrinhoBadge) carrinhoBadge.style.display = "none";
+
+  if (btnCarrinhoMobile) {
+    btnCarrinhoMobile.addEventListener("click", () => {
+      if (!tabelaForm || !interfaceCarrinho) return;
+
+      const cartIcon = btnCarrinhoMobile.querySelector(".bi-cart");
+      const closeIcon = btnCarrinhoMobile.querySelector(".bi-x");
+
+      // detecta estado atual (visível ou não) usando display computado
+      const tabelaVisivel =
+        window.getComputedStyle(tabelaForm).display !== "none";
+
+      if (tabelaVisivel) {
+        // abrir carrinho (mobile): esconder tabela, mostrar interface do carrinho
+        tabelaForm.style.display = "none";
+        interfaceCarrinho.style.display = "flex";
+        // esconder badge enquanto o carrinho estiver aberto
+        if (carrinhoBadge) carrinhoBadge.style.display = "none";
+        carrinhoAberto = true;
+        // trocar ícones: esconder carrinho e mostrar X
+        if (cartIcon) cartIcon.classList.add("hidden");
+        if (closeIcon) closeIcon.classList.remove("hidden");
+        // foco opcional no primeiro controle do carrinho
+        const primeiroControle = interfaceCarrinho.querySelector(
+          "input, button, [tabindex]"
+        );
+        if (primeiroControle) primeiroControle.focus();
+      } else {
+        // fechar carrinho: restaurar tabela e badge
+        tabelaForm.style.display = "";
+        interfaceCarrinho.style.display = "";
+        // mostrar badge somente se houver itens (soma das quantidades)
+        const quantidadeTotal = carrinho.reduce(
+          (soma, it) => soma + (it.quantidade || 0),
+          0
+        );
+        if (carrinhoBadge) {
+          carrinhoBadge.textContent = quantidadeTotal;
+          // só mostrar badge ao fechar o carrinho
+          carrinhoBadge.style.display =
+            !carrinhoAberto && quantidadeTotal > 0
+              ? "flex"
+              : quantidadeTotal > 0
+              ? "flex"
+              : "none";
+        }
+        carrinhoAberto = false;
+        // trocar ícones: mostrar carrinho e esconder X
+        if (cartIcon) cartIcon.classList.remove("hidden");
+        if (closeIcon) closeIcon.classList.add("hidden");
+      }
+    });
+  }
+
   // Função para obter o estoque de um produto pelo ID
   function obterEstoqueProduto(produtoId) {
     const produtoCard = document
@@ -35,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Cria um toast ou alerta temporário
     const toast = document.createElement("div");
     toast.className =
-      "border border-borda flex items-center justify-center gap-4 text-lg rounded-xl fixed right-8 bottom-[-50%] shadow-sm bg-fundo-interface px-8 py-2 animate-[show_5s]";
+      "border border-borda flex items-center justify-center gap-4 text-lg rounded-xl fixed lg:right-8 lg:bottom-[-50%] shadow-sm bg-fundo-interface mx-2 lg:mx-0 px-8 py-2 animate-[show_5s]";
     toast.innerHTML = `<i class="bi bi-info-circle-fill"></i> ${mensagem}`;
     document.body.appendChild(toast);
 
@@ -143,6 +208,8 @@ document.addEventListener("DOMContentLoaded", () => {
       valorTotal.textContent = "R$ 0,00";
       btnFinalizar.disabled = true;
       inputItens.value = "";
+      // atualiza badge mobile
+      if (carrinhoBadge) carrinhoBadge.style.display = "none";
       if (btnChamarCalcularTroco) btnChamarCalcularTroco.style.display = "none";
       if (btnCalcularTroco) btnCalcularTroco.style.display = "none";
       if (inputValorRecebido) inputValorRecebido.value = "";
@@ -206,9 +273,24 @@ document.addEventListener("DOMContentLoaded", () => {
       total += item.preco * item.quantidade;
     });
 
+    // calcular quantidade total (somando todas as quantidades)
+    const quantidadeTotal = carrinho.reduce(
+      (soma, it) => soma + it.quantidade,
+      0
+    );
+
     valorTotal.textContent = "R$ " + total.toFixed(2).replace(".", ",");
-    itensTotal.textContent = carrinho.length + "itens";
+    itensTotal.textContent =
+      quantidadeTotal + (quantidadeTotal === 1 ? " item" : " itens");
     inputItens.value = JSON.stringify(carrinho);
+
+    // ao final da atualização, mostra/atualiza o badge no botão mobile
+    if (carrinhoBadge) {
+      carrinhoBadge.textContent = quantidadeTotal;
+      // não exibir o badge enquanto o carrinho estiver aberto (ícone X)
+      carrinhoBadge.style.display =
+        !carrinhoAberto && quantidadeTotal > 0 ? "flex" : "none";
+    }
 
     // Event listeners para os controles de quantidade (MODIFICADO)
     document.querySelectorAll(".btn-quantidade").forEach((btn) => {

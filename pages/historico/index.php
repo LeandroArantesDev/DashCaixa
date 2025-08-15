@@ -38,8 +38,8 @@ include("../../backend/funcoes/dashboard-historico.php");
         </div>
     </div>
     <div class="tabela-form">
-        <form class="grid grid-cols-3">
-            <select class="input-filtro" name="atendente" id="atendente">
+        <form class="grid grid-cols-2 lg:grid-cols-3">
+            <select class="input-filtro col-span-2 lg:col-span-1" name="atendente" id="atendente">
                 <option value="0" disabled <?= ((isset($_GET['atendente'])) ? '' : 'selected') ?>>Buscar por
                     atendente
                 </option>
@@ -57,17 +57,24 @@ include("../../backend/funcoes/dashboard-historico.php");
                     </option>
                 <?php endwhile ?>
             </select>
-            <input class="input-filtro" type="date" name="data" id="data"
+            <input class="input-filtro " type="date" name="data" id="data"
                 value="<?= ((isset($_GET['data']) ? $_GET['data'] : date('Y-m-d'))) ?>">
-            <div class="flex items-center justify-center gap-3">
+            <div class="flex items-center justify-center gap-3 ">
                 <a class="flex items-center justify-center gap-2 w-1/2 border border-borda/80 hover:bg-gray-300 h-full rounded-lg"
                     href="<?= BASE_URL . "pages/historico" ?>">
-                    <i class="bi bi-trash3"></i> Limpar Filtros
+                    <i class="bi bi-trash3"></i>
+                    <span class="hidden lg:block">
+                        Limpar Filtros
+                    </span>
                 </a>
-                <button class="w-1/2" type="submit"><i class="bi bi-funnel"></i> Aplicar Filtros</button>
+                <button class="w-1/2 flex justify-center items-center gap-2" type="submit"><i class="bi bi-funnel"></i>
+                    <span class="hidden lg:block">
+                        Aplicar Filtros
+                    </span>
+                </button>
             </div>
         </form>
-        <div class="table-container">
+        <div class="table-container overflow-x-auto">
             <table>
                 <thead>
                     <tr>
@@ -106,7 +113,7 @@ include("../../backend/funcoes/dashboard-historico.php");
                         while ($row = $resultado->fetch_assoc()):
                     ?>
                             <tr>
-                                <td class="celula-tabela"><?= htmlspecialchars($row['id']) ?></td>
+                                <td class="celula-tabela px-8 lg:px-0"><?= htmlspecialchars($row['id']) ?></td>
                                 <td class="celula-tabela">
                                     <?php
                                     $stmt = $conexao->prepare("SELECT nome FROM usuarios WHERE id = ?");

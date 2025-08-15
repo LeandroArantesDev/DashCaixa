@@ -8,9 +8,16 @@ include("../../includes/inicio.php")
             <h1>Vendas</h1>
             <p>Realize vendas e gere fichas</p>
         </div>
+        <button class="carrinho-mobile relative lg:hidden">
+            <span class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs">
+                <!-- Numero de Items do Carrinho -->
+            </span>
+            <i class="bi bi-cart"></i>
+            <i class="bi bi-x hidden text-4xl"></i>
+        </button>
     </div>
-    <div class="flex gap-3 items-center justify-between h-[86%]">
-        <div class="tabela-form w-4/6 bg-fundo-interface h-full">
+    <div class="flex gap-3 items-center justify-between h-[88%] lg:h-[86%]">
+        <div class="tabela-form lg:w-4/6 bg-fundo-interface h-full">
             <div class="p-6 border-b border-borda">
                 <div class="relative">
                     <i class="bi bi-search absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400"></i>
@@ -23,16 +30,16 @@ include("../../includes/inicio.php")
                     <?php
                     // buscando todos os produtos disponiveis
                     $stmt = $conexao->prepare("SELECT id, nome, categoria_id, preco, estoque
-FROM produtos
-WHERE cliente_id = ?
-  AND status = 0
-  AND categoria_id IN (
-      SELECT id
-      FROM categorias
-      WHERE status = 0
-  )
-ORDER BY nome ASC
-");
+                    FROM produtos
+                    WHERE cliente_id = ?
+                    AND status = 0
+                    AND categoria_id IN (
+                        SELECT id
+                        FROM categorias
+                        WHERE status = 0
+                    )
+                    ORDER BY nome ASC
+                    ");
                     $stmt->bind_param("i", $_SESSION['cliente_id']);
                     $stmt->execute();
                     $resultado = $stmt->get_result();
@@ -47,7 +54,7 @@ ORDER BY nome ASC
                                     class="icone-container flex-shrink-0 h-12 w-12 flex items-center justify-center bg-sky-100 rounded-lg">
                                     <i class="bi bi-box-seam text-2xl text-principal"></i>
                                 </div>
-                                <div class="info-container flex-grow">
+                                <div class="info-container flex-grow w-40 lg:w-auto">
                                     <h3 class="font-semibold text-gray-900">
                                         <?= htmlspecialchars($row['nome']) ?> •
                                         <?php if ($row["estoque"] > 0): ?>
@@ -75,7 +82,9 @@ ORDER BY nome ASC
                                     class="add-button h-10 w-10 flex items-center justify-center bg-principal text-white rounded-lg hover:bg-principal-hover transition-all duration-200 hover:scale-110 cursor-pointer"
                                     data-id="<?= htmlspecialchars($row["id"]) ?>"
                                     data-nome="<?= htmlspecialchars($row['nome']) ?>"
-                                    data-preco="<?= htmlspecialchars($row['preco']) ?>"><i class="bi bi-plus-lg"></i></button>
+                                    data-preco="<?= htmlspecialchars($row['preco']) ?>">
+                                    <i class="bi bi-plus-lg"></i>
+                                </button>
                             </div>
                         <?php endwhile ?>
                     <?php else: ?>
@@ -86,7 +95,7 @@ ORDER BY nome ASC
                 </div>
             </div>
         </div>
-        <div class="w-2/6 h-full bg-fundo-interface rounded-2xl shadow-sm border border-borda flex flex-col"
+        <div class="inteface-carrinho"
             id="carrinho-lateral">
             <div class="p-6 border-b border-borda flex items-center justify-between">
                 <div class="flex space-x-3">
