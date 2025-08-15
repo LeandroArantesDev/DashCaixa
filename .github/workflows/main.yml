@@ -18,4 +18,4 @@ jobs:
           username: u262084135.blanchedalmond-grasshopper-461561.hostingersite.com
           password: Cr@zyoff1209
           local-dir: ./
-          server-dir: ./public_html/
+          server-dir: ./
