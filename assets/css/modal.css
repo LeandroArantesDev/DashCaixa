@@ -23,12 +23,14 @@
       }
 
       .password,
-      .checkbox {
+      .checkbox,
+      .mensalidade {
         @apply hidden;
       }
 
       .password.ativo,
-      .checkbox.ativo {
+      .checkbox.ativo,
+      .mensalidade.ativo {
         @apply flex;
       }
 
