@@ -1,8 +1,8 @@
 <?php
 //includes
-include("../conexao.php");
 include("funcoes.php");
 include("../funcoes/geral.php");
+include("../conexao.php");
 
 // Verificação inicial para garantir que a função registrarErro exista antes de prosseguir.
 if (!function_exists('registrarErro')) {
@@ -11,9 +11,11 @@ if (!function_exists('registrarErro')) {
     exit("Falha crítica: Função de log de erros não encontrada.");
 }
 
+$ip_origem = pegarIpUsuario();
+
 // verificando se as funções foram carregadas
 if (!function_exists('marcarFaturaComoPaga')) {
-    registrarErro(null, null, pegarRotaUsuario(), "ERRO FATAL: Função marcarFaturaComoPaga() não encontrada!", '500', pegarIpUsuario(), pegarNavegadorUsuario());
+    registrarErro(null, null, 'webhook_mercado_pago', "ERRO FATAL: Função marcarFaturaComoPaga() não encontrada!", '500', $ip_origem, 'Webhook: MercadoPago');
     http_response_code(500);
     exit();
 }
@@ -25,7 +27,7 @@ $notification_data = json_decode($json_data, true);
 if (json_last_error() !== JSON_ERROR_NONE) {
     $json_error_msg = json_last_error_msg();
     // Registra o erro de JSON inválido no banco.
-    registrarErro(null, null, pegarRotaUsuario(), "ERRO: Payload JSON inválido. Erro: " . $json_error_msg, '400', pegarIpUsuario(), pegarNavegadorUsuario());
+    registrarErro(null, null, 'webhook_mercado_pago', "ERRO: Payload JSON inválido. Erro: " . $json_error_msg, '400', $ip_origem, 'Webhook: MercadoPago');
     http_response_code(400); // Bad Request
     exit();
 }
@@ -43,7 +45,7 @@ if (!$is_payment_notification || !isset($notification_data['data']['id'])) {
 
 // detalhes da API Mercado Pago
 $payment_id = $notification_data['data']['id'];
-$mercadoPagoAccessToken = 'APP_USR-6022564160361452-081112-6db29656652e1d72d2b47ad7b5321594-578403532';
+$mercadoPagoAccessToken = $_ENV['SENHA_API_MP'];
 
 $curl = curl_init();
 curl_setopt_array($curl, [
@@ -60,7 +62,7 @@ if ($response === false) {
     $curl_errno = curl_errno($curl);
     curl_close($curl);
     // Registra a falha na comunicação com a API do Mercado Pago.
-    registrarErro(null, null, pegarRotaUsuario(), "ERRO: Falha na requisição CURL: " . $curl_error, $curl_errno, pegarIpUsuario(), pegarNavegadorUsuario());
+    registrarErro(null, null, 'webhook_mercado_pago', "ERRO: Falha na requisição CURL: " . $curl_error, $curl_errno, $ip_origem, 'Webhook: MercadoPago');
     http_response_code(500);
     exit();
 }
@@ -70,7 +72,7 @@ $payment_details = json_decode($response, true);
 if (json_last_error() !== JSON_ERROR_NONE) {
     $json_error_msg = json_last_error_msg();
     // Registra o erro de resposta inválida da API.
-    registrarErro(null, null, pegarRotaUsuario(), "ERRO: Resposta da API MP não é um JSON válido. Erro: " . $json_error_msg, 'API_RESPONSE_INVALID', pegarIpUsuario(), pegarNavegadorUsuario());
+    registrarErro(null, null, 'webhook_mercado_pago', "ERRO: Resposta da API MP não é um JSON válido. Erro: " . $json_error_msg, 'API_RESPONSE_INVALID', $ip_origem, 'Webhook: MercadoPago');
     http_response_code(500);
     exit();
 }
@@ -86,11 +88,11 @@ if ($payment_details && isset($payment_details['status']) && $payment_details['s
 
         if ($resultado === false) {
             // Registra a falha ao tentar atualizar o status da fatura no banco de dados.
-            registrarErro(null, null, pegarRotaUsuario(), "ERRO: marcarFaturaComoPaga retornou FALSE para mensalidade ID: $mensalidade_id.", 'DB_UPDATE_FAILED', pegarIpUsuario(), pegarNavegadorUsuario());
+            registrarErro(null, null, 'webhook_mercado_pago', "ERRO: marcarFaturaComoPaga retornou FALSE para mensalidade ID: $mensalidade_id.", 'DB_UPDATE_FAILED', $ip_origem, 'Webhook: MercadoPago');
         }
     } else {
         // Registra o erro de referência externa malformada.
-        registrarErro(null, null, pegarRotaUsuario(), "ERRO: external_reference inválido ('$external_reference'). Não contém ID numérico.", 'INVALID_REFERENCE', pegarIpUsuario(), pegarNavegadorUsuario());
+        registrarErro(null, null, 'webhook_mercado_pago', "ERRO: external_reference inválido ('$external_reference'). Não contém ID numérico.", 'INVALID_REFERENCE', $ip_origem, 'Webhook: MercadoPago');
     }
 }
 
