@@ -36,7 +36,7 @@ $mercadoPagoAccessToken = $_ENV['SENHA_API_MP'];
 $mercadoPagoExternalReference = 'ID_UNICO_DA_FATURA_' . $mensalidade_id;
 
 // URL webhook
-$url_webhook = 'blanchedalmond-grasshopper-461561.hostingersite.com/DashCaixa';
+$url_webhook = 'blanchedalmond-grasshopper-461561.hostingersite.com';
 
 // formatando informações
 $telefone_cliente_apenas_numeros = preg_replace('/[^0-9]/', '', $telefone_cliente);
