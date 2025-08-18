@@ -33,7 +33,7 @@ carregarEnv(__DIR__ . '/../senhas.env');
 $hostAtual = $_SERVER['HTTP_HOST'] ?? 'localhost';
 
 // Configuração de conexão
-if ($hostAtual == 'localhost' || str_contains($hostAtual, 'ngrok-free.app')) {
+if ($hostAtual == 'localhost') {
     // Ambiente local
     $host = 'localhost';
     $username = 'root';
