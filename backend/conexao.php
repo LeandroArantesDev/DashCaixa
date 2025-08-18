@@ -1,7 +1,7 @@
 <?php
 
 // Função para carregar variáveis do .env
-function carregarEnv($caminho = '.env')
+function carregarEnv($caminho)
 {
     if (!file_exists($caminho)) {
         throw new Exception("Arquivo .env não encontrado em: " . $caminho);
@@ -27,7 +27,7 @@ function carregarEnv($caminho = '.env')
 }
 
 // Carrega o .env
-carregarEnv(BASE_URL . 'senhas.env');
+carregarEnv(__DIR__ . '/../senhas.env');
 
 // Detecta o host atual
 $hostAtual = $_SERVER['HTTP_HOST'] ?? 'localhost';

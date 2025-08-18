@@ -1,14 +1,4 @@
 <?php
-if (!defined('BASE_URL')) {
-    if ($_SERVER['HTTP_HOST'] == 'localhost') {
-        define('BASE_URL', '/DashCaixa/');
-    } else {
-        define('BASE_URL', '/');
-    }
-}
-
-include(__DIR__ . '/../conexao.php');
-
 function validarNome($nome)
 {
     // Remove espaços no início/fim e valida com regex
@@ -42,7 +32,8 @@ function validarSenha($senha)
 }
 
 // função de verificações da mensalidade
-function verificarEMarcarMensalidadeVencida($cliente_id) {
+function verificarEMarcarMensalidadeVencida($cliente_id)
+{
     global $conexao;
 
     $status_mensalidade = 0;
