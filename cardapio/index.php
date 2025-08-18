@@ -44,7 +44,7 @@ include("../includes/inicio.php")
                             while ($row_produto = $resultado_produto->fetch_assoc()):
                                 ?>
                                 <article
-                                        class="flex flex-col items-center justify-between border border-borda min-w-55 max-w-55 rounded-xl overflow-hidden hover:scale-102">
+                                        class="flex flex-col items-center justify-between border border-borda min-w-55 max-w-55git rounded-xl overflow-hidden hover:scale-102">
                                     <?php
                                     // verificando se tem imagem
                                     if ($row_produto['img'] == NULL || $row_produto['img'] == ""): ?>

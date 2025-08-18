@@ -32,11 +32,11 @@ if (!isset($mensalidade_id) || !isset($valor)) {
     exit();
 }
 
-$mercadoPagoAccessToken = 'APP_USR-6022564160361452-081112-6db29656652e1d72d2b47ad7b5321594-578403532';
+$mercadoPagoAccessToken = $_ENV['SENHA_API_MP'];
 $mercadoPagoExternalReference = 'ID_UNICO_DA_FATURA_' . $mensalidade_id;
 
 // URL webhook
-$url_webhook = 'https://a9ff25fddb69.ngrok-free.app/DashCaixa';
+$url_webhook = 'blanchedalmond-grasshopper-461561.hostingersite.com/DashCaixa';
 
 // formatando informações
 $telefone_cliente_apenas_numeros = preg_replace('/[^0-9]/', '', $telefone_cliente);
