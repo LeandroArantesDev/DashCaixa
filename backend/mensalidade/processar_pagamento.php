@@ -1,48 +1,47 @@
 <?php
-// Forçar logging de todos os erros
-ini_set('display_errors', 0);
-ini_set('log_errors', 1);
-error_reporting(E_ALL);
+date_default_timezone_set('America/Sao_Paulo');
 
-$logFile = __DIR__ . "/log_pagamento.txt";
+// Caminho do arquivo de log
+$logFile = __DIR__ . "/log.txt";
 
-function registrarLog($mensagem) {
+// Função de log simples
+function logWebhook($mensagem)
+{
     global $logFile;
-    $data = date("Y-m-d H:i:s");
-    file_put_contents($logFile, "[$data] $mensagem\n", FILE_APPEND);
+    file_put_contents($logFile, date("Y-m-d H:i:s") . " - " . $mensagem . PHP_EOL, FILE_APPEND);
 }
 
-// Captura o corpo cru da requisição
-$input = file_get_contents("php://input");
-
-// Captura cabeçalhos
-$headers = getallheaders();
-
-// Registrar a requisição bruta
-registrarLog("Requisição recebida:");
-registrarLog("Headers: " . json_encode($headers));
-registrarLog("Body: " . $input);
-
-// Tentar decodificar JSON
-$data = json_decode($input, true);
-
-if (json_last_error() !== JSON_ERROR_NONE) {
-    registrarLog("Erro ao decodificar JSON: " . json_last_error_msg());
-    http_response_code(400);
-    echo "Invalid JSON";
-    exit;
-}
-
-// Verificação de campos obrigatórios
-if (!isset($data['type']) || !isset($data['data']['id'])) {
-    registrarLog("Payload inválido: faltando campos obrigatórios.");
-    http_response_code(400);
-    echo "Invalid payload";
-    exit;
-}
-
-// Tudo certo, processar evento
-registrarLog("Evento recebido: " . $data['type'] . " | ID: " . $data['data']['id']);
-
+// Responde sempre 200 para o Mercado Pago
 http_response_code(200);
-echo "OK";
+
+// Lê o corpo cru da requisição
+$rawInput = file_get_contents("php://input");
+logWebhook("RAW INPUT: " . $rawInput);
+
+// Tenta decodificar JSON
+$data = json_decode($rawInput, true);
+if (json_last_error() !== JSON_ERROR_NONE) {
+    logWebhook("JSON inválido: " . json_last_error_msg());
+    echo json_encode(["status" => "ok", "error" => "JSON inválido"]);
+    exit;
+}
+
+// Loga o JSON decodificado
+logWebhook("JSON DECODIFICADO: " . print_r($data, true));
+
+// Verifica se é uma notificação de pagamento
+if (isset($data['type']) && $data['type'] === 'payment' && isset($data['data']['id'])) {
+    $payment_id = $data['data']['id'];
+    logWebhook("Pagamento recebido: ID " . $payment_id);
+
+    // Aqui você pode colocar a chamada da sua função de processamento real:
+    // ex: marcarFaturaComoPaga($payment_id);
+    // Exemplo de log:
+    logWebhook("Processamento do pagamento ID $payment_id executado (ainda só logando)");
+} else {
+    logWebhook("Notificação ignorada ou formato inválido.");
+}
+
+// Retorna sempre OK
+echo json_encode(["status" => "ok"]);
+exit;
