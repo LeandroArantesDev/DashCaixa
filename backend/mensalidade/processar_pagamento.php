@@ -1,6 +1,7 @@
 <?php
 // includes
 include("../conexao.php");
+include("funcoes.php");
 
 // Lê corpo do webhook
 $input = file_get_contents("php://input");
