@@ -97,12 +97,13 @@ if ($err) {
 
     // Verifica se a requisição foi bem-sucedida e se o pagamento foi criado
     if (isset($data['status']) && $data['status'] === 'pending') {
+        $id_mercadopago = $data['id'];
         $payment_url = $data['point_of_interaction']['transaction_data']['ticket_url'];
         $pix_code = $data['point_of_interaction']['transaction_data']['qr_code'];
         $pix_base64_image = $data['point_of_interaction']['transaction_data']['qr_code_base64'];
 
-        $stmt = $conexao->prepare("UPDATE mensalidades SET url_pagamento = ?, idempotency_key = ? WHERE id = ?");
-        $stmt->bind_param("ssi", $payment_url, $idempotencyKey, $mensalidade_id);
+        $stmt = $conexao->prepare("UPDATE mensalidades SET url_pagamento = ?, idempotency_key = ?, id_mp = ? WHERE id = ?");
+        $stmt->bind_param("ssii", $payment_url, $idempotencyKey, $mensalidade_id, $id_mercadopago);
         $stmt->execute();
         $stmt->close();
 

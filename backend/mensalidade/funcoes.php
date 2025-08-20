@@ -5,7 +5,7 @@ function marcarFaturaComoPaga($fatura_id): bool
     global $conexao;
 
     // Buscar fatura
-    $stmt = $conexao->prepare("SELECT status, cliente_id, valor FROM mensalidades WHERE id = ?");
+    $stmt = $conexao->prepare("SELECT status, cliente_id, valor FROM mensalidades WHERE id_mp = ?");
     $stmt->bind_param("i", $fatura_id);
     $stmt->execute();
     $fatura = $stmt->get_result()->fetch_assoc();
@@ -22,7 +22,7 @@ function marcarFaturaComoPaga($fatura_id): bool
 
     try {
         // Atualiza fatura atual como paga
-        $stmt_update = $conexao->prepare("UPDATE mensalidades SET status = 0, data_pagamento = CURRENT_TIMESTAMP() WHERE id = ?");
+        $stmt_update = $conexao->prepare("UPDATE mensalidades SET status = 0, data_pagamento = CURRENT_TIMESTAMP() WHERE id_mp = ?");
         $stmt_update->bind_param("i", $fatura_id);
         $stmt_update->execute();
         $stmt_update->close();
