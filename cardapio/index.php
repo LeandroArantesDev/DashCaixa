@@ -1,5 +1,4 @@
 <?php
-include("../backend/conexao.php");
 $titulo = 'Cardapio';
 $n_valida = true;
 $main_full = true;
@@ -44,17 +43,18 @@ include("../includes/inicio.php")
                             while ($row_produto = $resultado_produto->fetch_assoc()):
                                 ?>
                                 <article
-                                        class="flex flex-col items-center justify-between border border-borda min-w-55 max-w-55git rounded-xl overflow-hidden hover:scale-102">
+                                        class="flex flex-col items-center justify-between border border-borda h-65 min-w-55 max-w-55 rounded-xl overflow-hidden hover:scale-102">
                                     <?php
                                     // verificando se tem imagem
                                     if ($row_produto['img'] == NULL || $row_produto['img'] == ""): ?>
-                                        <img class="w-full" src="../assets/img/placeholder_produto.jpg"
+                                        <img class="w-full h-35" src="../assets/img/placeholder_produto.jpg"
                                              alt="Imagem do produto <?= $row_produto['nome'] ?>">
                                     <?php else: ?>
-                                        <img class="w-full" src="<?= htmlspecialchars($row_produto['img']) ?>"
+                                        <img class="w-full h-35 object-cover object-center"
+                                             src="<?= htmlspecialchars($row_produto['img']) ?>"
                                              alt="Imagem do produto <?= $row_produto['nome'] ?>">
                                     <?php endif; ?>
-                                    <div class="flex flex-col items-center justify-center w-full p-3">
+                                    <div class="flex flex-col items-center justify-center w-full h-30 p-3">
                                         <h3 class="text-md text-black/60"><?= htmlspecialchars($row_produto['nome']) ?></h3>
                                         <h4 class="text-lg text-principal font-bold"><?= htmlspecialchars(formatarPreco($row_produto['preco'])) ?></h4>
                                         <button class="bg-principal cursor-pointer rounded-lg p-1 text-white w-full hover:bg-principal-hover">

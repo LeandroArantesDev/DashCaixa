@@ -1,5 +1,5 @@
 <?php
-include(__DIR__ . '/../backend/conexao.php');
+require_once __DIR__ . "/../backend/conexao.php";
 
 //Verifica se existe uma sessão ativa e se não houver inicia uma
 if (session_status() !== PHP_SESSION_ACTIVE) {

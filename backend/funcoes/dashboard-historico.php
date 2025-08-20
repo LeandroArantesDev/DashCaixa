@@ -1,6 +1,4 @@
 <?php
-include(__DIR__ . '/../conexao.php');
-
 function buscar_vendas_diarias()
 {
     global $conexao;

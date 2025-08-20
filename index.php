@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 // redireciona o usuario caso ele esteja logado
 if (isset($_SESSION['id']) && $_SESSION['id'] == 1) {
     header("Location: pages/dashboard");

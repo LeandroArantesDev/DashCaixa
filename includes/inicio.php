@@ -1,18 +1,14 @@
 <?php
-if (!defined('BASE_URL')) {
-    if ($_SERVER['HTTP_HOST'] == 'localhost') {
-        define('BASE_URL', '/DashCaixa/');
-    } else {
-        define('BASE_URL', '/');
-    }
-}
 date_default_timezone_set('America/Sao_Paulo');
+include(__DIR__ . "/../backend/funcoes/geral.php");
 
 if (!isset($n_valida) || $n_valida == false) {
     include("valida.php");
+} else {
+    session_start();
+    include __DIR__ . "/../backend/conexao.php";
 }
 
-include(__DIR__ . "/../backend/funcoes/geral.php");
 ?>
 
     <!DOCTYPE html>

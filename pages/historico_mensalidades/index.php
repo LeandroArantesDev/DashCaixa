@@ -1,6 +1,8 @@
 <?php
+// validando se o usuario é adm ou fundador para acessar
+include("../../includes/valida_adm.php");
+
 $titulo = "Histórico de Vendas";
-$css = "historico";
 include("../../includes/inicio.php");
 include("../../backend/funcoes/dashboard-historico.php");
 ?>
