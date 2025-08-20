@@ -1,4 +1,7 @@
 <?php
+// includes
+include("../conexao.php");
+
 // Lê corpo do webhook
 $input = file_get_contents("php://input");
 
@@ -54,6 +57,8 @@ if (isset($dataJson['type']) && $dataJson['type'] === 'payment') {
 
     // atualizando banco de dados
     marcarFaturaComoPaga($payment_id);
+
+    // respondendo com codigo 200 de tudo OK
     http_response_code(200);
     exit();
 }
