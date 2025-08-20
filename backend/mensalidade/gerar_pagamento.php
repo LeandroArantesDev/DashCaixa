@@ -103,7 +103,7 @@ if ($err) {
         $pix_base64_image = $data['point_of_interaction']['transaction_data']['qr_code_base64'];
 
         $stmt = $conexao->prepare("UPDATE mensalidades SET url_pagamento = ?, idempotency_key = ?, id_mp = ? WHERE id = ?");
-        $stmt->bind_param("ssii", $payment_url, $idempotencyKey, $mensalidade_id, $id_mercadopago);
+        $stmt->bind_param("ssii", $payment_url, $idempotencyKey, $id_mercadopago, $mensalidade_id);
         $stmt->execute();
         $stmt->close();
 
