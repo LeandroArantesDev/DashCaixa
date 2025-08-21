@@ -1,9 +1,8 @@
-name: 🚀 Deploy website on push
 on:
   push:
     branches:
       - main
-
+name: 🚀 Deploy website on push
 jobs:
   web-deploy:
     name: 🎉 Deploy
@@ -18,6 +17,5 @@ jobs:
           server: 45.132.157.8
           username: u262084135.blanchedalmond-grasshopper-461561.hostingersite.com
           password: Cr@zyoff1209
-          server-dir: ./   # ou /public_html/ se esse for o diretório do site
           local-dir: ./
-          dangerous-clean-slate: true
+          server-dir: ./
