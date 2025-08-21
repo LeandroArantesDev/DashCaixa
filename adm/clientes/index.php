@@ -60,9 +60,9 @@ include("../../includes/inicio.php");
                                 </td>
                                 <td class="celula-tabela"><?= htmlspecialchars($row['email']) ?></td>
                                 <td class="celula-tabela">
-                                    <?= ($row["documento"] == null) ? "N/a" : htmlspecialchars($row['documento']) ?></td>
+                                    <?= ($row["documento"] == null) ? "N/A" : htmlspecialchars($row['documento']) ?></td>
                                 <td class="celula-tabela">
-                                    <?= ($row["telefone"] == null) ? "N/a" : htmlspecialchars($row['telefone']) ?></td>
+                                    <?= ($row["telefone"] == null) ? "N/A" : htmlspecialchars($row['telefone']) ?></td>
                                 <td class="celula-tabela">
                                     <?php
                                     $status_mensalidade = $row['status_mensalidade'];

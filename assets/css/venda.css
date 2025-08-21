@@ -1,55 +1,55 @@
 @layer components {
-  .produto-card {
-    @apply flex items-center gap-4 p-4 border border-borda rounded-lg transition-shadow;
+    .produto-card {
+        @apply flex items-center gap-4 p-4 border border-borda rounded-lg transition-shadow;
 
-    & .icone-container {
-      @apply flex-shrink-0 h-12 w-12 flex items-center justify-center bg-sky-100 rounded-lg;
+        & .img-container {
+            @apply flex-shrink-0 h-12 w-12 flex border border-borda items-center justify-center rounded-lg overflow-hidden;
 
-      & i {
-        @apply text-2xl text-principal;
-      }
-    }
+            & img {
+                @apply w-full h-full object-center object-cover;
+            }
+        }
 
-    & .info-container {
-      @apply flex-grow;
+        & .info-container {
+            @apply flex-grow;
 
-      & h3 {
-        @apply font-semibold text-gray-900;
-      }
+            & h3 {
+                @apply font-semibold text-gray-900;
+            }
 
-      & .preco-tag {
-        @apply text-lg font-bold text-principal mt-1;
-      }
-    }
+            & .preco-tag {
+                @apply text-lg font-bold text-principal mt-1;
+            }
+        }
 
-    & .btn-container {
-      & .add-button {
-        @apply h-10 w-10 flex items-center justify-center bg-principal text-white rounded-lg transition-colors;
+        & .btn-container {
+            & .add-button {
+                @apply h-10 w-10 flex items-center justify-center bg-principal text-white rounded-lg transition-colors;
+
+                &:hover {
+                    @apply bg-principal text-principal;
+                }
+            }
+        }
 
         &:hover {
-          @apply bg-principal text-principal;
+            @apply shadow-sm;
         }
-      }
     }
 
-    &:hover {
-      @apply shadow-sm;
+    .btn-venda {
+        @apply w-full p-3 bg-principal text-white font-semibold rounded-lg transition-colors;
+
+        &:hover {
+            @apply bg-principal-hover text-principal;
+        }
+
+        &:disabled {
+            @apply bg-gray-400;
+        }
     }
-  }
 
-  .btn-venda {
-    @apply w-full p-3 bg-principal text-white font-semibold rounded-lg transition-colors;
-
-    &:hover {
-      @apply bg-principal-hover text-principal;
+    .inteface-carrinho {
+        @apply hidden w-full lg:w-2/6 h-full bg-fundo-interface rounded-2xl shadow-sm border border-borda lg:flex flex-col;
     }
-
-    &:disabled {
-      @apply bg-gray-400;
-    }
-  }
-
-  .inteface-carrinho {
-    @apply hidden w-full lg:w-2/6 h-full bg-fundo-interface rounded-2xl shadow-sm border border-borda lg:flex flex-col;
-  }
 }

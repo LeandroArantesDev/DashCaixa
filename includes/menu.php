@@ -36,8 +36,6 @@ if (isset($_SESSION['id'])):
                        target="_self"><i class="bi bi-people"></i> Usuarios</a>
                     <a class="link-menu <?php echo link_ativo('historico/'); ?>" href="<?= BASE_URL ?>pages/historico"
                        target="_self"><i class="bi bi-clock-history"></i> Histórico de Vendas</a>
-                    <a class="link-menu hidden <?php echo link_ativo('roadmap'); ?>" href="<?= BASE_URL ?>pages/roadmap"
-                       target="_self"><i class="bi bi-signpost"></i> Roadmap</a>
                     <div class="relative inline-block">
                         <!-- Botão principal que abre o submenu -->
                         <button onclick="toggleSubmenu()"
@@ -75,6 +73,11 @@ if (isset($_SESSION['id'])):
                        target="_self">
                         <i class="bi bi-wallet"></i> Mensalidade
                     </a>
+                    <a class="link-menu <?php echo link_ativo('historico_mensalidades'); ?>"
+                       href="<?= BASE_URL ?>pages/historico_mensalidades"
+                       target="_self">
+                        <i class="bi bi-list-nested"></i> Histórico
+                    </a>
                 <?php endif ?>
             <?php elseif ($_SESSION['tipo'] == 0): ?>
 
@@ -99,8 +102,6 @@ if (isset($_SESSION['id'])):
                    target="_self"><i class="bi bi-people"></i> Clientes</a>
                 <a class="link-menu <?php echo link_ativo('erros'); ?>" href="<?= BASE_URL ?>adm/erros"
                    target="_self"><i class="bi bi-exclamation-diamond"></i> Erros</a>
-                <a class="link-menu <?php echo link_ativo('roadmap'); ?>" href="<?= BASE_URL ?>adm/roadmap"
-                   target="_self"><i class="bi bi-signpost"></i> Roadmap (ignorar)</a>
             <?php endif ?>
         </nav>
     </aside>

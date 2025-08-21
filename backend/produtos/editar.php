@@ -13,6 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $preco = strip_tags(trim($_POST["preco"]));
     $estoque = strip_tags(trim($_POST["estoque"]));
     $categoria_id = (int)($_POST["categoria_id"] ?? 0);
+    $img = strip_tags(trim($_POST["img"]));
 
     // Verificar token CSRF
     $csrf = trim(strip_tags($_POST["csrf"]));
@@ -30,8 +31,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     try {
-        $stmt = $conexao->prepare("UPDATE produtos SET nome = ?, preco = ?, estoque = ?, categoria_id = ? WHERE id = ?");
-        $stmt->bind_param("sssii", $nome, $preco, $estoque, $categoria_id, $id);
+        $stmt = $conexao->prepare("UPDATE produtos SET nome = ?, preco = ?, estoque = ?, categoria_id = ?, img = ? WHERE id = ?");
+        $stmt->bind_param("sssisi", $nome, $preco, $estoque, $categoria_id, $img, $id);
 
         if ($stmt->execute()) {
             $_SESSION['resposta'] = "Produto atualizado com sucesso!";

@@ -47,14 +47,15 @@ include("../includes/inicio.php")
                                     <?php
                                     // verificando se tem imagem
                                     if ($row_produto['img'] == NULL || $row_produto['img'] == ""): ?>
-                                        <img class="w-full h-35" src="../assets/img/placeholder_produto.jpg"
+                                        <img class="w-full h-35 object-cover object-center"
+                                             src="../assets/img/placeholder_produto.jpg"
                                              alt="Imagem do produto <?= $row_produto['nome'] ?>">
                                     <?php else: ?>
                                         <img class="w-full h-35 object-cover object-center"
                                              src="<?= htmlspecialchars($row_produto['img']) ?>"
                                              alt="Imagem do produto <?= $row_produto['nome'] ?>">
                                     <?php endif; ?>
-                                    <div class="flex flex-col items-center justify-center w-full h-30 p-3">
+                                    <div class="flex flex-col items-center justify-center w-full h-30 p-3 bg-white">
                                         <h3 class="text-md text-black/60"><?= htmlspecialchars($row_produto['nome']) ?></h3>
                                         <h4 class="text-lg text-principal font-bold"><?= htmlspecialchars(formatarPreco($row_produto['preco'])) ?></h4>
                                         <button class="bg-principal cursor-pointer rounded-lg p-1 text-white w-full hover:bg-principal-hover">

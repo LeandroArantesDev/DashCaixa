@@ -13,7 +13,7 @@ if (!isset($_GET['id'])) {
 $id_produto = $_GET['id'];
 
 // busca o produto
-$stmt = $conexao->prepare("SELECT nome, categoria_id, preco, estoque FROM produtos WHERE id = ?");
+$stmt = $conexao->prepare("SELECT nome, categoria_id, img, preco, estoque FROM produtos WHERE id = ?");
 $stmt->bind_param("i", $id_produto);
 $stmt->execute();
 $resultado = $stmt->get_result();

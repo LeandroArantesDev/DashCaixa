@@ -69,11 +69,11 @@ function modalCadastrar() {
 
 async function modalEditar(id) {
     // ação do formulário
-    form.action = "<?= BASE_URL . 'backend/usuarios/editar.php' ?>";
+    form.action = "<?= BASE_URL . 'backend/clientes/editar.php' ?>";
 
     // mensagem de "Carregando..." enquanto busca os dados
     const titulo = modal.querySelector("h2");
-    titulo.textContent = "Carregando dados do usuario...";
+    titulo.textContent = "Carregando dados do cliente...";
     modal.style.visibility = "visible";
 
     // Mostrar checkbox
@@ -101,7 +101,7 @@ async function modalEditar(id) {
     };
 
     try {
-        const response = await fetch(`<?= BASE_URL . 'backend/usuarios/buscar_usuario.php?id=' ?>${id}`);
+        const response = await fetch(`<?= BASE_URL . 'backend/clientes/buscar_cliente.php?id=' ?>${id}`);
 
         const data = await response.json();
 

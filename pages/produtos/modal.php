@@ -8,9 +8,9 @@
         <div class="input-group-modal">
             <label for="nome">Nome do Produto</label>
             <input type="text" value="" name="nome" id="nome" placeholder="Digite o nome do Produto" required
-                pattern="^[A-Za-zÀ-ÿ0-9\s\-_()]{2,100}$"
-                title="Nome deve conter apenas letras, números, espaços, hífens e parênteses (2-100 caracteres)"
-                minlength="2" maxlength="100">
+                   pattern="^[A-Za-zÀ-ÿ0-9\s\-_()]{2,100}$"
+                   title="Nome deve conter apenas letras, números, espaços, hífens e parênteses (2-100 caracteres)"
+                   minlength="2" maxlength="100">
         </div>
         <div class="input-group-modal">
             <label for="categoria">Categoria</label>
@@ -26,7 +26,7 @@
 
                 if ($resultado->num_rows > 0):
                     while ($row = $resultado->fetch_assoc()):
-                ?>
+                        ?>
                         <option value="<?= htmlspecialchars($row['id']) ?>"><?= htmlspecialchars($row['nome']) ?></option>
                     <?php endwhile ?>
                 <?php else: ?>
@@ -35,15 +35,20 @@
             </select>
         </div>
         <div class="input-group-modal">
+            <label for="nome">Imagem do Produto</label>
+            <input type="text" value="" name="img" id="img" placeholder="Cole o link da imagem"
+                   minlength="2">
+        </div>
+        <div class="input-group-modal">
             <label for="preco">Preço de Venda</label>
             <input type="text" name="preco_formatado" id="preco" placeholder="R$ 0,00" inputmode="numeric" required
-                pattern="^R\$\s\d{1,6}(,\d{2})?$" title="Digite um preço válido (ex: R$ 10,50)" maxlength="12">
+                   pattern="^R\$\s\d{1,6}(,\d{2})?$" title="Digite um preço válido (ex: R$ 10,50)" maxlength="12">
             <input type="hidden" name="preco" id="preco_real">
         </div>
         <div class="input-group-modal">
             <label for="estoque">Estoque</label>
             <input type="number" name="estoque" id="estoque" placeholder="0" required min="0" max="99999"
-                pattern="^[0-9]{1,5}$" title="Digite uma quantidade válida de estoque (0-99999)" step="1">
+                   pattern="^[0-9]{1,5}$" title="Digite uma quantidade válida de estoque (0-99999)" step="1">
         </div>
         <div class="div-btn">
             <button type="button" onclick="esconderModal()">Cancelar</button>
@@ -58,7 +63,7 @@
     const form = document.querySelector("#modal form");
 
     // Aplicar formatação no input de preço quando a página carregar
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         aplicarFormatacaoPreco('preco', 'preco_real');
     });
 
@@ -95,6 +100,7 @@
             const idInput = form.querySelector("input[name='id']");
             const nomeInput = document.getElementById("nome");
             const categoriaInput = document.getElementById("categoria_id");
+            const imgInput = document.getElementById("img");
             const precoInput = document.getElementById("preco");
             const precoRealInput = document.getElementById("preco_real");
             const estoqueInput = document.getElementById("estoque");
@@ -103,6 +109,7 @@
             idInput.value = id;
             nomeInput.value = data.nome;
             categoriaInput.value = data.categoria_id;
+            imgInput.value = data.img;
 
             // Formatar o preço para exibição
             precoInput.value = formatarPrecoExibicao(data.preco);

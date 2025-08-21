@@ -14,7 +14,7 @@ if (!isset($_SESSION["id"]) and !isset($_SESSION["nome"]) and !isset($_SESSION["
 } else {
     // bloqueia o acesso do usuario com a mensalidade vencida
     if ($_SESSION['mensalidade'] == 2) {
-        if (strpos($_SERVER['REQUEST_URI'], 'pages/mensalidade') === false) {
+        if (strpos($_SERVER['REQUEST_URI'], 'pages/mensalidade') === false && strpos($_SERVER['REQUEST_URI'], 'pages/historico_mensalidades') === false) {
             header("Location: " . BASE_URL . "pages/mensalidade/");
             exit();
         }

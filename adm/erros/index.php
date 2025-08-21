@@ -22,11 +22,10 @@ include("../../includes/inicio.php");
                 <table>
                     <thead>
                     <tr>
-                        <th>Cliente</th>
+                        <th>Codigo</th>
                         <th>Usúario</th>
                         <th>Rota</th>
                         <th>Mensagem</th>
-                        <th>Codigo</th>
                         <th>IP</th>
                         <th>Navegador</th>
                         <th>Data</th>
@@ -51,18 +50,7 @@ include("../../includes/inicio.php");
                         while ($row = $resultado->fetch_assoc()):
                             ?>
                             <tr>
-                                <td class="celula-tabela">
-                                    <?php
-                                    // buscando o nome do cliente
-                                    $stmt = $conexao->prepare("SELECT nome FROM clientes WHERE id = ?");
-                                    $stmt->bind_param("i", $row['cliente_id']);
-                                    $stmt->execute();
-                                    $stmt->bind_result($nome_cliente);
-                                    $stmt->fetch();
-                                    $stmt->close();
-                                    echo $nome_cliente;
-                                    ?>
-                                </td>
+                                <td class="celula-tabela"><?= htmlspecialchars($row['codigo']) ?></td>
                                 <td class="celula-tabela">
                                     <?php
                                     // buscando o nome do usuario
@@ -77,13 +65,12 @@ include("../../includes/inicio.php");
                                 </td>
                                 <td class="celula-tabela"><?= htmlspecialchars($row['rota']) ?></td>
                                 <td class="celula-tabela"><?= htmlspecialchars($row['mensagem']) ?></td>
-                                <td class="celula-tabela"><?= htmlspecialchars($row['codigo']) ?></td>
                                 <td class="celula-tabela"><?= htmlspecialchars($row['ip']) ?></td>
                                 <td class="celula-tabela"><?= htmlspecialchars($row['navegador']) ?></td>
                                 <td class="celula-tabela"><?= htmlspecialchars(formatarData($row['criado_em'])) ?></td>
-                                <td>
-                                    <form id="btn-deleta" action="../../backend/produtos/deletar.php" method="POST">
-                                        <!-- inputs escondidos -->
+                                <td id="td-acoes" class="celula-tabela">
+                                    <form id="btn-deleta" action="../../backend/usuarios/deletar.php" method="POST"
+                                          onclick="return confirm('Tem certeza que deseja deletar este usuário?')">
                                         <input type="hidden" name="id" value="<?= $row['id'] ?>">
                                         <input type="hidden" name="csrf" id="csrf" value="<?= gerarCSRF() ?>">
                                         <button class="botao-informativo">
