@@ -51,26 +51,17 @@ $payload = json_encode([
     'transaction_amount' => (float)$valor,
     'payment_method_id' => 'pix',
     'payer' => [
-        'first_name' => $primeiro_nome ?: '-',
-        'last_name' => $ultimo_nome ?: '-',
+        'first_name' => $primeiro_nome,
+        'last_name' => $ultimo_nome,
         'email' => $email_cliente,
         'identification' => [
             'type' => (strlen($doc_cliente_apenas_numeros) === 11) ? 'CPF' : 'CNPJ',
             'number' => $doc_cliente_apenas_numeros
         ]
     ],
-    'items' => [[
-        'id' => (string)$mensalidade_id,
-        'title' => 'Mensalidade DashCaixa',
-        'description' => 'Mensalidade referente ao plano contratado',
-        'category_id' => 'services',
-        'quantity' => 1,
-        'unit_price' => (float)$valor
-    ]],
     'external_reference' => $mercadoPagoExternalReference,
     'notification_url' => $url_webhook . '/backend/mensalidade/processar_pagamento.php',
 ]);
-
 $idempotencyKey = generate_uuid();
 
 $curl = curl_init();
