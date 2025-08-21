@@ -39,7 +39,7 @@ include("includes/inicio.php");
                 </div>
             </div>
             <button type="submit" class="button-entrar mt-4">Entrar</button>
-            <a class="text-principal hover:text-principal-hover transition-colors" href="#">Esqueceu sua senha?</a>
+            <a class="text-principal hover:text-principal-hover transition-colors" href="cardapio">Acessar Cardapio!</a>
         </form>
     </div>
     <script>
