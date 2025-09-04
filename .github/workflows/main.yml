@@ -16,6 +16,6 @@ jobs:
         with:
           server: 45.132.157.8
           username: u262084135.blanchedalmond-grasshopper-461561.hostingersite.com
-          password: Cr@zyoff1209
+          password: ${{ secrets.senha_hostinger }}
           local-dir: ./
           server-dir: ./
